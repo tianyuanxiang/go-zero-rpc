@@ -1,0 +1,35 @@
+Name: sys.rpc
+ListenOn: 0.0.0.0:9100
+Mode: dev
+
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: sys.rpc
+
+JwtAuth:
+  AccessSecret: "replace-with-your-access-secret"
+  AccessExpire: 1200
+  RefreshExpire: 10080
+
+DB:
+  DataSource: "user:password@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local&timeout=10s"
+
+CacheRedis:
+  - Host: "127.0.0.1:6379"
+    Pass: ""
+    Type: node
+
+BizRedis:
+  Host: 127.0.0.1:6379
+  Pass: ""
+  DB: 10
+
+CasbinModelPath: "etc/rbac_model.conf"
+UploadPath: "uploads"
+
+Log:
+  Mode: console
+  Level: debug
+  Encoding: plain
+  WithCaller: true

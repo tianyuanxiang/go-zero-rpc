@@ -1,0 +1,32 @@
+# IDE and local agent state
+.idea/
+.vscode/
+.claude/
+**/settings.local.json
+
+# Local runtime configuration with private endpoints or credentials
+gateway/etc/*.yaml
+gateway/etc/*.yml
+service/*/rpc/etc/*.yaml
+service/*/rpc/etc/*.yml
+!gateway/etc/*.example.yaml
+!service/*/rpc/etc/*.example.yaml
+
+# Local environment files
+.env
+.env.*
+*.local
+*.local.*
+
+# Build outputs and generated runtime data
+bin/
+dist/
+build/
+tmp/
+logs/
+*.log
+uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
