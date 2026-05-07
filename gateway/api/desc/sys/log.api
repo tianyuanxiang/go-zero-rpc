@@ -1,0 +1,90 @@
+syntax = "v1"
+
+// 登录日志查询请求
+type ListLoginLogReq {
+	Page      int    `form:"page,default=1"` // 页码
+	PageSize  int    `form:"pageSize,default=20"` // 每页数量
+	Keyword   string `json:"keyword"` // 关键词，作用于用户名、Ip、地区
+	Status    int    `form:"status,optional"` // 状态：1成功 0失败
+	StartTime string `form:"startTime,optional"` // 开始时间（格式：2006-01-02 15:04:05）
+	EndTime   string `form:"endTime,optional"` // 结束时间
+}
+
+// 登录日志响应体
+type LoginLogItem {
+	Id        int    `json:"id"` // 日志ID
+	UserId    int    `json:"userId"`
+	Username  string `json:"username"` // 用户名
+	Ip        string `json:"ip"` // 登录IP
+	Location  string `json:"location"` // 登录地
+	UserAgent string `json:"userAgent"` // 浏览器信息
+	OS        string `json:"os"` // 操作系统
+	Status    int    `json:"status"` // 登录状态：1成功 0失败
+	Msg       string `json:"msg"` // 提示消息
+	LoginTime string `json:"loginTime"` // 登录时间
+}
+
+// 登录日志列表响应
+type ListLoginLogResp {
+	Total int            `json:"total"` // 总数
+	List  []LoginLogItem `json:"list"` // 日志列表
+}
+
+// 操作日志查询请求
+type ListOperLogReq {
+	Page         int    `form:"page,default=1"` // 页码
+	PageSize     int    `form:"pageSize,default=20"` // 每页数量
+	Keyword      string `json:"keyword"` // 关键词，作用于操作人、请求方式、操作IP
+	BusinessType string `json:"businessType"` // 业务类型：0=其他，1=新增，2=修改，3=删除，4=查询
+	Status       int    `form:"status,optional"` // 状态：1成功 0失败
+	StartTime    string `form:"startTime,optional"` // 开始时间
+	EndTime      string `form:"endTime,optional"` // 结束时间
+}
+
+// 操作日志响应体
+type OperLogItem {
+	Id         int    `json:"id"` // 日志ID
+	Title      string `json:"title"` // 操作模块标题
+	OperType   string `json:"operType"` // 操作类型（create/update/delete/query）
+	Method     string `json:"method"` // HTTP方法
+	ReqMethod  string `json:"reqMethod"` // 请求方法
+	OperName   string `json:"operName"` // 操作人名称
+	DeptName   string `json:"deptName"`
+	ReqUrl     string `json:"reqUrl"` // 请求URL
+	ReqParam   string `json:"reqParam"` // 请求参数
+	RespResult string `json:"respResult"` // 响应结果
+	Status     int    `json:"status"` // 状态：1成功 0失败
+	Ip         string `json:"ip"` // 操作IP
+	OperTime   string `json:"operTime"` // 操作时间
+// Duration   int    `json:"duration"` // 耗时（毫秒）
+}
+
+// 操作日志列表响应
+type ListOperLogResp {
+	Total int64         `json:"total"` // 总数
+	List  []OperLogItem `json:"list"` // 日志列表
+}
+
+@server (
+	prefix:     /api/system
+	group:      sys/log
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 分页查询登录日志
+	@handler ListLoginLogHandler
+	get /log/login (ListLoginLogReq) returns (ListLoginLogResp)
+
+	// 清空登录日志
+	@handler ClearLoginLogHandler
+	delete /log/login/clear
+
+	// 分页查询操作日志
+	@handler ListOperLogHandler
+	get /log/oper (ListOperLogReq) returns (ListOperLogResp)
+
+	// 清空操作日志
+	@handler ClearOperLogHandler
+	delete /log/oper/clear
+}
+

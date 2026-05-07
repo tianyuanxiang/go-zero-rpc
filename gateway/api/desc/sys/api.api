@@ -1,0 +1,86 @@
+syntax = "v1"
+
+// 创建API接口请求体
+type CreateApiReq {
+	ApiName string `json:"apiName"` // 接口名称
+	ApiPath string `json:"apiPath"` // 接口路径（如：/api/system/user/:id）
+	Method  string `json:"method"` // HTTP方法：GET POST PUT DELETE
+	Group   string `json:"group"` // 接口分组（如：system, plating）
+	Remark  string `json:"remark,optional"` // 备注
+}
+
+// 更新API接口请求体
+type UpdateApiReq {
+	Id      int64  `path:"id"` // 接口ID
+	ApiName *string `json:"apiName,optional"` // 接口名称
+	ApiPath *string `json:"apiPath,optional"`
+	Method  *string `json:"method,optional"`
+	Group   *string `json:"group,optional"` // 接口分组
+	Remark  *string `json:"remark,optional"` // 备注
+}
+
+// API接口信息响应体
+type ApiItem {
+	Id        int64  `json:"id"` // 接口ID
+	ApiName   string `json:"apiName"` // 接口名称
+	ApiPath   string `json:"apiPath"` // 接口路径
+	Method    string `json:"method"` // HTTP方法
+	Group     string `json:"group"` // 接口分组
+	Remark    string `json:"remark"` // 备注
+	CreatedAt string `json:"createdAt"` // 创建时间
+}
+
+//
+type ApiOption {
+	Id      int64  `json:"id"` // 接口ID
+	ApiName string `json:"apiName"` // 接口名称
+	ApiPath string `json:"apiPath"` // 接口路径,如：/api/system/user
+	Remark  string `json:"remark"` // 角色编码
+}
+
+// 所有接口列表响应体
+type ListAllApiResp {
+	ListAll []ApiOption `list`
+}
+
+// API列表查询请求
+type ListApiReq {
+	Page     int    `form:"page,default=1"` // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	Keyword  string `form:"keyword,optional"` // 关键词（接口名/路径）
+	Group    string `form:"group,optional"` // 分组过滤
+}
+
+// API列表响应体
+type ListApiResp {
+	Total int64     `json:"total"` // 总数
+	List  []ApiItem `json:"list"` // 接口列表
+}
+
+@server (
+	prefix:     /api/system
+	group:      sys/api
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 创建API接口记录
+	@handler CreateApiHandler
+	post /api (CreateApiReq)
+
+	// 更新API接口记录
+	@handler UpdateApiHandler
+	put /api/:id (UpdateApiReq)
+
+	// 删除API接口记录
+	@handler DeleteApiHandler
+	delete /api/:id
+
+	// 分页查询API接口列表
+	@handler ListApiHandler
+	get /api (ListApiReq) returns (ListApiResp)
+
+	// 获取所有API接口（不分页，用于角色权限配置）
+	@handler ListAllApiHandler
+	get /api/all returns (ListAllApiResp)
+}
+

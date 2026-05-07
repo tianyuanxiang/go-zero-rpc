@@ -1,16 +1,19 @@
-# go-zero-admin 接口测试用例
+﻿# go-zero-admin 接口测试用例
 
 > 基础地址: `http://localhost:8888`
 >
-> 认证方式: 除登录和刷新令牌外，所有接口需要在 Header 中携�?`Authorization: Bearer {accessToken}`
+> 认证方式: 除登录和刷新令牌外，所有接口需要在 Header 中携带 `Authorization: Bearer {accessToken}`
 >
-> 测试前提: 先调用登录接口获�?token，后续接口都带上 token
+> 测试前提: 先调用登录接口获取 token，后续接口都带上 token
 >
-> 角色基础 CRUD 和登录登出已跳过，此文档不包含这些接�?
+> 角色基础 CRUD 和登录登出已跳过，此文档不包含这些接口
+
 ---
 
-## 一、认证模�?
-> 说明: 登录接口已跳过，此处仅包含登录后的认证操�?
+## 一、认证模块
+
+> 说明: 登录接口已跳过，此处仅包含登录后的认证操作
+
 ### 1.1 获取当前用户信息
 
 ```
@@ -18,9 +21,12 @@ GET /api/auth/userInfo
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 正常获取** -- 直接发送请求，无参�?
-**用例2: token 过期** -- 使用一个过期的 token 发送请�?
-**用例3: �?token** -- 不携�?Authorization �?
+**用例1: 正常获取** -- 直接发送请求，无参数
+
+**用例2: token 过期** -- 使用一个过期的 token 发送请求
+
+**用例3: 无 token** -- 不携带 Authorization 头
+
 ---
 
 ### 1.2 刷新令牌
@@ -37,14 +43,14 @@ Content-Type: application/json
 }
 ```
 
-**用例2: 无效�?refreshToken**
+**用例2: 无效的 refreshToken**
 ```json
 {
     "refreshToken": "invalid_token_string"
 }
 ```
 
-**用例3: �?refreshToken**
+**用例3: 空 refreshToken**
 ```json
 {
     "refreshToken": ""
@@ -69,7 +75,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例2: 旧密码错�?*
+**用例2: 旧密码错误**
 ```json
 {
     "oldPassword": "wrong_password",
@@ -77,7 +83,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例3: 新密码过�?*
+**用例3: 新密码过短**
 ```json
 {
     "oldPassword": "123456",
@@ -85,7 +91,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例4: 新密码与旧密码相�?*
+**用例4: 新密码与旧密码相同**
 ```json
 {
     "oldPassword": "123456",
@@ -109,16 +115,20 @@ POST /api/auth/logout
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 正常登出** -- 直接发送请求，�?body
+**用例1: 正常登出** -- 直接发送请求，无 body
 
-**用例2: �?token 登出** -- 不携�?Authorization �?
+**用例2: 无 token 登出** -- 不携带 Authorization 头
+
 ---
 
-## 二、菜单管�?
-> 测试顺序: 查询菜单�?-> 创建菜单 -> 获取当前用户菜单 -> 更新菜单 -> 删除菜单
+## 二、菜单管理
+
+> 测试顺序: 查询菜单树 -> 创建菜单 -> 获取当前用户菜单 -> 更新菜单 -> 删除菜单
 >
-> 菜单是其他模块（角色权限分配）的基础数据，优先测�?
-### 2.1 获取菜单树✅�?
+> 菜单是其他模块（角色权限分配）的基础数据，优先测试
+
+### 2.1 获取菜单树✅️
+
 ```
 GET /api/system/menu/tree
 Authorization: Bearer {accessToken}
@@ -148,11 +158,11 @@ Authorization: Bearer {accessToken}
     "icon": "example",
     "sort": 99,
     "status": 1,
-    "remark": "测试用目�?
+    "remark": "测试用目录"
 }
 ```
 
-**用例2: 创建菜单（挂在系统管理下）✅�?*
+**用例2: 创建菜单（挂在系统管理下）✅️**
 
 ```json
 {
@@ -165,11 +175,11 @@ Authorization: Bearer {accessToken}
     "sort": 99,
     "perms": "system:test:list",
     "status": 1,
-    "remark": "测试用菜�?
+    "remark": "测试用菜单"
 }
 ```
 
-**用例3: 创建按钮（挂在用户管理下）✅�?*
+**用例3: 创建按钮（挂在用户管理下）✅️**
 
 ```json
 {
@@ -179,7 +189,7 @@ Authorization: Bearer {accessToken}
     "perms": "system:user:test",
     "sort": 99,
     "status": 1,
-    "remark": "测试用按�?
+    "remark": "测试用按钮"
 }
 ```
 
@@ -195,7 +205,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例5: 不存在的父菜单✅�?*
+**用例5: 不存在的父菜单✅️**
 
 ```json
 {
@@ -208,7 +218,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例6: 隐藏状态菜单✅�?*
+**用例6: 隐藏状态菜单✅️**
 
 ```json
 {
@@ -244,13 +254,13 @@ Content-Type: application/json
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 更新菜单名称和图标✅�?*
+**用例1: 更新菜单名称和图标✅️**
 
 ```json
 // PUT /api/system/menu/{之前创建的菜单id}
 {
     "parentId": 1,
-    "menuName": "更新后名�?,
+    "menuName": "更新后名称",
     "menuType": 1,
     "path": "/system/test",
     "component": "system/test/index",
@@ -258,11 +268,11 @@ Authorization: Bearer {accessToken}
     "sort": 50,
     "perms": "system:test:list",
     "status": 1,
-    "remark": "更新后备�?
+    "remark": "更新后备注"
 }
 ```
 
-**用例2: 修改父菜单（移动菜单位置�?*✅️
+**用例2: 修改父菜单（移动菜单位置）**✅️
 
 ```json
 // PUT /api/system/menu/{菜单id}
@@ -284,14 +294,15 @@ Authorization: Bearer {accessToken}
 // PUT /api/system/menu/99999
 {
     "parentId": 0,
-    "menuName": "不存�?,
+    "menuName": "不存在",
     "menuType": 0,
     "status": 1,
     "remark": ""
 }
 ```
 
-**用例4: 将菜单设为不可见**�?
+**用例4: 将菜单设为不可见**✅
+
 ```
 // PUT /api/system/menu/7
 {
@@ -306,7 +317,7 @@ DELETE /api/system/menu/:id
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 删除叶子菜单（按�?无子菜单）✅**
+**用例1: 删除叶子菜单（按钮/无子菜单）✅**
 
 ```
 DELETE /api/system/menu/{之前创建的按钮菜单id}
@@ -318,7 +329,7 @@ DELETE /api/system/menu/{之前创建的按钮菜单id}
 DELETE /api/system/menu/1
 ```
 
-**用例3: 删除不存在的菜单�?*
+**用例3: 删除不存在的菜单✅**
 
 ```
 DELETE /api/system/menu/99999
@@ -326,7 +337,8 @@ DELETE /api/system/menu/99999
 
 ---
 
-## 三、接口管�?
+## 三、接口管理
+
 > 测试顺序: 创建接口 -> 接口列表 -> 全部接口 -> 更新接口 -> 删除接口
 >
 > 接口也是角色权限分配的基础数据
@@ -347,11 +359,11 @@ Authorization: Bearer {accessToken}
     "apiPath": "/api/test/list",
     "method": "GET",
     "group": "test",
-    "remark": "测试用接�?
+    "remark": "测试用接口"
 }
 ```
 
-**用例2: 最小必填参�?*✅️
+**用例2: 最小必填参数**✅️
 
 ```json
 {
@@ -400,7 +412,7 @@ Authorization: Bearer {accessToken}
 
 ```json
 {
-    "apiName": "缺路径接�?,
+    "apiName": "缺路径接口",
     "method": "GET",
     "group": "test"
 }
@@ -410,7 +422,7 @@ Authorization: Bearer {accessToken}
 
 ```json
 {
-    "apiName": "缺方法接�?,
+    "apiName": "缺方法接口",
     "apiPath": "/api/test/nomethod",
     "group": "test"
 }
@@ -443,7 +455,7 @@ GET /api/system/api?page=1&pageSize=5
 GET /api/system/api?keyword=user
 ```
 
-**用例4: 按分组过�?*✅️
+**用例4: 按分组过滤**✅️
 
 ```
 GET /api/system/api?group=system
@@ -457,7 +469,8 @@ GET /api/system/api?page=1&pageSize=10&keyword=list&group=system
 
 ---
 
-### 3.3 获取全部接口（不分页）✅�?
+### 3.3 获取全部接口（不分页）✅️
+
 ```
 GET /api/system/api/all
 Authorization: Bearer {accessToken}
@@ -484,7 +497,7 @@ Authorization: Bearer {accessToken}
     "apiPath": "/api/test/updated",
     "method": "POST",
     "group": "test_updated",
-    "remark": "更新后备�?
+    "remark": "更新后备注"
 }
 ```
 
@@ -506,7 +519,7 @@ Authorization: Bearer {accessToken}
 ```json
 // PUT /api/system/api/99999
 {
-    "apiName": "不存�?,
+    "apiName": "不存在",
     "apiPath": "/api/nothing",
     "method": "GET",
     "group": "none"
@@ -536,10 +549,12 @@ DELETE /api/system/api/99999
 
 ---
 
-## 四、字典管�?
-> 测试顺序: 创建字典类型 -> 字典类型列表 -> 创建字典数据 -> 按类型查询字典数�?-> 更新字典类型 -> 更新字典数据 -> 删除字典数据 -> 删除字典类型
+## 四、字典管理
+
+> 测试顺序: 创建字典类型 -> 字典类型列表 -> 创建字典数据 -> 按类型查询字典数据 -> 更新字典类型 -> 更新字典数据 -> 删除字典数据 -> 删除字典类型
 >
-> 先创建类型再创建数据，先删除数据再删除类�?
+> 先创建类型再创建数据，先删除数据再删除类型
+
 ### 4.1 创建字典类型
 
 ```
@@ -555,11 +570,11 @@ Authorization: Bearer {accessToken}
     "dictName": "测试字典类型",
     "dictCode": "test_dict_type",
     "status": 1,
-    "remark": "用于测试的字典类�?
+    "remark": "用于测试的字典类型"
 }
 ```
 
-**用例2: 最小必填参�?*✅️
+**用例2: 最小必填参数**✅️
 
 ```json
 {
@@ -569,7 +584,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例3: 禁用状�?*✅️
+**用例3: 禁用状态**✅️
 
 ```json
 {
@@ -580,7 +595,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例4: 重复�?dictCode**✅️
+**用例4: 重复的 dictCode**✅️
 
 ```json
 {
@@ -620,7 +635,7 @@ GET /api/system/dict/type
 GET /api/system/dict/type?page=1&pageSize=5
 ```
 
-**用例3: 关键词搜�?*✅️
+**用例3: 关键词搜索**✅️
 
 ```
 GET /api/system/dict/type?keyword=用户
@@ -629,7 +644,8 @@ GET /api/system/dict/type?keyword=用户
 **用例4: 组合条件**✅️
 
 ```
-GET /api/system/dict/type?page=1&pageSize=10&keyword=状�?```
+GET /api/system/dict/type?page=1&pageSize=10&keyword=状态
+```
 
 ---
 
@@ -654,12 +670,12 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例2: 最小必填参�?*✅️
+**用例2: 最小必填参数**✅️
 
 ```json
 {
     "dictTypeId": 1,
-    "dictLabel": "简单标�?,
+    "dictLabel": "简单标签",
     "dictValue": "simple",
     "status": 1
 }
@@ -676,7 +692,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例4: 禁用状�?*✅️
+**用例4: 禁用状态**✅️
 
 ```json
 {
@@ -700,13 +716,14 @@ Authorization: Bearer {accessToken}
 
 ---
 
-### 4.4 按字典类型查询字典数�?
+### 4.4 按字典类型查询字典数据
+
 ```
 GET /api/system/dict/data/:dictType
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 查询存在的字典类�?*✅️
+**用例1: 查询存在的字典类型**✅️
 
 ```
 GET /api/system/dict/data/sys_user_status
@@ -742,11 +759,11 @@ Authorization: Bearer {accessToken}
     "dictName": "更新后字典名",
     "dictCode": "test_dict_type_updated",
     "status": 1,
-    "remark": "更新后备�?
+    "remark": "更新后备注"
 }
 ```
 
-**用例2: 只更新名�?*✅️
+**用例2: 只更新名称**✅️
 
 ```json
 // PUT /api/system/dict/type/{字典类型id}
@@ -773,7 +790,7 @@ Authorization: Bearer {accessToken}
 ```json
 // PUT /api/system/dict/type/99999
 {
-    "dictName": "不存�?,
+    "dictName": "不存在",
     "dictCode": "not_exist",
     "status": 1
 }
@@ -795,15 +812,15 @@ Authorization: Bearer {accessToken}
 // PUT /api/system/dict/data/{字典数据id}
 {
     "dictTypeId": 1,
-    "dictLabel": "更新后标�?,
+    "dictLabel": "更新后标签",
     "dictValue": "updated_value",
     "sort": 10,
     "status": 1,
-    "remark": "更新后备�?
+    "remark": "更新后备注"
 }
 ```
 
-**用例2: 只更新标�?*✅️
+**用例2: 只更新标签**✅️
 
 ```json
 // PUT /api/system/dict/data/{字典数据id}
@@ -821,7 +838,7 @@ Authorization: Bearer {accessToken}
 // PUT /api/system/dict/data/99999
 {
     "dictTypeId": 1,
-    "dictLabel": "不存�?,
+    "dictLabel": "不存在",
     "dictValue": "none",
     "status": 1
 }
@@ -877,10 +894,12 @@ DELETE /api/system/dict/type/99999
 
 ---
 
-## 五、用户管�?
+## 五、用户管理
+
 > 测试顺序: 创建用户 -> 用户列表 -> 用户详情 -> 更新用户 -> 重置密码 -> 删除用户
 >
-> 依赖: 角色数据（用�?roleIds 关联�?
+> 依赖: 角色数据（用于 roleIds 关联）
+
 ### 5.1 创建用户
 
 ```
@@ -900,12 +919,12 @@ Authorization: Bearer {accessToken}
     "phone": "13800138001",
     "status": 1,
     "avatar": "https://example.com/avatar.png",
-    "remark": "测试创建的用�?,
+    "remark": "测试创建的用户",
     "roleIds": [2, 3]
 }
 ```
 
-**用例2: 最小必填参�?*✅️
+**用例2: 最小必填参数**✅️
 
 ```json
 {
@@ -915,7 +934,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例3: 用户名重�?*✅️
+**用例3: 用户名重复**✅️
 
 ```json
 {
@@ -936,7 +955,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例5: 创建禁用状态用�?*✅️
+**用例5: 创建禁用状态用户**✅️
 
 ```json
 {
@@ -947,7 +966,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例6: 缺少用户名✅�?*
+**用例6: 缺少用户名✅️**
 
 ```json
 {
@@ -986,7 +1005,7 @@ GET /api/system/user
 GET /api/system/user?page=1&pageSize=5
 ```
 
-**用例3: 第二�?*✅️
+**用例3: 第二页**✅️
 
 ```
 GET /api/system/user?page=2&pageSize=5
@@ -998,13 +1017,13 @@ GET /api/system/user?page=2&pageSize=5
 GET /api/system/user?keyword=admin
 ```
 
-**用例5: 按状态筛�?-- 启用**✅️
+**用例5: 按状态筛选 -- 启用**✅️
 
 ```
 GET /api/system/user?status=1
 ```
 
-**用例6: 按状态筛�?-- 禁用✅️**
+**用例6: 按状态筛选 -- 禁用✅️**
 
 ```
 GET /api/system/user?status=0
@@ -1016,7 +1035,7 @@ GET /api/system/user?status=0
 GET /api/system/user?page=1&pageSize=10&keyword=test&status=1
 ```
 
-**用例8: 超大页码（无数据�?*✅️
+**用例8: 超大页码（无数据）**✅️
 
 ```
 GET /api/system/user?page=9999&pageSize=20
@@ -1058,7 +1077,7 @@ Authorization: Bearer {accessToken}
 ```json
 // PUT /api/system/user/2
 {
-    "nickname": "更新后昵�?,
+    "nickname": "更新后昵称",
     "email": "updated@example.com",
     "phone": "13900139001",
     "status": 1,
@@ -1068,7 +1087,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例2: 只更新昵称✅�?*
+**用例2: 只更新昵称✅️**
 
 ```json
 // PUT /api/system/user/2
@@ -1112,7 +1131,7 @@ Authorization: Bearer {accessToken}
 ```json
 // PUT /api/system/user/99999
 {
-    "nickname": "不存�?,
+    "nickname": "不存在",
     "status": 1
 }
 ```
@@ -1145,7 +1164,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例3: 空密码✅�?*
+**用例3: 空密码✅️**
 
 ```json
 // POST /api/system/user/2/reset-password
@@ -1183,12 +1202,14 @@ DELETE /api/system/user/1
 
 ---
 
-## 六、角色权限分�?
+## 六、角色权限分配
+
 > 测试顺序: 角色详情 -> 全部角色列表 -> 更新角色权限
 >
 > 依赖: 菜单数据、接口数据（前面模块已创建）
 >
-> 角色基础 CRUD 已跳�?
+> 角色基础 CRUD 已跳过
+
 ### 6.1 角色详情
 
 ```
@@ -1221,14 +1242,15 @@ Authorization: Bearer {accessToken}
 
 ---
 
-### 6.3 更新角色权限（分配菜单和接口�?
+### 6.3 更新角色权限（分配菜单和接口）
+
 ```
 PUT /api/system/role/:id/permissions
 Content-Type: application/json
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 同时分配菜单和接�?*✅️
+**用例1: 同时分配菜单和接口**✅️
 
 ```json
 // PUT /api/system/role/2/permissions
@@ -1238,7 +1260,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例2: 只分配菜�?*✅️
+**用例2: 只分配菜单**✅️
 
 ```json
 // PUT /api/system/role/2/permissions
@@ -1247,7 +1269,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例3: 只分配接�?*✅️
+**用例3: 只分配接口**✅️
 
 ```json
 // PUT /api/system/role/2/permissions
@@ -1256,7 +1278,7 @@ Authorization: Bearer {accessToken}
 }
 ```
 
-**用例4: 清空所有权�?*✅️
+**用例4: 清空所有权限**✅️
 
 ```json
 // PUT /api/system/role/2/permissions
@@ -1285,7 +1307,7 @@ Authorization: Bearer {accessToken}
     "apiIds": []
 }
 ```
-> 预期: 后端自动补全父菜�?2（用户管理）和祖父菜�?1（系统管理）
+> 预期: 后端自动补全父菜单 2（用户管理）和祖父菜单 1（系统管理）
 
 **用例7: 分配跨模块菜单（测试祖先链补全）✅️**
 
@@ -1296,7 +1318,7 @@ Authorization: Bearer {accessToken}
     "apiIds": []
 }
 ```
-> 预期: 自动补全父菜�?1（系统管理）�?7（日志管理）
+> 预期: 自动补全父菜单 1（系统管理）和 7（日志管理）
 
 **用例8: 更新不存在的角色**✅️
 ```json
@@ -1309,7 +1331,8 @@ Authorization: Bearer {accessToken}
 
 ---
 
-## 七、文件管�?
+## 七、文件管理
+
 > 测试顺序: 上传文件 -> 文件列表 -> 删除文件
 
 ### 7.1 上传文件
@@ -1320,13 +1343,14 @@ Content-Type: multipart/form-data
 Authorization: Bearer {accessToken}
 ```
 
-**用例1: 上传图片** -- Postman �?Body �?form-data, key �?`file`, 类型�?File, 选择一�?jpg/png 图片
+**用例1: 上传图片** -- Postman 中 Body 选 form-data, key 为 `file`, 类型选 File, 选择一张 jpg/png 图片
 
-**用例2: 上传文档** -- 选择一�?pdf/docx 文件
+**用例2: 上传文档** -- 选择一个 pdf/docx 文件
 
-**用例3: 不选文件直接提�?* -- Body 中不添加 file 字段
+**用例3: 不选文件直接提交** -- Body 中不添加 file 字段
 
-**用例4: 上传大文�?* -- 选择一个超过服务端限制大小的文件（测试上传限制�?
+**用例4: 上传大文件** -- 选择一个超过服务端限制大小的文件（测试上传限制）
+
 ---
 
 ### 7.2 文件列表
@@ -1377,7 +1401,8 @@ DELETE /api/system/file/99999
 
 ---
 
-## 八、日志管�?
+## 八、日志管理
+
 > 测试顺序: 登录日志列表 -> 操作日志列表 -> 清空登录日志 -> 清空操作日志
 >
 > 前面所有模块的操作已经产生了日志数据，放在最后测试，先查后清
@@ -1399,17 +1424,17 @@ GET /api/system/log/login
 GET /api/system/log/login?page=1&pageSize=5
 ```
 
-**用例3: 按状态筛�?-- 成功**
+**用例3: 按状态筛选 -- 成功**
 ```
 GET /api/system/log/login?status=1
 ```
 
-**用例4: 按状态筛�?-- 失败**
+**用例4: 按状态筛选 -- 失败**
 ```
 GET /api/system/log/login?status=0
 ```
 
-**用例5: 按时间范�?*
+**用例5: 按时间范围**
 ```
 GET /api/system/log/login?startTime=2026-01-01 00:00:00&endTime=2026-12-31 23:59:59
 ```
@@ -1438,12 +1463,12 @@ GET /api/system/log/oper
 GET /api/system/log/oper?page=1&pageSize=5
 ```
 
-**用例3: 按状态筛�?*
+**用例3: 按状态筛选**
 ```
 GET /api/system/log/oper?status=1
 ```
 
-**用例4: 按时间范�?*
+**用例4: 按时间范围**
 ```
 GET /api/system/log/oper?startTime=2026-01-01 00:00:00&endTime=2026-12-31 23:59:59
 ```
@@ -1464,7 +1489,8 @@ Authorization: Bearer {accessToken}
 
 **用例1: 正常清空** -- 直接请求
 
-**用例2: 重复清空（已无数据时再清空）** -- 再次请求确认无报�?
+**用例2: 重复清空（已无数据时再清空）** -- 再次请求确认无报错
+
 ---
 
 ### 8.4 清空操作日志

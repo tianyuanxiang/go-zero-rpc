@@ -1,0 +1,42 @@
+syntax = "v1"
+
+// 文件信息响应体
+type FileInfoResp {
+	FileId   int64  `json:"fileId"`   // 文件ID
+	FileName string `json:"fileName"` // 原始文件名
+	FileURL  string `json:"fileUrl"`  // 文件访问URL
+	FileSize int64  `json:"fileSize"` // 文件大小（字节）
+	MimeType string `json:"mimeType"` // MIME类型
+}
+
+// 文件列表查询请求
+type ListFileReq {
+	Page     int    `form:"page,default=1"`      // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	Keyword  string `form:"keyword,optional"`    // 文件名关键词
+}
+
+// 文件列表响应
+type ListFileResp {
+	Total int64          `json:"total"` // 总数
+	List  []FileInfoResp `json:"list"`  // 文件列表
+}
+
+@server (
+	prefix: /api/system
+	group: sys/file
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 上传文件（multipart/form-data）
+	@handler UploadFileHandler
+	post /file/upload returns (FileInfoResp)
+
+	// 删除文件
+	@handler DeleteFileHandler
+	delete /file/:id
+
+	// 分页查询文件列表
+	@handler ListFileHandler
+	get /file (ListFileReq) returns (ListFileResp)
+}

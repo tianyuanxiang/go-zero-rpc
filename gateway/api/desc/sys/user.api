@@ -1,0 +1,104 @@
+syntax = "v1"
+
+// 创建用户请求体
+type CreateUserReq {
+	Username string  `json:"username"` // 用户名，唯一
+	Password string  `json:"password"` // 初始密码
+	Nickname string  `json:"nickname,optional"` // 昵称
+	Email    string  `json:"email,optional"` // 邮箱
+	Phone    string  `json:"phone,optional"` // 手机号
+	Status   int     `json:"status"` // 状态：1启用 0禁用
+	Avatar   string  `json:"avatar,optional"` // 头像URL
+	Remark   string  `json:"remark,optional"`
+	RoleIds  []int64 `json:"roleIds,optional"` // 角色ID列表
+}
+
+// 更新用户请求体
+type UpdateUserReq {
+	Id       int64   `path:"id"` // 用户ID
+	Username string  `json:"username,optional"` // 用户名，唯一
+	Nickname *string  `json:"nickname,optional"` // 昵称
+	Email    *string  `json:"email,optional"` // 邮箱
+	Phone    *string  `json:"phone,optional"` // 手机号
+	Status   *int     `json:"status"` // 状态：1启用 0禁用
+	Avatar   *string  `json:"avatar,optional"`
+	Remark   *string  `json:"remark,optional"` // 头像URL
+	RoleIds  []int64 `json:"roleIds,optional"` // 角色ID列表
+}
+
+// 用户列表查询请求体
+type ListUserReq {
+	Page     int    `form:"page,default=1"` // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	Keyword  string `form:"keyword,optional"` // 关键词（用户名/昵称）
+	Status   *int    `form:"status,optional"` // 状态过滤：1启用 0禁用
+}
+
+// 用户信息响应体
+type UserItem {
+	Id        int64    `json:"id"` // 用户ID
+	Username  string   `json:"username"` // 用户名
+	Nickname  string   `json:"nickname"` // 昵称
+	Email     string   `json:"email"` // 邮箱
+	Phone     string   `json:"phone"` // 手机号
+	Status    int      `json:"status"` // 状态
+	Avatar    string  `json:"avatar"`
+	Remark    string  `json:"remark"`
+	Roles     []string `json:"roles"` // 角色名称列表
+	CreatedAt string   `json:"createdAt"` // 创建时间
+	UpdatedAt string   `json:"updatedAt"` // 更新时间
+}
+
+// 用户列表响应体
+type ListUserResp {
+	Total int64      `json:"total"` // 总数
+	List  []UserItem `json:"list"` // 用户列表
+}
+
+// 查询用户详情请求体
+type GetUserReq {
+	Id int64 `path:"id"` // 用户ID
+}
+
+// 删除用户请求体
+type DeleteUserReq {
+	Id int64 `path:"id"` // 用户ID
+}
+
+// 重置密码请求体
+type ResetPasswordReq {
+	Id          int64  `path:"id"` // 用户ID
+	NewPassword string `json:"newPassword"` // 新密码
+}
+
+@server (
+	prefix:     /api/system
+	group:      sys/user
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 创建用户
+	@handler CreateUserHandler
+	post /user (CreateUserReq)
+
+	// 更新用户信息
+	@handler UpdateUserHandler
+	put /user/:id (UpdateUserReq)
+
+	// 删除用户
+	@handler DeleteUserHandler
+	delete /user/:id (DeleteUserReq)
+
+	// 查询用户详情
+	@handler GetUserHandler
+	get /user/:id (GetUserReq) returns (UserItem)
+
+	// 分页查询用户列表
+	@handler ListUserHandler
+	get /user (ListUserReq) returns (ListUserResp)
+
+	// 重置用户密码
+	@handler ResetPasswordHandler
+	post /user/:id/reset-password (ResetPasswordReq)
+}
+

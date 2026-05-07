@@ -61,21 +61,6 @@ const (
 	ErrRoleNotFound = 10301
 	// ErrMenuNotFound 菜单不存在
 	ErrMenuNotFound = 10302
-
-	// --- 业务数据相关错误 ---
-
-	// ErrTankNotFound 槽体不存在
-	ErrTankNotFound = 10400
-	// ErrTankIDDuplicate 槽体ID已存在
-	ErrTankIDDuplicate = 10401
-	// ErrNoStateFound 模型状态数据不存在（槽体未初始化）
-	ErrNoStateFound = 10402
-	// ErrEventNotFound 事件记录不存在
-	ErrEventNotFound = 10403
-	// ErrFileUploadFailed 文件上传失败
-	ErrFileUploadFailed = 10404
-	// ErrExcelParseFailed Excel解析失败
-	ErrExcelParseFailed = 10405
 )
 
 // ErrCodeMsg 错误码对应的默认消息映射。
@@ -99,12 +84,6 @@ var ErrCodeMsg = map[int]string{
 	ErrRoleCodeDuplicate: "角色编码已存在",
 	ErrRoleNotFound:      "角色不存在",
 	ErrMenuNotFound:      "菜单不存在",
-	ErrTankNotFound:      "槽体不存在",
-	ErrTankIDDuplicate:   "槽体ID已存在",
-	ErrNoStateFound:      "模型状态不存在，请先初始化槽体",
-	ErrEventNotFound:     "事件记录不存在",
-	ErrFileUploadFailed:  "文件上传失败",
-	ErrExcelParseFailed:  "Excel文件解析失败",
 }
 
 // CodeError 业务错误类型，实现了 error 接口。

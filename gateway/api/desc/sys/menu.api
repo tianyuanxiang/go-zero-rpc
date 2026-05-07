@@ -1,0 +1,68 @@
+syntax = "v1"
+
+import (
+	"../base.api"
+)
+
+// 创建菜单请求体
+type CreateMenuReq {
+	ParentId  int64  `json:"parentId,optional"` // 父菜单ID，顶级为0
+	MenuName  string `json:"menuName"` // 菜单名称
+	MenuType  int64  `json:"menuType"` // 菜单类型：1目录 2菜单 3按钮
+	Path      string `json:"path,optional"` // 路由路径（菜单/目录必填）
+	Component string `json:"component,optional"` // 组件路径（菜单必填）
+	Icon      string `json:"icon,optional"` // 图标名称
+	Sort      int    `json:"sort,optional"` // 排序序号，越小越靠前
+	Perms     string `json:"perms,optional"` // 权限标识（如：system:user:list）
+	Status    int    `json:"status"` // 状态：1显示 0隐藏
+	Remark    string `json:"remark,optional"`
+}
+
+// 更新菜单请求体
+type UpdateMenuReq {
+	Id        int64  `path:"id"` // 菜单ID
+	ParentId  *int64  `json:"parentId,optional"` // 父菜单ID，顶级为0
+	MenuName  *string `json:"menuName,optional"` // 菜单名称
+	MenuType  *int    `json:"menuType,optional"` // 菜单类型
+	Path      *string `json:"path,optional"` // 路由路径
+	Component *string `json:"component,optional"` // 组件路径
+	Icon      *string `json:"icon,optional"` // 图标
+	Sort      *int    `json:"sort,optional"` // 排序
+	Perms     *string `json:"perms,optional"` // 权限标识
+	Status    *int    `json:"status,optional"` // 菜单可用性
+	Visible   *int    `json:"visible,optional"` // 可见性
+	Remark    *string `json:"remark,optional"`
+}
+
+// 菜单树响应体
+type MenuTreeResp {
+	List []MenuItem `json:"list"` // 菜单树形列表
+}
+
+@server (
+	prefix:     /api/system
+	group:      sys/menu
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 创建菜单
+	@handler CreateMenuHandler
+	post /menu (CreateMenuReq)
+
+	// 更新菜单
+	@handler UpdateMenuHandler
+	put /menu/:id (UpdateMenuReq)
+
+	// 删除菜单
+	@handler DeleteMenuHandler
+	delete /menu/:id
+
+	// 获取菜单树（含子菜单）
+	@handler GetMenuTreeHandler
+	get /menu/tree returns (MenuTreeResp)
+
+	// 获取当前用户有权限的菜单树
+	@handler GetCurrentUserMenusHandler
+	get /menu/current returns (MenuTreeResp)
+}
+

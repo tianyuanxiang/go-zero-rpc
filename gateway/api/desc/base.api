@@ -1,0 +1,29 @@
+syntax = "v1"
+
+// 通用用户信息
+type UserInfo {
+	UserId   int64      `json:"userId"`
+	Username string     `json:"username"`
+	Nickname string     `json:"nickname"`
+	Email    string     `json:"email"`
+	Phone    string     `json:"phone"`
+	Avatar   string     `json:"avatar,optional"`
+	Roles    []string   `json:"roles"`
+	Menus    []MenuItem `json:"menus"`
+}
+
+
+// 菜单信息响应体
+type MenuItem {
+	Id        int64          `json:"id"`               // 菜单ID
+	ParentId  int64          `json:"parentId"`         // 父菜单ID
+	MenuName  string         `json:"menuName"`         // 菜单名称
+	MenuType  int64            `json:"menuType"`         // 菜单类型
+	Path      string         `json:"path"`             // 路由路径
+	Component string         `json:"component"`        // 组件路径
+	Icon      string         `json:"icon"`             // 图标
+	Sort      int64            `json:"sort"`             // 排序
+	Perms     string         `json:"perms"`            // 权限标识
+	Status    int            `json:"status"`           // 状态
+	Children  []MenuItem `json:"children,optional"`// 子菜单列表
+}

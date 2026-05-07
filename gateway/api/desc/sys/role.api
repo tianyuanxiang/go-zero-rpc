@@ -1,0 +1,98 @@
+syntax = "v1"
+
+// 创建角色请求体
+type CreateRoleReq {
+	RoleName string  `json:"roleName"` // 角色名称
+	RoleCode string  `json:"roleCode"` // 角色编码，唯一（如：admin, operator）
+	Sort     int64   `json:"sort"`
+	Remark   string  `json:"remark,optional"` // 备注
+	MenuIds  []int64 `json:"menuIds,optional"` // 关联菜单ID列表
+	ApiIds   []int64 `json:"apiIds,optional"` // 关联接口ID列表
+}
+
+// 更新角色基本信息请求体
+type UpdateRoleReq {
+	Id       int64  `path:"id"` // 角色ID
+	RoleCode *string `json:"roleCode,optional"`
+	RoleName *string `json:"roleName,optional"` // 角色名称
+	Sort     *int64  `json:"sort,optional"`
+	Remark   *string `json:"remark,optional"` // 备注
+}
+
+// 更新角色权限请求体
+type UpdateRolePermissionsReq {
+	Id      int64   `path:"id"` // 角色ID
+	MenuIds []int64 `json:"menuIds,optional"` // 关联菜单ID列表
+	ApiIds  []int64 `json:"apiIds,optional"` // 关联接口ID列表
+}
+
+// 角色信息响应体
+type RoleItem {
+	Id        int64  `json:"id"` // 角色ID
+	RoleName  string `json:"roleName"` // 角色名称
+	RoleCode  string `json:"roleCode"` // 角色编码
+	Status    int    `json:"status"`
+	Sort      int    `json:sort`
+	Remark    string `json:"remark"` // 备注
+	CreatedAt string `json:"createdAt"` // 创建时间
+}
+
+type RoleOption {
+	Id       int64  `json:"id"` // 角色ID
+	RoleName string `json:"roleName"` // 角色名称
+	RoleCode string `json:"roleCode"` // 角色编码
+}
+
+// 角色列表响应体
+type ListRoleResp {
+	Total int64      `json:"total"` // 总数
+	List  []RoleItem `json:"list"` // 角色列表
+}
+
+// 所有角色列表响应体
+type ListAllResp {
+	ListAll []RoleOption `list`
+}
+
+// 角色列表查询请求
+type ListRoleReq {
+	Page     int    `form:"page,default=1"` // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	Keyword  string `form:"keyword,optional"` // 关键词
+}
+
+@server (
+	prefix:     /api/system
+	group:      sys/role
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 创建角色
+	@handler CreateRoleHandler
+	post /role (CreateRoleReq)
+
+	// 更新角色基本信息
+	@handler UpdateRoleHandler
+	put /role/:id (UpdateRoleReq)
+
+	// 更新角色权限
+	@handler UpdateRolePermissionsHandler
+	put /role/:id/permissions (UpdateRolePermissionsReq)
+
+	// 删除角色
+	@handler DeleteRoleHandler
+	delete /role/:id
+
+	// 查询角色详情
+	@handler GetRoleHandler
+	get /role/:id returns (RoleItem)
+
+	// 分页查询角色列表
+	@handler ListRoleHandler
+	get /role (ListRoleReq) returns (ListRoleResp)
+
+	// 获取所有角色（不分页，用于下拉选择）
+	@handler ListAllRoleHandler
+	get /role/all returns (ListAllResp)
+}
+

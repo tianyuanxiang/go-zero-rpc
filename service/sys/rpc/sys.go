@@ -6,7 +6,8 @@ import (
 	"time"
 
 	"go-zero-rpc/sys-rpc/internal/config"
-	sysServer "go-zero-rpc/sys-rpc/internal/server/sys"
+
+	authsvr "go-zero-rpc/sys-rpc/internal/server/authservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	"go-zero-rpc/sys-rpc/sys"
 
@@ -33,7 +34,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		sys.RegisterSysServer(grpcServer, sysServer.NewSysServer(ctx))
+		sys.RegisterAuthServiceServer(grpcServer, authsvr.NewAuthServiceServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

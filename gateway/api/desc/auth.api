@@ -1,0 +1,79 @@
+syntax = "v1"
+
+import (
+	"./base.api"
+)
+
+type (
+	// 登录请求体
+	LoginReq {
+		Username string `json:"username"` // 用户名
+		Password string `json:"password"` // 密码（明文，传输层加密）
+	}
+	// 登录响应体
+	LoginResp {
+		AccessToken  string   `json:"accessToken"` // 访问令牌，有效期2小时
+		RefreshToken string   `json:"refreshToken"` // 刷新令牌，有效期7天
+		ExpiresIn    int64    `json:"expiresIn"` // 访问令牌剩余秒数
+		UserInfo     UserInfo `json:"userInfo"`
+	}
+)
+
+type (
+	// 刷新令牌请求体
+	RefreshTokenReq {
+		RefreshToken string `json:"refreshToken"` // 刷新令牌
+	}
+	// 刷新令牌响应体
+	RefreshTokenResp {
+		AccessToken string `json:"accessToken"` // 新访问令牌
+		ExpiresIn   int64  `json:"expiresIn"` // 新令牌有效期秒数
+	}
+)
+
+type (
+	UserInfoReq  {}
+	UserInfoResp {
+		UserInfo UserInfo `json:"userInfo"`
+	}
+)
+
+@server (
+	prefix: /api/auth
+	group:  auth
+)
+service gateway-api {
+	// 用户登录
+	@handler LoginHandler
+	post /login (LoginReq) returns (LoginResp)
+
+	// 刷新访问令牌
+	@handler RefreshTokenHandler
+	post /refresh (RefreshTokenReq) returns (RefreshTokenResp)
+}
+
+// 修改密码请求体
+type ChangePasswordReq {
+	OldPassword string `json:"oldPassword"` // 旧密码
+	NewPassword string `json:"newPassword"` // 新密码（至少8位）
+}
+
+@server (
+	prefix:     /api/auth
+	group:      auth
+	middleware: AuthMiddleware
+)
+service gateway-api {
+	// 退出登录（使当前令牌失效）
+	@handler LogoutHandler
+	post /logout
+
+	// 修改当前用户密码
+	@handler ChangePasswordHandler
+	post /changePassword (ChangePasswordReq)
+
+	// 获取当前登录用户信息
+	@handler GetCurrentUserHandler
+	get /userInfo returns (UserInfoResp)
+}
+

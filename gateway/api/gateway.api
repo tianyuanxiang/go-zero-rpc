@@ -1,47 +1,21 @@
 syntax = "v1"
 
-type LoginReq {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
-type LoginResp {
-	AccessToken  string   `json:"accessToken"`
-	RefreshToken string   `json:"refreshToken"`
-	ExpiresIn    int64    `json:"expiresIn"`
-	UserInfo     UserInfo `json:"userInfo"`
-}
-
-type UserInfo {
-	UserId   int64      `json:"userId"`
-	Username string     `json:"username"`
-	Nickname string     `json:"nickname"`
-	Email    string     `json:"email"`
-	Phone    string     `json:"phone"`
-	Avatar   string     `json:"avatar"`
-	Roles    []string   `json:"roles"`
-	Menus    []MenuItem `json:"menus"`
-}
-
-type MenuItem {
-	Id        int64      `json:"id"`
-	ParentId  int64      `json:"parentId"`
-	MenuName  string     `json:"menuName"`
-	MenuType  int64      `json:"menuType"`
-	Path      string     `json:"path"`
-	Component string     `json:"component"`
-	Icon      string     `json:"icon"`
-	Sort      int64      `json:"sort"`
-	Perms     string     `json:"perms"`
-	Status    int        `json:"status"`
-	Children  []MenuItem `json:"children,optional"`
-}
-
-@server (
-	prefix: /api/auth
+info (
+	title:   "go-zero-rpc gateway"
+	desc:    "HTTP 网关，统一接入 sys-rpc / 业务 RPC"
+	author:  "tianyx"
+	version: "1.0.0"
 )
-service gateway-api {
-	@handler LoginHandler
-	post /login (LoginReq) returns (LoginResp)
-}
+
+import (
+	"desc/base.api"
+	"desc/auth.api"
+	"desc/sys/user.api"
+	"desc/sys/role.api"
+	"desc/sys/menu.api"
+	"desc/sys/api.api"
+	"desc/sys/dict.api"
+	"desc/sys/log.api"
+	"desc/sys/file.api"
+)
 

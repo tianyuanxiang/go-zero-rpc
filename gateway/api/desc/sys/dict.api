@@ -1,0 +1,119 @@
+syntax = "v1"
+
+// 创建字典类型请求体
+type CreateDictTypeReq {
+	DictName string `json:"dictName" validate:"required"` // 字典名称
+	DictCode string `json:"dictCode"` // 字典类型（唯一编码，如：sys_user_status）
+	Remark   string `json:"remark,optional"` // 备注
+	Status   int    `json:"status"` // 状态：1启用 0禁用
+}
+
+// 更新字典类型请求体
+type UpdateDictTypeReq {
+	Id       int    `path:"id" validate:"required"` // 字典类型ID
+	DictName *string `json:"dictName,optional"` // 字典名称
+	DictCode *string `json:"dictCode,optional" ` // 字典类型（唯一编码，如：sys_user_status）
+	Remark   *string `json:"remark,optional"` // 备注
+	Status   *int    `json:"status,optional"` // 状态
+}
+
+// 字典类型响应体
+type DictTypeItem {
+	Id        int    `json:"id"` // 字典类型ID
+	DictName  string `json:"dictName"` // 字典名称
+	DictCode  string `json:"dictCode"` // 字典类型编码
+	Remark    string `json:"remark"` // 备注
+	Status    int    `json:"status"` // 状态
+	CreatedAt string `json:"createdAt"` // 创建时间
+}
+
+// 字典类型列表查询请求
+type ListDictTypeReq {
+	Page     int    `form:"page,default=1"` // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	Keyword  string `form:"keyword,optional"` // 关键词
+}
+
+// 字典类型列表响应
+type ListDictTypeResp {
+	Total int            `json:"total"` // 总数
+	List  []DictTypeItem `json:"list"` // 字典类型列表
+}
+
+// 创建字典数据请求体
+type CreateDictDataReq {
+	DictTypeId int    `json:"dictTypeId" validate:"required"` // 字典类型ID
+	DictLabel  string `json:"dictLabel" validate:"required"` // 字典标签（显示文本）
+	DictValue  string `json:"dictValue" validate:"required"` // 字典值（实际存储值）
+	Sort       int    `json:"sort,optional"` // 排序序号
+	Remark     string `json:"remark,optional"` // 备注
+	Status     int    `json:"status"` // 状态：1启用 0禁用
+}
+
+// 更新字典数据请求体
+type UpdateDictDataReq {
+	Id         int    `path:"id" validate:"required"` // 字典数据ID
+	DictTypeId int    `json:"dictTypeId" validate:"required"` // 字典类型ID
+	DictLabel  string `json:"dictLabel" validate:"required"` // 字典标签
+	DictValue  string `json:"dictValue" validate:"required"` // 字典值
+	Sort       *int    `json:"sort,optional"` // 排序
+	Remark     *string `json:"remark,optional"` // 备注
+	Status     *int    `json:"status"` // 状态
+}
+
+// 字典数据响应体
+type DictDataItem {
+	Id        int    `json:"id"` // 字典数据ID
+	DictType  int    `json:"dictType"` // 所属字典类型
+	DictLabel string `json:"dictLabel"` // 字典标签
+	DictValue string `json:"dictValue"` // 字典值
+	Sort      int    `json:"sort"` // 排序
+	Remark    string `json:"remark"` // 备注
+	Status    int    `json:"status"` // 状态
+}
+
+// 字典数据列表响应
+type ListDictDataResp {
+	Total int64          `json:"total"` // 总数
+	List  []DictDataItem `json:"list"` // 字典数据列表
+}
+
+@server (
+	prefix:     /api/system
+	group:      sys/dict
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 创建字典类型
+	@handler CreateDictTypeHandler
+	post /dict/type (CreateDictTypeReq)
+
+	// 更新字典类型
+	@handler UpdateDictTypeHandler
+	put /dict/type/:id (UpdateDictTypeReq)
+
+	// 删除字典类型
+	@handler DeleteDictTypeHandler
+	delete /dict/type/:id
+
+	// 查询字典类型列表
+	@handler ListDictTypeHandler
+	get /dict/type (ListDictTypeReq) returns (ListDictTypeResp)
+
+	// 创建字典数据
+	@handler CreateDictDataHandler
+	post /dict/data (CreateDictDataReq)
+
+	// 更新字典数据
+	@handler UpdateDictDataHandler
+	put /dict/data/:id (UpdateDictDataReq)
+
+	// 删除字典数据
+	@handler DeleteDictDataHandler
+	delete /dict/data/:id
+
+	// 根据字典类型编码查询字典数据列表（前端下拉框使用）
+	@handler GetDictDataByTypeHandler
+	get /dict/data/:dictType returns (ListDictDataResp)
+}
+
