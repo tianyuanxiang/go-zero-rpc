@@ -14,12 +14,20 @@ import (
 	sysmenu "go-zero-rpc/gateway/internal/handler/sys/menu"
 	sysrole "go-zero-rpc/gateway/internal/handler/sys/role"
 	sysuser "go-zero-rpc/gateway/internal/handler/sys/user"
+	ws "go-zero-rpc/gateway/internal/handler/ws"
 	"go-zero-rpc/gateway/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	// WebSocket 路由（不需要经过 AuthMiddleware）
+	server.AddRoute(rest.Route{
+		Method:  http.MethodGet,
+		Path:    "/ws",
+		Handler: ws.WsHandler(serverCtx),
+	})
+
 	server.AddRoutes(
 		[]rest.Route{
 			{

@@ -22,4 +22,9 @@ type Config struct {
 		MaxSize     int64    // 字节
 		AllowedExts []string // 例 [".png", ".jpg", ".pdf"]
 	}
+
+	WebSocket struct {
+		HeartbeatInterval int // 心跳间隔（秒）
+		MaxConnections    int // 最大连接数
+	}
 }

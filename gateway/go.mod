@@ -2,7 +2,11 @@ module go-zero-rpc/gateway
 
 go 1.24.0
 
-require github.com/zeromicro/go-zero v1.8.0
+require (
+	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674
+	github.com/redis/go-redis/v9 v9.18.0
+	github.com/zeromicro/go-zero v1.8.0
+)
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -46,7 +50,6 @@ require (
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
-	github.com/redis/go-redis/v9 v9.18.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.21 // indirect
