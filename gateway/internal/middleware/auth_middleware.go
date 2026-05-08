@@ -9,12 +9,21 @@ import (
 	"go-zero-rpc/common/jwtx"
 	"go-zero-rpc/common/response"
 	"go-zero-rpc/gateway/internal/config"
+	permclient "go-zero-rpc/sys-rpc/client/permissionservice"
+	"go-zero-rpc/sys-rpc/sys"
 	"net/http"
 	"strings"
 
-	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
 )
+
+type AuthMiddleware struct {
+	permRpc permclient.PermissionService
+}
+
+func NewAuthMiddleware(permRpc permclient.PermissionService) *AuthMiddleware {
+	return &AuthMiddleware{permRpc: permRpc}
+}
 
 // ContextKey 自定义Context键类型，避免与其他包的键冲突。
 
@@ -41,7 +50,8 @@ const (
 //
 // 返回：
 //   - func(http.Handler) http.Handler : 标准中间件函数
-func AuthMiddleware(cfg config.Config, rdb *redis.Client) func(handlerFunc http.HandlerFunc) http.HandlerFunc {
+
+func (m *AuthMiddleware) Handle(cfg config.Config) func(handlerFunc http.HandlerFunc) http.HandlerFunc {
 	return func(next http.HandlerFunc) http.HandlerFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// 从请求头获取Authorization字段
@@ -80,13 +90,18 @@ func AuthMiddleware(cfg config.Config, rdb *redis.Client) func(handlerFunc http.
 			}
 
 			// 新增：检查 Token 是否在黑名单（已登出）
-			if rdb != nil {
-				blacklistKey := fmt.Sprintf("%s%s", RedisTokenBlacklistPrefix, tokenStr)
-				exists, redisErr := rdb.Exists(r.Context(), blacklistKey).Result()
-				if redisErr == nil && exists > 0 {
-					response.Fail(w, r, response.CodeUnauthorized, "Token已失效，请重新登录")
-					return
-				}
+			blacklistKey := fmt.Sprintf("%s%s", RedisTokenBlacklistPrefix, tokenStr)
+			isBlack, err := m.permRpc.IsTokenRevoked(r.Context(), &sys.IsBlackListReq{BlacklistKey: blacklistKey})
+			if err != nil {
+				logx.WithContext(r.Context()).Errorf("Token list check fail., key=%s, err=%v", blacklistKey, err)
+				response.Fail(w, r, response.CodeInternalError, "Token 校验失败，请稍后重试")
+				return
+			}
+
+			if isBlack.IsBlack {
+				logx.WithContext(r.Context()).Infof("Token is logout, refuse! key=%s", blacklistKey)
+				response.Fail(w, r, response.CodeUnauthorized, "Token已失效，请重新登录")
+				return
 			}
 			// 将用户信息写入Context，供后续Handler使用
 			ctx := context.WithValue(r.Context(), ContextKeyUserId, claims.UserId)

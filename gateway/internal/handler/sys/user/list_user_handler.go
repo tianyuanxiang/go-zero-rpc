@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"go-zero-rpc/common/response"
-	"go-zero-rpc/common/rpcerr"
 	"go-zero-rpc/gateway/internal/logic/sys/user"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
@@ -23,8 +22,7 @@ func ListUserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := user.NewListUserLogic(r.Context(), svcCtx)
 		resp, err := l.ListUser(&req)
 		if err != nil {
-			code, msg := rpcerr.FromStatus(err)
-			response.Fail(w, r, code, msg)
+			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 		response.OkWithData(w, r, resp)

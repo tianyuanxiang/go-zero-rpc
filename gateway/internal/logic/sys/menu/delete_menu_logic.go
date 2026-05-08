@@ -6,8 +6,11 @@ package menu
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
+	"go-zero-rpc/sys-rpc/sys"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type DeleteMenuLogic struct {
@@ -24,8 +27,17 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteMenuLogic) DeleteMenu() error {
-	// todo: add your logic here and delete this line
+func (l *DeleteMenuLogic) DeleteMenu(menuId int64) error {
+	userId := middleware.GetUserIdFromCtx(l.ctx)
+
+	_, err := l.svcCtx.SysRpc.DeleteMenu(l.ctx, &sys.DeleteMenuReq{
+		MenuId:     menuId,
+		OperatorId: userId,
+	})
+	if err != nil {
+		l.Logger.Errorf("调用DeleteMenu RPC失败, operatorId=%d, menuId=%d, err=%v", userId, menuId, err)
+		return err
+	}
 
 	return nil
 }

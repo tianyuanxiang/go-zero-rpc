@@ -6,8 +6,10 @@ package api
 import (
 	"context"
 
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +29,39 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 }
 
 func (l *UpdateApiLogic) UpdateApi(req *types.UpdateApiReq) error {
-	// todo: add your logic here and delete this line
+	operatorId := middleware.GetUserIdFromCtx(l.ctx)
+
+	rpcReq := &sys.UpdateApiReq{
+		Id:         req.Id,
+		OperatorId: operatorId,
+	}
+
+	if req.ApiName != nil {
+		rpcReq.HasApiName = true
+		rpcReq.ApiName = *req.ApiName
+	}
+	if req.ApiPath != nil {
+		rpcReq.HasApiPath = true
+		rpcReq.ApiPath = *req.ApiPath
+	}
+	if req.Method != nil {
+		rpcReq.HasMethod = true
+		rpcReq.Method = *req.Method
+	}
+	if req.Group != nil {
+		rpcReq.HasGroup = true
+		rpcReq.Group = *req.Group
+	}
+	if req.Remark != nil {
+		rpcReq.HasRemark = true
+		rpcReq.Remark = *req.Remark
+	}
+
+	_, err := l.svcCtx.SysRpc.UpdateApi(l.ctx, rpcReq)
+	if err != nil {
+		l.Logger.Errorf("调用UpdateApi RPC失败, operatorId=%d, apiId=%d, err=%v", operatorId, req.Id, err)
+		return err
+	}
 
 	return nil
 }

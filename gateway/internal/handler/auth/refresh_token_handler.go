@@ -5,7 +5,6 @@ package auth
 
 import (
 	"go-zero-rpc/common/response"
-	"go-zero-rpc/common/rpcerr"
 	"net/http"
 
 	"go-zero-rpc/gateway/internal/logic/auth"
@@ -31,8 +30,7 @@ func RefreshTokenHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := auth.NewRefreshTokenLogic(r.Context(), svcCtx)
 		resp, err := l.RefreshToken(&req)
 		if err != nil {
-			code, msg := rpcerr.FromStatus(err)
-			response.Fail(w, r, code, msg)
+			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		} else {
 			response.OkWithData(w, r, resp)

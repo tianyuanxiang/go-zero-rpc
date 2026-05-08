@@ -4,7 +4,6 @@ import (
 	"context"
 	"go-zero-rpc/common/constants"
 	"go-zero-rpc/common/jwtx"
-	"go-zero-rpc/common/rpcerr"
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	sysmodel "go-zero-rpc/sys-rpc/internal/model"
@@ -48,41 +47,41 @@ func (l *LoginLogic) Login(in *sys.LoginReq) (*sys.LoginResp, error) {
 	if err != nil {
 		if err == sysmodel.ErrNotFound {
 			l.recordLoginLog(in.Username, 0, in.ClientIp, in.UserAgent, 0, "用户名或密码错误")
-			return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrPasswordWrong))
+			return nil, xerr.NewCodeError(xerr.ErrPasswordWrong)
 		}
 		l.Errorf("查询用户失败: %v", err)
-		return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrInternal))
+		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
 	// 2. 状态
 	if user.Status != 1 {
 		l.recordLoginLog(in.Username, user.Id, in.ClientIp, in.UserAgent, 0, "账号已被禁用")
-		return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrAccountDisabled))
+		return nil, xerr.NewCodeError(xerr.ErrAccountDisabled)
 	}
 
 	// 3. 密码
 	if !encrypt.CheckPassword(in.Password, user.Password) {
 		l.recordLoginLog(in.Username, user.Id, in.ClientIp, in.UserAgent, 0, "密码错误")
-		return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrPasswordWrong))
+		return nil, xerr.NewCodeError(xerr.ErrPasswordWrong)
 	}
 
 	// 4. Token
 	accessToken, err := jwtx.GenerateToken(user.Id, user.Username,
 		l.svcCtx.Config.JwtAuth.AccessSecret, l.svcCtx.Config.JwtAuth.AccessExpire)
 	if err != nil {
-		return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrInternal))
+		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 	refreshToken, err := jwtx.GenerateRefreshToken(user.Id, user.Username,
 		l.svcCtx.Config.JwtAuth.AccessSecret, l.svcCtx.Config.JwtAuth.RefreshExpire)
 	if err != nil {
-		return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrInternal))
+		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
 	// 5. 查询角色ID
 	roleIds, err := l.svcCtx.SysUserRoleModel.GetRoleIdsByUserId(l.ctx, user.Id)
 	if err != nil {
 		l.Logger.Errorf("查询用户[%s]的角色信息失败：%v", user.Username, err)
-		return nil, rpcerr.ToStatus(xerr.NewCodeError(xerr.ErrInternal))
+		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
 	roleCodes := make([]string, 0, len(roleIds)+1)

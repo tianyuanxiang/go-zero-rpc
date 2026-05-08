@@ -6,8 +6,11 @@ package role
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
+	"go-zero-rpc/sys-rpc/sys"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type DeleteRoleLogic struct {
@@ -24,8 +27,17 @@ func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteRoleLogic) DeleteRole() error {
-	// todo: add your logic here and delete this line
+func (l *DeleteRoleLogic) DeleteRole(roleId int64) error {
+	userId := middleware.GetUserIdFromCtx(l.ctx)
+
+	_, err := l.svcCtx.SysRpc.DeleteRole(l.ctx, &sys.DeleteRoleReq{
+		RoleId:     roleId,
+		OperatorId: userId,
+	})
+	if err != nil {
+		l.Logger.Errorf("调用DeleteRole RPC失败, operatorId=%d, roleId=%d, err=%v", userId, roleId, err)
+		return err
+	}
 
 	return nil
 }

@@ -6,8 +6,10 @@ package role
 import (
 	"context"
 
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +29,18 @@ func NewUpdateRolePermissionsLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *UpdateRolePermissionsLogic) UpdateRolePermissions(req *types.UpdateRolePermissionsReq) error {
-	// todo: add your logic here and delete this line
+	operatorId := middleware.GetUserIdFromCtx(l.ctx)
+
+	_, err := l.svcCtx.SysRpc.UpdateRolePermissions(l.ctx, &sys.UpdateRolePermissionsReq{
+		Id:         req.Id,
+		MenuIds:    req.MenuIds,
+		ApiIds:     req.ApiIds,
+		OperatorId: operatorId,
+	})
+	if err != nil {
+		l.Logger.Errorf("调用UpdateRolePermissions RPC失败, operatorId=%d, roleId=%d, err=%v", operatorId, req.Id, err)
+		return err
+	}
 
 	return nil
 }

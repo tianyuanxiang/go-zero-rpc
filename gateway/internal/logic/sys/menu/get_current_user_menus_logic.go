@@ -6,8 +6,10 @@ package menu
 import (
 	"context"
 
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +29,21 @@ func NewGetCurrentUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *GetCurrentUserMenusLogic) GetCurrentUserMenus() (resp *types.MenuTreeResp, err error) {
-	// todo: add your logic here and delete this line
+	userId := middleware.GetUserIdFromCtx(l.ctx)
+	if userId == 0 {
+		l.Errorf("userId is empty")
+		return nil, nil
+	}
 
-	return
+	rpcResp, err := l.svcCtx.SysRpc.GetCurrentUserMenus(l.ctx, &sys.GetCurrentUserMenusReq{
+		UserId: userId,
+	})
+	if err != nil {
+		l.Logger.Errorf("调用GetCurrentUserMenus RPC失败, userId=%d, err=%v", userId, err)
+		return nil, err
+	}
+
+	return &types.MenuTreeResp{
+		List: convertMenuItems(rpcResp.List),
+	}, nil
 }

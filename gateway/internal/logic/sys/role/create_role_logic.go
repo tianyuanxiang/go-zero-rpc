@@ -6,8 +6,10 @@ package role
 import (
 	"context"
 
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +29,21 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateRoleLogic) CreateRole(req *types.CreateRoleReq) error {
-	// todo: add your logic here and delete this line
+	operatorId := middleware.GetUserIdFromCtx(l.ctx)
+
+	_, err := l.svcCtx.SysRpc.CreateRole(l.ctx, &sys.CreateRoleReq{
+		RoleName:   req.RoleName,
+		RoleCode:   req.RoleCode,
+		Sort:       req.Sort,
+		Remark:     req.Remark,
+		MenuIds:    req.MenuIds,
+		ApiIds:     req.ApiIds,
+		OperatorId: operatorId,
+	})
+	if err != nil {
+		l.Logger.Errorf("调用CreateRole RPC失败, operatorId=%d, err=%v", operatorId, err)
+		return err
+	}
 
 	return nil
 }

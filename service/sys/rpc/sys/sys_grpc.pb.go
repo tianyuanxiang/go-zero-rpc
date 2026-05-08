@@ -277,12 +277,42 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	SystemService_CreateUser_FullMethodName    = "/sys.SystemService/CreateUser"
-	SystemService_UpdateUser_FullMethodName    = "/sys.SystemService/UpdateUser"
-	SystemService_DeleteUser_FullMethodName    = "/sys.SystemService/DeleteUser"
-	SystemService_GetUser_FullMethodName       = "/sys.SystemService/GetUser"
-	SystemService_ListUser_FullMethodName      = "/sys.SystemService/ListUser"
-	SystemService_ResetPassword_FullMethodName = "/sys.SystemService/ResetPassword"
+	SystemService_CreateUser_FullMethodName            = "/sys.SystemService/CreateUser"
+	SystemService_UpdateUser_FullMethodName            = "/sys.SystemService/UpdateUser"
+	SystemService_DeleteUser_FullMethodName            = "/sys.SystemService/DeleteUser"
+	SystemService_GetUser_FullMethodName               = "/sys.SystemService/GetUser"
+	SystemService_ListUser_FullMethodName              = "/sys.SystemService/ListUser"
+	SystemService_ResetPassword_FullMethodName         = "/sys.SystemService/ResetPassword"
+	SystemService_CreateRole_FullMethodName            = "/sys.SystemService/CreateRole"
+	SystemService_UpdateRole_FullMethodName            = "/sys.SystemService/UpdateRole"
+	SystemService_UpdateRolePermissions_FullMethodName = "/sys.SystemService/UpdateRolePermissions"
+	SystemService_DeleteRole_FullMethodName            = "/sys.SystemService/DeleteRole"
+	SystemService_GetRole_FullMethodName               = "/sys.SystemService/GetRole"
+	SystemService_ListRole_FullMethodName              = "/sys.SystemService/ListRole"
+	SystemService_ListAllRole_FullMethodName           = "/sys.SystemService/ListAllRole"
+	SystemService_CreateMenu_FullMethodName            = "/sys.SystemService/CreateMenu"
+	SystemService_UpdateMenu_FullMethodName            = "/sys.SystemService/UpdateMenu"
+	SystemService_DeleteMenu_FullMethodName            = "/sys.SystemService/DeleteMenu"
+	SystemService_GetMenuTree_FullMethodName           = "/sys.SystemService/GetMenuTree"
+	SystemService_GetCurrentUserMenus_FullMethodName   = "/sys.SystemService/GetCurrentUserMenus"
+	SystemService_CreateApi_FullMethodName             = "/sys.SystemService/CreateApi"
+	SystemService_UpdateApi_FullMethodName             = "/sys.SystemService/UpdateApi"
+	SystemService_DeleteApi_FullMethodName             = "/sys.SystemService/DeleteApi"
+	SystemService_ListApi_FullMethodName               = "/sys.SystemService/ListApi"
+	SystemService_ListAllApi_FullMethodName            = "/sys.SystemService/ListAllApi"
+	SystemService_CreateDictType_FullMethodName        = "/sys.SystemService/CreateDictType"
+	SystemService_UpdateDictType_FullMethodName        = "/sys.SystemService/UpdateDictType"
+	SystemService_DeleteDictType_FullMethodName        = "/sys.SystemService/DeleteDictType"
+	SystemService_ListDictType_FullMethodName          = "/sys.SystemService/ListDictType"
+	SystemService_CreateDictData_FullMethodName        = "/sys.SystemService/CreateDictData"
+	SystemService_UpdateDictData_FullMethodName        = "/sys.SystemService/UpdateDictData"
+	SystemService_DeleteDictData_FullMethodName        = "/sys.SystemService/DeleteDictData"
+	SystemService_GetDictDataByType_FullMethodName     = "/sys.SystemService/GetDictDataByType"
+	SystemService_ListLoginLog_FullMethodName          = "/sys.SystemService/ListLoginLog"
+	SystemService_ClearLoginLog_FullMethodName         = "/sys.SystemService/ClearLoginLog"
+	SystemService_ListOperLog_FullMethodName           = "/sys.SystemService/ListOperLog"
+	SystemService_ClearOperLog_FullMethodName          = "/sys.SystemService/ClearOperLog"
+	SystemService_WriteOperLog_FullMethodName          = "/sys.SystemService/WriteOperLog"
 )
 
 // SystemServiceClient is the client API for SystemService service.
@@ -303,6 +333,41 @@ type SystemServiceClient interface {
 	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*UserItem, error)
 	ListUser(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserResp, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*Empty, error)
+	// 角色管理
+	CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error)
+	UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*Empty, error)
+	UpdateRolePermissions(ctx context.Context, in *UpdateRolePermissionsReq, opts ...grpc.CallOption) (*Empty, error)
+	DeleteRole(ctx context.Context, in *DeleteRoleReq, opts ...grpc.CallOption) (*Empty, error)
+	GetRole(ctx context.Context, in *GetRoleReq, opts ...grpc.CallOption) (*RoleItem, error)
+	ListRole(ctx context.Context, in *ListRoleReq, opts ...grpc.CallOption) (*ListRoleResp, error)
+	ListAllRole(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllRoleResp, error)
+	// 菜单管理
+	CreateMenu(ctx context.Context, in *CreateMenuReq, opts ...grpc.CallOption) (*CreateMenuResp, error)
+	UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*Empty, error)
+	DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*Empty, error)
+	GetMenuTree(ctx context.Context, in *GetMenuTreeReq, opts ...grpc.CallOption) (*MenuTreeResp, error)
+	GetCurrentUserMenus(ctx context.Context, in *GetCurrentUserMenusReq, opts ...grpc.CallOption) (*MenuTreeResp, error)
+	// API 接口管理
+	CreateApi(ctx context.Context, in *CreateApiReq, opts ...grpc.CallOption) (*CreateApiResp, error)
+	UpdateApi(ctx context.Context, in *UpdateApiReq, opts ...grpc.CallOption) (*Empty, error)
+	DeleteApi(ctx context.Context, in *DeleteApiReq, opts ...grpc.CallOption) (*Empty, error)
+	ListApi(ctx context.Context, in *ListApiReq, opts ...grpc.CallOption) (*ListApiResp, error)
+	ListAllApi(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllApiResp, error)
+	// 字典管理
+	CreateDictType(ctx context.Context, in *CreateDictTypeReq, opts ...grpc.CallOption) (*CreateDictTypeResp, error)
+	UpdateDictType(ctx context.Context, in *UpdateDictTypeReq, opts ...grpc.CallOption) (*Empty, error)
+	DeleteDictType(ctx context.Context, in *DeleteDictTypeReq, opts ...grpc.CallOption) (*Empty, error)
+	ListDictType(ctx context.Context, in *ListDictTypeReq, opts ...grpc.CallOption) (*ListDictTypeResp, error)
+	CreateDictData(ctx context.Context, in *CreateDictDataReq, opts ...grpc.CallOption) (*CreateDictDataResp, error)
+	UpdateDictData(ctx context.Context, in *UpdateDictDataReq, opts ...grpc.CallOption) (*Empty, error)
+	DeleteDictData(ctx context.Context, in *DeleteDictDataReq, opts ...grpc.CallOption) (*Empty, error)
+	GetDictDataByType(ctx context.Context, in *GetDictDataByTypeReq, opts ...grpc.CallOption) (*ListDictDataResp, error)
+	// 日志管理
+	ListLoginLog(ctx context.Context, in *ListLoginLogReq, opts ...grpc.CallOption) (*ListLoginLogResp, error)
+	ClearLoginLog(ctx context.Context, in *ClearLoginLogReq, opts ...grpc.CallOption) (*Empty, error)
+	ListOperLog(ctx context.Context, in *ListOperLogReq, opts ...grpc.CallOption) (*ListOperLogResp, error)
+	ClearOperLog(ctx context.Context, in *ClearOperLogReq, opts ...grpc.CallOption) (*Empty, error)
+	WriteOperLog(ctx context.Context, in *WriteOperLogReq, opts ...grpc.CallOption) (*WriteOperLogResp, error)
 }
 
 type systemServiceClient struct {
@@ -373,6 +438,306 @@ func (c *systemServiceClient) ResetPassword(ctx context.Context, in *ResetPasswo
 	return out, nil
 }
 
+func (c *systemServiceClient) CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateRoleResp)
+	err := c.cc.Invoke(ctx, SystemService_CreateRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_UpdateRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) UpdateRolePermissions(ctx context.Context, in *UpdateRolePermissionsReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_UpdateRolePermissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) DeleteRole(ctx context.Context, in *DeleteRoleReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_DeleteRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) GetRole(ctx context.Context, in *GetRoleReq, opts ...grpc.CallOption) (*RoleItem, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RoleItem)
+	err := c.cc.Invoke(ctx, SystemService_GetRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListRole(ctx context.Context, in *ListRoleReq, opts ...grpc.CallOption) (*ListRoleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRoleResp)
+	err := c.cc.Invoke(ctx, SystemService_ListRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListAllRole(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllRoleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAllRoleResp)
+	err := c.cc.Invoke(ctx, SystemService_ListAllRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) CreateMenu(ctx context.Context, in *CreateMenuReq, opts ...grpc.CallOption) (*CreateMenuResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateMenuResp)
+	err := c.cc.Invoke(ctx, SystemService_CreateMenu_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_UpdateMenu_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_DeleteMenu_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) GetMenuTree(ctx context.Context, in *GetMenuTreeReq, opts ...grpc.CallOption) (*MenuTreeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MenuTreeResp)
+	err := c.cc.Invoke(ctx, SystemService_GetMenuTree_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) GetCurrentUserMenus(ctx context.Context, in *GetCurrentUserMenusReq, opts ...grpc.CallOption) (*MenuTreeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MenuTreeResp)
+	err := c.cc.Invoke(ctx, SystemService_GetCurrentUserMenus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) CreateApi(ctx context.Context, in *CreateApiReq, opts ...grpc.CallOption) (*CreateApiResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateApiResp)
+	err := c.cc.Invoke(ctx, SystemService_CreateApi_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) UpdateApi(ctx context.Context, in *UpdateApiReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_UpdateApi_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) DeleteApi(ctx context.Context, in *DeleteApiReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_DeleteApi_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListApi(ctx context.Context, in *ListApiReq, opts ...grpc.CallOption) (*ListApiResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListApiResp)
+	err := c.cc.Invoke(ctx, SystemService_ListApi_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListAllApi(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllApiResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAllApiResp)
+	err := c.cc.Invoke(ctx, SystemService_ListAllApi_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) CreateDictType(ctx context.Context, in *CreateDictTypeReq, opts ...grpc.CallOption) (*CreateDictTypeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateDictTypeResp)
+	err := c.cc.Invoke(ctx, SystemService_CreateDictType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) UpdateDictType(ctx context.Context, in *UpdateDictTypeReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_UpdateDictType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) DeleteDictType(ctx context.Context, in *DeleteDictTypeReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_DeleteDictType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListDictType(ctx context.Context, in *ListDictTypeReq, opts ...grpc.CallOption) (*ListDictTypeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDictTypeResp)
+	err := c.cc.Invoke(ctx, SystemService_ListDictType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) CreateDictData(ctx context.Context, in *CreateDictDataReq, opts ...grpc.CallOption) (*CreateDictDataResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateDictDataResp)
+	err := c.cc.Invoke(ctx, SystemService_CreateDictData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) UpdateDictData(ctx context.Context, in *UpdateDictDataReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_UpdateDictData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) DeleteDictData(ctx context.Context, in *DeleteDictDataReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_DeleteDictData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) GetDictDataByType(ctx context.Context, in *GetDictDataByTypeReq, opts ...grpc.CallOption) (*ListDictDataResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDictDataResp)
+	err := c.cc.Invoke(ctx, SystemService_GetDictDataByType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListLoginLog(ctx context.Context, in *ListLoginLogReq, opts ...grpc.CallOption) (*ListLoginLogResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListLoginLogResp)
+	err := c.cc.Invoke(ctx, SystemService_ListLoginLog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ClearLoginLog(ctx context.Context, in *ClearLoginLogReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_ClearLoginLog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListOperLog(ctx context.Context, in *ListOperLogReq, opts ...grpc.CallOption) (*ListOperLogResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListOperLogResp)
+	err := c.cc.Invoke(ctx, SystemService_ListOperLog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ClearOperLog(ctx context.Context, in *ClearOperLogReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, SystemService_ClearOperLog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) WriteOperLog(ctx context.Context, in *WriteOperLogReq, opts ...grpc.CallOption) (*WriteOperLogResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WriteOperLogResp)
+	err := c.cc.Invoke(ctx, SystemService_WriteOperLog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemServiceServer is the server API for SystemService service.
 // All implementations must embed UnimplementedSystemServiceServer
 // for forward compatibility.
@@ -391,6 +756,41 @@ type SystemServiceServer interface {
 	GetUser(context.Context, *GetUserReq) (*UserItem, error)
 	ListUser(context.Context, *ListUserReq) (*ListUserResp, error)
 	ResetPassword(context.Context, *ResetPasswordReq) (*Empty, error)
+	// 角色管理
+	CreateRole(context.Context, *CreateRoleReq) (*CreateRoleResp, error)
+	UpdateRole(context.Context, *UpdateRoleReq) (*Empty, error)
+	UpdateRolePermissions(context.Context, *UpdateRolePermissionsReq) (*Empty, error)
+	DeleteRole(context.Context, *DeleteRoleReq) (*Empty, error)
+	GetRole(context.Context, *GetRoleReq) (*RoleItem, error)
+	ListRole(context.Context, *ListRoleReq) (*ListRoleResp, error)
+	ListAllRole(context.Context, *Empty) (*ListAllRoleResp, error)
+	// 菜单管理
+	CreateMenu(context.Context, *CreateMenuReq) (*CreateMenuResp, error)
+	UpdateMenu(context.Context, *UpdateMenuReq) (*Empty, error)
+	DeleteMenu(context.Context, *DeleteMenuReq) (*Empty, error)
+	GetMenuTree(context.Context, *GetMenuTreeReq) (*MenuTreeResp, error)
+	GetCurrentUserMenus(context.Context, *GetCurrentUserMenusReq) (*MenuTreeResp, error)
+	// API 接口管理
+	CreateApi(context.Context, *CreateApiReq) (*CreateApiResp, error)
+	UpdateApi(context.Context, *UpdateApiReq) (*Empty, error)
+	DeleteApi(context.Context, *DeleteApiReq) (*Empty, error)
+	ListApi(context.Context, *ListApiReq) (*ListApiResp, error)
+	ListAllApi(context.Context, *Empty) (*ListAllApiResp, error)
+	// 字典管理
+	CreateDictType(context.Context, *CreateDictTypeReq) (*CreateDictTypeResp, error)
+	UpdateDictType(context.Context, *UpdateDictTypeReq) (*Empty, error)
+	DeleteDictType(context.Context, *DeleteDictTypeReq) (*Empty, error)
+	ListDictType(context.Context, *ListDictTypeReq) (*ListDictTypeResp, error)
+	CreateDictData(context.Context, *CreateDictDataReq) (*CreateDictDataResp, error)
+	UpdateDictData(context.Context, *UpdateDictDataReq) (*Empty, error)
+	DeleteDictData(context.Context, *DeleteDictDataReq) (*Empty, error)
+	GetDictDataByType(context.Context, *GetDictDataByTypeReq) (*ListDictDataResp, error)
+	// 日志管理
+	ListLoginLog(context.Context, *ListLoginLogReq) (*ListLoginLogResp, error)
+	ClearLoginLog(context.Context, *ClearLoginLogReq) (*Empty, error)
+	ListOperLog(context.Context, *ListOperLogReq) (*ListOperLogResp, error)
+	ClearOperLog(context.Context, *ClearOperLogReq) (*Empty, error)
+	WriteOperLog(context.Context, *WriteOperLogReq) (*WriteOperLogResp, error)
 	mustEmbedUnimplementedSystemServiceServer()
 }
 
@@ -418,6 +818,96 @@ func (UnimplementedSystemServiceServer) ListUser(context.Context, *ListUserReq) 
 }
 func (UnimplementedSystemServiceServer) ResetPassword(context.Context, *ResetPasswordReq) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedSystemServiceServer) CreateRole(context.Context, *CreateRoleReq) (*CreateRoleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
+}
+func (UnimplementedSystemServiceServer) UpdateRole(context.Context, *UpdateRoleReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
+}
+func (UnimplementedSystemServiceServer) UpdateRolePermissions(context.Context, *UpdateRolePermissionsReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRolePermissions not implemented")
+}
+func (UnimplementedSystemServiceServer) DeleteRole(context.Context, *DeleteRoleReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
+}
+func (UnimplementedSystemServiceServer) GetRole(context.Context, *GetRoleReq) (*RoleItem, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRole not implemented")
+}
+func (UnimplementedSystemServiceServer) ListRole(context.Context, *ListRoleReq) (*ListRoleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRole not implemented")
+}
+func (UnimplementedSystemServiceServer) ListAllRole(context.Context, *Empty) (*ListAllRoleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAllRole not implemented")
+}
+func (UnimplementedSystemServiceServer) CreateMenu(context.Context, *CreateMenuReq) (*CreateMenuResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMenu not implemented")
+}
+func (UnimplementedSystemServiceServer) UpdateMenu(context.Context, *UpdateMenuReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
+}
+func (UnimplementedSystemServiceServer) DeleteMenu(context.Context, *DeleteMenuReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenu not implemented")
+}
+func (UnimplementedSystemServiceServer) GetMenuTree(context.Context, *GetMenuTreeReq) (*MenuTreeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMenuTree not implemented")
+}
+func (UnimplementedSystemServiceServer) GetCurrentUserMenus(context.Context, *GetCurrentUserMenusReq) (*MenuTreeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentUserMenus not implemented")
+}
+func (UnimplementedSystemServiceServer) CreateApi(context.Context, *CreateApiReq) (*CreateApiResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateApi not implemented")
+}
+func (UnimplementedSystemServiceServer) UpdateApi(context.Context, *UpdateApiReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateApi not implemented")
+}
+func (UnimplementedSystemServiceServer) DeleteApi(context.Context, *DeleteApiReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteApi not implemented")
+}
+func (UnimplementedSystemServiceServer) ListApi(context.Context, *ListApiReq) (*ListApiResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListApi not implemented")
+}
+func (UnimplementedSystemServiceServer) ListAllApi(context.Context, *Empty) (*ListAllApiResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAllApi not implemented")
+}
+func (UnimplementedSystemServiceServer) CreateDictType(context.Context, *CreateDictTypeReq) (*CreateDictTypeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDictType not implemented")
+}
+func (UnimplementedSystemServiceServer) UpdateDictType(context.Context, *UpdateDictTypeReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictType not implemented")
+}
+func (UnimplementedSystemServiceServer) DeleteDictType(context.Context, *DeleteDictTypeReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictType not implemented")
+}
+func (UnimplementedSystemServiceServer) ListDictType(context.Context, *ListDictTypeReq) (*ListDictTypeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDictType not implemented")
+}
+func (UnimplementedSystemServiceServer) CreateDictData(context.Context, *CreateDictDataReq) (*CreateDictDataResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDictData not implemented")
+}
+func (UnimplementedSystemServiceServer) UpdateDictData(context.Context, *UpdateDictDataReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictData not implemented")
+}
+func (UnimplementedSystemServiceServer) DeleteDictData(context.Context, *DeleteDictDataReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictData not implemented")
+}
+func (UnimplementedSystemServiceServer) GetDictDataByType(context.Context, *GetDictDataByTypeReq) (*ListDictDataResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDictDataByType not implemented")
+}
+func (UnimplementedSystemServiceServer) ListLoginLog(context.Context, *ListLoginLogReq) (*ListLoginLogResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLoginLog not implemented")
+}
+func (UnimplementedSystemServiceServer) ClearLoginLog(context.Context, *ClearLoginLogReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearLoginLog not implemented")
+}
+func (UnimplementedSystemServiceServer) ListOperLog(context.Context, *ListOperLogReq) (*ListOperLogResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOperLog not implemented")
+}
+func (UnimplementedSystemServiceServer) ClearOperLog(context.Context, *ClearOperLogReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearOperLog not implemented")
+}
+func (UnimplementedSystemServiceServer) WriteOperLog(context.Context, *WriteOperLogReq) (*WriteOperLogResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WriteOperLog not implemented")
 }
 func (UnimplementedSystemServiceServer) mustEmbedUnimplementedSystemServiceServer() {}
 func (UnimplementedSystemServiceServer) testEmbeddedByValue()                       {}
@@ -548,6 +1038,546 @@ func _SystemService_ResetPassword_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_CreateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).CreateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_CreateRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).CreateRole(ctx, req.(*CreateRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_UpdateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).UpdateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_UpdateRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).UpdateRole(ctx, req.(*UpdateRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_UpdateRolePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRolePermissionsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).UpdateRolePermissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_UpdateRolePermissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).UpdateRolePermissions(ctx, req.(*UpdateRolePermissionsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).DeleteRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_DeleteRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).DeleteRole(ctx, req.(*DeleteRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_GetRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetRole(ctx, req.(*GetRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListRole(ctx, req.(*ListRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListAllRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListAllRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListAllRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListAllRole(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_CreateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMenuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).CreateMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_CreateMenu_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).CreateMenu(ctx, req.(*CreateMenuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_UpdateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMenuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).UpdateMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_UpdateMenu_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).UpdateMenu(ctx, req.(*UpdateMenuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_DeleteMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteMenuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).DeleteMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_DeleteMenu_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).DeleteMenu(ctx, req.(*DeleteMenuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_GetMenuTree_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMenuTreeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetMenuTree(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetMenuTree_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetMenuTree(ctx, req.(*GetMenuTreeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_GetCurrentUserMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCurrentUserMenusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetCurrentUserMenus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetCurrentUserMenus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetCurrentUserMenus(ctx, req.(*GetCurrentUserMenusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_CreateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateApiReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).CreateApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_CreateApi_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).CreateApi(ctx, req.(*CreateApiReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_UpdateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateApiReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).UpdateApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_UpdateApi_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).UpdateApi(ctx, req.(*UpdateApiReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_DeleteApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteApiReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).DeleteApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_DeleteApi_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).DeleteApi(ctx, req.(*DeleteApiReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListApiReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListApi_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListApi(ctx, req.(*ListApiReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListAllApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListAllApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListAllApi_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListAllApi(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_CreateDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDictTypeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).CreateDictType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_CreateDictType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).CreateDictType(ctx, req.(*CreateDictTypeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_UpdateDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDictTypeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).UpdateDictType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_UpdateDictType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).UpdateDictType(ctx, req.(*UpdateDictTypeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_DeleteDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDictTypeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).DeleteDictType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_DeleteDictType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).DeleteDictType(ctx, req.(*DeleteDictTypeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDictTypeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListDictType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListDictType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListDictType(ctx, req.(*ListDictTypeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_CreateDictData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDictDataReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).CreateDictData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_CreateDictData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).CreateDictData(ctx, req.(*CreateDictDataReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_UpdateDictData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDictDataReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).UpdateDictData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_UpdateDictData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).UpdateDictData(ctx, req.(*UpdateDictDataReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_DeleteDictData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDictDataReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).DeleteDictData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_DeleteDictData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).DeleteDictData(ctx, req.(*DeleteDictDataReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_GetDictDataByType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDictDataByTypeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetDictDataByType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetDictDataByType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetDictDataByType(ctx, req.(*GetDictDataByTypeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLoginLogReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListLoginLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListLoginLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListLoginLog(ctx, req.(*ListLoginLogReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ClearLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearLoginLogReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ClearLoginLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ClearLoginLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ClearLoginLog(ctx, req.(*ClearLoginLogReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListOperLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOperLogReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListOperLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListOperLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListOperLog(ctx, req.(*ListOperLogReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ClearOperLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearOperLogReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ClearOperLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ClearOperLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ClearOperLog(ctx, req.(*ClearOperLogReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_WriteOperLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WriteOperLogReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).WriteOperLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_WriteOperLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).WriteOperLog(ctx, req.(*WriteOperLogReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemService_ServiceDesc is the grpc.ServiceDesc for SystemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -578,6 +1608,346 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetPassword",
 			Handler:    _SystemService_ResetPassword_Handler,
+		},
+		{
+			MethodName: "CreateRole",
+			Handler:    _SystemService_CreateRole_Handler,
+		},
+		{
+			MethodName: "UpdateRole",
+			Handler:    _SystemService_UpdateRole_Handler,
+		},
+		{
+			MethodName: "UpdateRolePermissions",
+			Handler:    _SystemService_UpdateRolePermissions_Handler,
+		},
+		{
+			MethodName: "DeleteRole",
+			Handler:    _SystemService_DeleteRole_Handler,
+		},
+		{
+			MethodName: "GetRole",
+			Handler:    _SystemService_GetRole_Handler,
+		},
+		{
+			MethodName: "ListRole",
+			Handler:    _SystemService_ListRole_Handler,
+		},
+		{
+			MethodName: "ListAllRole",
+			Handler:    _SystemService_ListAllRole_Handler,
+		},
+		{
+			MethodName: "CreateMenu",
+			Handler:    _SystemService_CreateMenu_Handler,
+		},
+		{
+			MethodName: "UpdateMenu",
+			Handler:    _SystemService_UpdateMenu_Handler,
+		},
+		{
+			MethodName: "DeleteMenu",
+			Handler:    _SystemService_DeleteMenu_Handler,
+		},
+		{
+			MethodName: "GetMenuTree",
+			Handler:    _SystemService_GetMenuTree_Handler,
+		},
+		{
+			MethodName: "GetCurrentUserMenus",
+			Handler:    _SystemService_GetCurrentUserMenus_Handler,
+		},
+		{
+			MethodName: "CreateApi",
+			Handler:    _SystemService_CreateApi_Handler,
+		},
+		{
+			MethodName: "UpdateApi",
+			Handler:    _SystemService_UpdateApi_Handler,
+		},
+		{
+			MethodName: "DeleteApi",
+			Handler:    _SystemService_DeleteApi_Handler,
+		},
+		{
+			MethodName: "ListApi",
+			Handler:    _SystemService_ListApi_Handler,
+		},
+		{
+			MethodName: "ListAllApi",
+			Handler:    _SystemService_ListAllApi_Handler,
+		},
+		{
+			MethodName: "CreateDictType",
+			Handler:    _SystemService_CreateDictType_Handler,
+		},
+		{
+			MethodName: "UpdateDictType",
+			Handler:    _SystemService_UpdateDictType_Handler,
+		},
+		{
+			MethodName: "DeleteDictType",
+			Handler:    _SystemService_DeleteDictType_Handler,
+		},
+		{
+			MethodName: "ListDictType",
+			Handler:    _SystemService_ListDictType_Handler,
+		},
+		{
+			MethodName: "CreateDictData",
+			Handler:    _SystemService_CreateDictData_Handler,
+		},
+		{
+			MethodName: "UpdateDictData",
+			Handler:    _SystemService_UpdateDictData_Handler,
+		},
+		{
+			MethodName: "DeleteDictData",
+			Handler:    _SystemService_DeleteDictData_Handler,
+		},
+		{
+			MethodName: "GetDictDataByType",
+			Handler:    _SystemService_GetDictDataByType_Handler,
+		},
+		{
+			MethodName: "ListLoginLog",
+			Handler:    _SystemService_ListLoginLog_Handler,
+		},
+		{
+			MethodName: "ClearLoginLog",
+			Handler:    _SystemService_ClearLoginLog_Handler,
+		},
+		{
+			MethodName: "ListOperLog",
+			Handler:    _SystemService_ListOperLog_Handler,
+		},
+		{
+			MethodName: "ClearOperLog",
+			Handler:    _SystemService_ClearOperLog_Handler,
+		},
+		{
+			MethodName: "WriteOperLog",
+			Handler:    _SystemService_WriteOperLog_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/sys.proto",
+}
+
+const (
+	PermissionService_CheckPermission_FullMethodName  = "/sys.PermissionService/CheckPermission"
+	PermissionService_GetUserById_FullMethodName      = "/sys.PermissionService/GetUserById"
+	PermissionService_GetRolesByUserId_FullMethodName = "/sys.PermissionService/GetRolesByUserId"
+	PermissionService_IsTokenRevoked_FullMethodName   = "/sys.PermissionService/IsTokenRevoked"
+)
+
+// PermissionServiceClient is the client API for PermissionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// 权限校验：网关中间件高频调用，读为主
+type PermissionServiceClient interface {
+	CheckPermission(ctx context.Context, in *CheckPermissionReq, opts ...grpc.CallOption) (*CheckPermissionResp, error)
+	GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
+	GetRolesByUserId(ctx context.Context, in *GetRolesByUserIdReq, opts ...grpc.CallOption) (*GetRolesByUserIdResp, error)
+	IsTokenRevoked(ctx context.Context, in *IsBlackListReq, opts ...grpc.CallOption) (*IsBlackListResp, error)
+}
+
+type permissionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPermissionServiceClient(cc grpc.ClientConnInterface) PermissionServiceClient {
+	return &permissionServiceClient{cc}
+}
+
+func (c *permissionServiceClient) CheckPermission(ctx context.Context, in *CheckPermissionReq, opts ...grpc.CallOption) (*CheckPermissionResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckPermissionResp)
+	err := c.cc.Invoke(ctx, PermissionService_CheckPermission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *permissionServiceClient) GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserByIdResp)
+	err := c.cc.Invoke(ctx, PermissionService_GetUserById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *permissionServiceClient) GetRolesByUserId(ctx context.Context, in *GetRolesByUserIdReq, opts ...grpc.CallOption) (*GetRolesByUserIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetRolesByUserIdResp)
+	err := c.cc.Invoke(ctx, PermissionService_GetRolesByUserId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *permissionServiceClient) IsTokenRevoked(ctx context.Context, in *IsBlackListReq, opts ...grpc.CallOption) (*IsBlackListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IsBlackListResp)
+	err := c.cc.Invoke(ctx, PermissionService_IsTokenRevoked_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PermissionServiceServer is the server API for PermissionService service.
+// All implementations must embed UnimplementedPermissionServiceServer
+// for forward compatibility.
+//
+// 权限校验：网关中间件高频调用，读为主
+type PermissionServiceServer interface {
+	CheckPermission(context.Context, *CheckPermissionReq) (*CheckPermissionResp, error)
+	GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error)
+	GetRolesByUserId(context.Context, *GetRolesByUserIdReq) (*GetRolesByUserIdResp, error)
+	IsTokenRevoked(context.Context, *IsBlackListReq) (*IsBlackListResp, error)
+	mustEmbedUnimplementedPermissionServiceServer()
+}
+
+// UnimplementedPermissionServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedPermissionServiceServer struct{}
+
+func (UnimplementedPermissionServiceServer) CheckPermission(context.Context, *CheckPermissionReq) (*CheckPermissionResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckPermission not implemented")
+}
+func (UnimplementedPermissionServiceServer) GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
+}
+func (UnimplementedPermissionServiceServer) GetRolesByUserId(context.Context, *GetRolesByUserIdReq) (*GetRolesByUserIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRolesByUserId not implemented")
+}
+func (UnimplementedPermissionServiceServer) IsTokenRevoked(context.Context, *IsBlackListReq) (*IsBlackListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsTokenRevoked not implemented")
+}
+func (UnimplementedPermissionServiceServer) mustEmbedUnimplementedPermissionServiceServer() {}
+func (UnimplementedPermissionServiceServer) testEmbeddedByValue()                           {}
+
+// UnsafePermissionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PermissionServiceServer will
+// result in compilation errors.
+type UnsafePermissionServiceServer interface {
+	mustEmbedUnimplementedPermissionServiceServer()
+}
+
+func RegisterPermissionServiceServer(s grpc.ServiceRegistrar, srv PermissionServiceServer) {
+	// If the following call pancis, it indicates UnimplementedPermissionServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&PermissionService_ServiceDesc, srv)
+}
+
+func _PermissionService_CheckPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckPermissionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PermissionServiceServer).CheckPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PermissionService_CheckPermission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PermissionServiceServer).CheckPermission(ctx, req.(*CheckPermissionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PermissionService_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PermissionServiceServer).GetUserById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PermissionService_GetUserById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PermissionServiceServer).GetUserById(ctx, req.(*GetUserByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PermissionService_GetRolesByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRolesByUserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PermissionServiceServer).GetRolesByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PermissionService_GetRolesByUserId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PermissionServiceServer).GetRolesByUserId(ctx, req.(*GetRolesByUserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PermissionService_IsTokenRevoked_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsBlackListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PermissionServiceServer).IsTokenRevoked(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PermissionService_IsTokenRevoked_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PermissionServiceServer).IsTokenRevoked(ctx, req.(*IsBlackListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PermissionService_ServiceDesc is the grpc.ServiceDesc for PermissionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PermissionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "sys.PermissionService",
+	HandlerType: (*PermissionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CheckPermission",
+			Handler:    _PermissionService_CheckPermission_Handler,
+		},
+		{
+			MethodName: "GetUserById",
+			Handler:    _PermissionService_GetUserById_Handler,
+		},
+		{
+			MethodName: "GetRolesByUserId",
+			Handler:    _PermissionService_GetRolesByUserId_Handler,
+		},
+		{
+			MethodName: "IsTokenRevoked",
+			Handler:    _PermissionService_IsTokenRevoked_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

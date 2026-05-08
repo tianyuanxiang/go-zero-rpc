@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"go-zero-rpc/common/response"
-	"go-zero-rpc/common/rpcerr"
 	"go-zero-rpc/gateway/internal/logic/auth"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
@@ -31,8 +30,7 @@ func ChangePasswordHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := auth.NewChangePasswordLogic(r.Context(), svcCtx)
 		err := l.ChangePassword(&req)
 		if err != nil {
-			code, msg := rpcerr.FromStatus(err)
-			response.Fail(w, r, code, msg)
+			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 		response.OkWithData(w, r, "密码修改成功")

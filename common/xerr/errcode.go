@@ -1,6 +1,20 @@
 package xerr
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+)
+
+// BusinessErrorReason ErrorInfo.Reason 字段固定值，
+// 客户端据此识别一个 gRPC status 是否承载本项目的业务错误码。
+const BusinessErrorReason = "BUSINESS_ERROR"
+
+// BusinessErrorDomain ErrorInfo.Domain 字段固定值，标识错误所属域。
+const BusinessErrorDomain = "go-zero-rpc"
 
 // 业务错误码定义
 // 编码规则：
@@ -114,4 +128,50 @@ func NewCodeError(code int) *CodeError {
 // 用于错误码相同但需要不同提示信息的场景。
 func NewCodeErrorMsg(code int, msg string) *CodeError {
 	return &CodeError{Code: code, Msg: msg}
+}
+
+// GRPCStatus 实现 gRPC 错误约定。
+//
+// gRPC 在序列化错误时若发现 error 实现了 GRPCStatus() *status.Status 方法，
+// 会直接采用其返回的 status，而不是降级为 codes.Unknown。
+// 因此 logic 层只需 return xerr.NewCodeError(...)，业务错误码会无侵入透传到客户端，无需任何手动包装或服务端拦截器。
+//
+// 业务码同时承载于两处：
+//   - status.Code()：映射到最贴近的标准 gRPC 状态码，用于通用中间件分类
+//   - status.Details() 的 ErrorInfo.Metadata["code"]：精确还原原始业务码
+func (e *CodeError) GRPCStatus() *status.Status {
+	st := status.New(toGrpcCode(e.Code), e.Msg)
+	stWithDetails, err := st.WithDetails(&errdetails.ErrorInfo{
+		Reason: BusinessErrorReason,
+		Domain: BusinessErrorDomain,
+		Metadata: map[string]string{
+			"code": strconv.Itoa(e.Code),
+		},
+	})
+	if err != nil {
+		// WithDetails 仅在 proto 序列化失败时报错，对固定字段几乎不可能发生
+		return st
+	}
+	return stWithDetails
+}
+
+// toGrpcCode 将业务错误码映射为最贴近的 gRPC 标准状态码。
+//
+// 该映射只为标准 gRPC 中间件（重试、监控、链路追踪）提供分类依据，
+// 真正的业务码通过 ErrorInfo.Metadata["code"] 精确传递，不会因映射收敛而丢失。
+func toGrpcCode(code int) codes.Code {
+	switch code {
+	case ErrParamInvalid:
+		return codes.InvalidArgument
+	case ErrUnauthorized, ErrTokenExpired, ErrTokenInvalid:
+		return codes.Unauthenticated
+	case ErrForbidden:
+		return codes.PermissionDenied
+	case ErrNotFound, ErrUserNotFound, ErrRoleNotFound, ErrMenuNotFound:
+		return codes.NotFound
+	case ErrDuplicate, ErrUsernameDuplicate, ErrEmailDuplicate, ErrPhoneDuplicate, ErrRoleCodeDuplicate:
+		return codes.AlreadyExists
+	default:
+		return codes.Internal
+	}
 }

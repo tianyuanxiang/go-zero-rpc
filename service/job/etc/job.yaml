@@ -1,0 +1,25 @@
+Name: job
+Mode: dev
+
+SysRpc:
+  Etcd:
+    Hosts:
+      - 8.140.204.47:2379
+    Key: sys.rpc
+
+BizRedis:
+  Host: 8.140.204.47:6390
+  Username: default
+  Pass: Tyx123456..
+  DB: 10
+
+Jobs:
+  ClearLoginLog:
+    Enable: false
+    Cron: "0 0 3 * * *"     # 每天 03:00:00
+    LockExpireSeconds: 600
+
+  ClearOperLog:
+    Enable: false
+    Cron: "0 */10 * * * *"  # 每 10 分钟
+    LockExpireSeconds: 600

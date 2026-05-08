@@ -6,8 +6,10 @@ package dict
 import (
 	"context"
 
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +29,34 @@ func NewUpdateDictDataLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateDictDataLogic) UpdateDictData(req *types.UpdateDictDataReq) error {
-	// todo: add your logic here and delete this line
+	operatorId := middleware.GetUserIdFromCtx(l.ctx)
+
+	rpcReq := &sys.UpdateDictDataReq{
+		Id:         int64(req.Id),
+		DictTypeId: int64(req.DictTypeId),
+		DictLabel:  req.DictLabel,
+		DictValue:  req.DictValue,
+		OperatorId: operatorId,
+	}
+
+	if req.Sort != nil {
+		rpcReq.HasSort = true
+		rpcReq.Sort = int64(*req.Sort)
+	}
+	if req.Remark != nil {
+		rpcReq.HasRemark = true
+		rpcReq.Remark = *req.Remark
+	}
+	if req.Status != nil {
+		rpcReq.HasStatus = true
+		rpcReq.Status = int64(*req.Status)
+	}
+
+	_, err := l.svcCtx.SysRpc.UpdateDictData(l.ctx, rpcReq)
+	if err != nil {
+		l.Logger.Errorf("调用UpdateDictData RPC失败, operatorId=%d, dictDataId=%d, err=%v", operatorId, req.Id, err)
+		return err
+	}
 
 	return nil
 }

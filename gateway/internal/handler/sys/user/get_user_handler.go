@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"go-zero-rpc/common/response"
-	"go-zero-rpc/common/rpcerr"
 	"go-zero-rpc/gateway/internal/logic/sys/user"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
@@ -23,8 +22,9 @@ func GetUserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := user.NewGetUserLogic(r.Context(), svcCtx)
 		resp, err := l.GetUser(&req)
 		if err != nil {
-			code, msg := rpcerr.FromStatus(err)
-			response.Fail(w, r, code, msg)
+			// 全局错误处理已在 gateway.go 中通过 httpx.SetErrorHandlerCtx 注册：
+			// 自动解析 RPC 透传的 status 错误并以统一 Response 结构返回
+			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 		response.OkWithData(w, r, resp)

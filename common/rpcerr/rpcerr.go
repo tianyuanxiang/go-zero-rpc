@@ -1,3 +1,8 @@
+// Package rpcerr 提供 gRPC 错误与业务错误码之间的客户端侧解析工具。
+//
+// 服务端无需本包：业务 logic 直接 return xerr.NewCodeError(...) 即可，
+// gRPC 框架会通过 *CodeError.GRPCStatus() 自动序列化错误，
+// 业务码透传机制完全由 xerr 包实现。
 package rpcerr
 
 import (
@@ -10,34 +15,14 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-const businessReason = "BUSINESS_ERROR"
-
-func ToStatus(err error) error {
-	if err == nil {
-		return nil
-	}
-
-	codeErr, ok := err.(*xerr.CodeError)
-	if !ok {
-		st := status.New(codes.Internal, xerr.ErrCodeMsg[xerr.ErrInternal])
-		return st.Err()
-	}
-
-	grpcCode := toGrpcCode(codeErr.Code)
-	st := status.New(grpcCode, codeErr.Msg)
-	stWithDetails, detailErr := st.WithDetails(&errdetails.ErrorInfo{
-		Reason: businessReason,
-		Domain: "go-zero-rpc",
-		Metadata: map[string]string{
-			"code": strconv.Itoa(codeErr.Code),
-		},
-	})
-	if detailErr != nil {
-		return st.Err()
-	}
-	return stWithDetails.Err()
-}
-
+// FromStatus 从 gRPC 客户端收到的 error 中解析出业务码与消息。
+//
+// 解析顺序：
+//  1. 优先从 status.Details() 的 ErrorInfo.Metadata["code"] 中提取精确业务码；
+//     这是本项目 RPC 服务通过 *CodeError.GRPCStatus() 写入的字段，能 100% 还原。
+//  2. 若没有 ErrorInfo（来自非本项目 RPC，或服务端未实现 GRPCStatus），
+//     则按标准 gRPC 状态码映射到通用业务码。
+//  3. 任何分支都保留 status.Message() 作为提示，避免吞掉服务端原始报错。
 func FromStatus(err error) (int, string) {
 	if err == nil {
 		return xerr.ErrSuccess, xerr.ErrCodeMsg[xerr.ErrSuccess]
@@ -45,12 +30,13 @@ func FromStatus(err error) (int, string) {
 
 	st, ok := status.FromError(err)
 	if !ok {
-		return xerr.ErrInternal, xerr.ErrCodeMsg[xerr.ErrInternal]
+		// 非 gRPC 错误（例如本地业务 err、网络层 err），直接透出原文便于排查
+		return xerr.ErrInternal, err.Error()
 	}
 
 	for _, detail := range st.Details() {
 		info, ok := detail.(*errdetails.ErrorInfo)
-		if !ok || info.Reason != businessReason {
+		if !ok || info.Reason != xerr.BusinessErrorReason {
 			continue
 		}
 		code, convErr := strconv.Atoi(info.Metadata["code"])
@@ -68,24 +54,12 @@ func FromStatus(err error) (int, string) {
 		return xerr.ErrForbidden, st.Message()
 	case codes.NotFound:
 		return xerr.ErrNotFound, st.Message()
+	case codes.AlreadyExists:
+		return xerr.ErrDuplicate, st.Message()
 	default:
-		return xerr.ErrInternal, xerr.ErrCodeMsg[xerr.ErrInternal]
-	}
-}
-
-func toGrpcCode(code int) codes.Code {
-	switch code {
-	case xerr.ErrParamInvalid:
-		return codes.InvalidArgument
-	case xerr.ErrUnauthorized, xerr.ErrTokenExpired, xerr.ErrTokenInvalid:
-		return codes.Unauthenticated
-	case xerr.ErrForbidden:
-		return codes.PermissionDenied
-	case xerr.ErrNotFound, xerr.ErrUserNotFound, xerr.ErrRoleNotFound, xerr.ErrMenuNotFound:
-		return codes.NotFound
-	case xerr.ErrDuplicate, xerr.ErrUsernameDuplicate, xerr.ErrEmailDuplicate, xerr.ErrPhoneDuplicate, xerr.ErrRoleCodeDuplicate:
-		return codes.AlreadyExists
-	default:
-		return codes.Internal
+		// 未识别的 grpc code（含 codes.Unknown / Internal 等）：
+		// 业务码归一到 ErrInternal，但 message 保留 status 原文，
+		// 方便定位「服务端没实现 GRPCStatus」「上游异常」等问题。
+		return xerr.ErrInternal, st.Message()
 	}
 }

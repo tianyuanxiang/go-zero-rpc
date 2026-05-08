@@ -29,7 +29,7 @@ func (l *GetUserLogic) GetUser(req *types.GetUserReq) (resp *types.UserItem, err
 		UserId: req.Id,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用GetUser RPC失败, userId=%d, err=%v", req.Id, err)
+		l.Logger.Errorf("userId=%d, err=%v", req.Id, err)
 		return nil, err
 	}
 

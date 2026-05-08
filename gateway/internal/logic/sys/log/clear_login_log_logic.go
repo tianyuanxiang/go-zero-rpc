@@ -6,8 +6,10 @@ package log
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
 	"go-zero-rpc/gateway/internal/svc"
+	"go-zero-rpc/sys-rpc/sys"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type ClearLoginLogLogic struct {
@@ -25,7 +27,11 @@ func NewClearLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 }
 
 func (l *ClearLoginLogLogic) ClearLoginLog() error {
-	// todo: add your logic here and delete this line
+	_, err := l.svcCtx.SysRpc.ClearLoginLog(l.ctx, &sys.ClearLoginLogReq{})
+	if err != nil {
+		l.Logger.Errorf("调用ClearLoginLog RPC失败, err=%v", err)
+		return err
+	}
 
 	return nil
 }

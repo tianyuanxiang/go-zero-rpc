@@ -5,7 +5,7 @@ package auth
 
 import (
 	"go-zero-rpc/common/response"
-	"go-zero-rpc/common/rpcerr"
+	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
 
 	"go-zero-rpc/gateway/internal/logic/auth"
@@ -17,8 +17,7 @@ func LogoutHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := auth.NewLogoutLogic(r.Context(), svcCtx)
 		err := l.Logout(r)
 		if err != nil {
-			code, msg := rpcerr.FromStatus(err)
-			response.Fail(w, r, code, msg)
+			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		} else {
 			response.OK(w, r)

@@ -187,440 +187,440 @@ message ListUserResp {
   repeated UserItem list = 2;
 }
 
-// ==================== System: 角色管理（待启用） ====================
-//
-// message CreateRoleReq {
-//   string role_name = 1;
-//   string role_code = 2;
-//   int64 sort = 3;
-//   string remark = 4;
-//   repeated int64 menu_ids = 5;
-//   repeated int64 api_ids = 6;
-//   int64 operator_id = 20;
-// }
-//
-// message CreateRoleResp {
-//   int64 role_id = 1;
-// }
-//
-// message UpdateRoleReq {
-//   int64 id = 1;
-//
-//   string role_code = 2;
-//   bool has_role_code = 3;
-//
-//   string role_name = 4;
-//   bool has_role_name = 5;
-//
-//   int64 sort = 6;
-//   bool has_sort = 7;
-//
-//   string remark = 8;
-//   bool has_remark = 9;
-//
-//   int64 operator_id = 20;
-// }
-//
-// message UpdateRolePermissionsReq {
-//   int64 id = 1;
-//   repeated int64 menu_ids = 2;
-//   repeated int64 api_ids = 3;
-//   int64 operator_id = 20;
-// }
-//
-// message DeleteRoleReq {
-//   int64 role_id = 1;
-//   int64 operator_id = 2;
-// }
-//
-// message GetRoleReq {
-//   int64 role_id = 1;
-// }
-//
-// message ListRoleReq {
-//   int64 page = 1;
-//   int64 page_size = 2;
-//   string keyword = 3;
-// }
-//
-// message RoleItem {
-//   int64 id = 1;
-//   string role_name = 2;
-//   string role_code = 3;
-//   int64 status = 4;
-//   int64 sort = 5;
-//   string remark = 6;
-//   string created_at = 7;
-// }
-//
-// message RoleOption {
-//   int64 id = 1;
-//   string role_name = 2;
-//   string role_code = 3;
-// }
-//
-// message ListRoleResp {
-//   int64 total = 1;
-//   repeated RoleItem list = 2;
-// }
-//
-// message ListAllRoleResp {
-//   repeated RoleOption list_all = 1;
-// }
+// ==================== System: 角色管理 ====================
 
-// ==================== System: 菜单管理（待启用） ====================
-//
-// message CreateMenuReq {
-//   int64 parent_id = 1;
-//   string menu_name = 2;
-//   int64 menu_type = 3;
-//   string path = 4;
-//   string component = 5;
-//   string icon = 6;
-//   int64 sort = 7;
-//   string perms = 8;
-//   int64 status = 9;
-//   string remark = 10;
-//   int64 operator_id = 20;
-// }
-//
-// message CreateMenuResp {
-//   int64 menu_id = 1;
-// }
-//
-// message UpdateMenuReq {
-//   int64 id = 1;
-//
-//   int64 parent_id = 2;
-//   bool has_parent_id = 3;
-//
-//   string menu_name = 4;
-//   bool has_menu_name = 5;
-//
-//   int64 menu_type = 6;
-//   bool has_menu_type = 7;
-//
-//   string path = 8;
-//   bool has_path = 9;
-//
-//   string component = 10;
-//   bool has_component = 11;
-//
-//   string icon = 12;
-//   bool has_icon = 13;
-//
-//   int64 sort = 14;
-//   bool has_sort = 15;
-//
-//   string perms = 16;
-//   bool has_perms = 17;
-//
-//   int64 status = 18;
-//   bool has_status = 19;
-//
-//   int64 visible = 20;
-//   bool has_visible = 21;
-//
-//   string remark = 22;
-//   bool has_remark = 23;
-//
-//   int64 operator_id = 30;
-// }
-//
-// message DeleteMenuReq {
-//   int64 menu_id = 1;
-//   int64 operator_id = 2;
-// }
-//
-// message GetMenuTreeReq {}
-//
-// message GetCurrentUserMenusReq {
-//   int64 user_id = 1;
-// }
-//
-// message MenuTreeResp {
-//   repeated MenuItem list = 1;
-// }
+message CreateRoleReq {
+  string role_name = 1;
+  string role_code = 2;
+  int64 sort = 3;
+  string remark = 4;
+  repeated int64 menu_ids = 5;
+  repeated int64 api_ids = 6;
+  int64 operator_id = 20;
+}
 
-// ==================== System: API 接口管理（待启用） ====================
-//
-// message CreateApiReq {
-//   string api_name = 1;
-//   string api_path = 2;
-//   string method = 3;
-//   string group = 4;
-//   string remark = 5;
-//   int64 operator_id = 20;
-// }
-//
-// message CreateApiResp {
-//   int64 api_id = 1;
-// }
-//
-// message UpdateApiReq {
-//   int64 id = 1;
-//
-//   string api_name = 2;
-//   bool has_api_name = 3;
-//
-//   string api_path = 4;
-//   bool has_api_path = 5;
-//
-//   string method = 6;
-//   bool has_method = 7;
-//
-//   string group = 8;
-//   bool has_group = 9;
-//
-//   string remark = 10;
-//   bool has_remark = 11;
-//
-//   int64 operator_id = 20;
-// }
-//
-// message DeleteApiReq {
-//   int64 api_id = 1;
-//   int64 operator_id = 2;
-// }
-//
-// message ListApiReq {
-//   int64 page = 1;
-//   int64 page_size = 2;
-//   string keyword = 3;
-//   string group = 4;
-// }
-//
-// message ApiItem {
-//   int64 id = 1;
-//   string api_name = 2;
-//   string api_path = 3;
-//   string method = 4;
-//   string group = 5;
-//   string remark = 6;
-//   string created_at = 7;
-// }
-//
-// message ApiOption {
-//   int64 id = 1;
-//   string api_name = 2;
-//   string api_path = 3;
-//   string remark = 4;
-// }
-//
-// message ListApiResp {
-//   int64 total = 1;
-//   repeated ApiItem list = 2;
-// }
-//
-// message ListAllApiResp {
-//   repeated ApiOption list_all = 1;
-// }
+message CreateRoleResp {
+  int64 role_id = 1;
+}
 
-// ==================== System: 字典管理（待启用） ====================
-//
-// message CreateDictTypeReq {
-//   string dict_name = 1;
-//   string dict_code = 2;
-//   string remark = 3;
-//   int64 status = 4;
-//   int64 operator_id = 20;
-// }
-//
-// message CreateDictTypeResp {
-//   int64 dict_type_id = 1;
-// }
-//
-// message UpdateDictTypeReq {
-//   int64 id = 1;
-//
-//   string dict_name = 2;
-//   bool has_dict_name = 3;
-//
-//   string dict_code = 4;
-//   bool has_dict_code = 5;
-//
-//   string remark = 6;
-//   bool has_remark = 7;
-//
-//   int64 status = 8;
-//   bool has_status = 9;
-//
-//   int64 operator_id = 20;
-// }
-//
-// message DeleteDictTypeReq {
-//   int64 dict_type_id = 1;
-//   int64 operator_id = 2;
-// }
-//
-// message ListDictTypeReq {
-//   int64 page = 1;
-//   int64 page_size = 2;
-//   string keyword = 3;
-// }
-//
-// message DictTypeItem {
-//   int64 id = 1;
-//   string dict_name = 2;
-//   string dict_code = 3;
-//   string remark = 4;
-//   int64 status = 5;
-//   string created_at = 6;
-// }
-//
-// message ListDictTypeResp {
-//   int64 total = 1;
-//   repeated DictTypeItem list = 2;
-// }
-//
-// message CreateDictDataReq {
-//   int64 dict_type_id = 1;
-//   string dict_label = 2;
-//   string dict_value = 3;
-//   int64 sort = 4;
-//   string remark = 5;
-//   int64 status = 6;
-//   int64 operator_id = 20;
-// }
-//
-// message CreateDictDataResp {
-//   int64 dict_data_id = 1;
-// }
-//
-// message UpdateDictDataReq {
-//   int64 id = 1;
-//   int64 dict_type_id = 2;
-//   string dict_label = 3;
-//   string dict_value = 4;
-//
-//   int64 sort = 5;
-//   bool has_sort = 6;
-//
-//   string remark = 7;
-//   bool has_remark = 8;
-//
-//   int64 status = 9;
-//   bool has_status = 10;
-//
-//   int64 operator_id = 20;
-// }
-//
-// message DeleteDictDataReq {
-//   int64 dict_data_id = 1;
-//   int64 operator_id = 2;
-// }
-//
-// message GetDictDataByTypeReq {
-//   int64 dict_type_id = 1;
-// }
-//
-// message DictDataItem {
-//   int64 id = 1;
-//   int64 dict_type = 2;
-//   string dict_label = 3;
-//   string dict_value = 4;
-//   int64 sort = 5;
-//   string remark = 6;
-//   int64 status = 7;
-// }
-//
-// message ListDictDataResp {
-//   int64 total = 1;
-//   repeated DictDataItem list = 2;
-// }
+message UpdateRoleReq {
+  int64 id = 1;
 
-// ==================== System: 日志管理（待启用） ====================
-//
-// message ListLoginLogReq {
-//   int64 page = 1;
-//   int64 page_size = 2;
-//   string keyword = 3;
-//
-//   int64 status = 4;
-//   bool has_status = 5;
-//
-//   string start_time = 6;
-//   string end_time = 7;
-// }
-//
-// message LoginLogItem {
-//   int64 id = 1;
-//   int64 user_id = 2;
-//   string username = 3;
-//   string ip = 4;
-//   string location = 5;
-//   string user_agent = 6;
-//   string os = 7;
-//   int64 status = 8;
-//   string msg = 9;
-//   string login_time = 10;
-// }
-//
-// message ListLoginLogResp {
-//   int64 total = 1;
-//   repeated LoginLogItem list = 2;
-// }
-//
-// message ClearLoginLogReq {
-//   // 如果是清空全部，保持空即可；如果未来要按条件清空，再加字段。
-// }
-//
-// message ListOperLogReq {
-//   int64 page = 1;
-//   int64 page_size = 2;
-//   string keyword = 3;
-//   string business_type = 4;
-//
-//   int64 status = 5;
-//   bool has_status = 6;
-//
-//   string start_time = 7;
-//   string end_time = 8;
-// }
-//
-// message OperLogItem {
-//   int64 id = 1;
-//   string title = 2;
-//   string oper_type = 3;
-//   string method = 4;
-//   string req_method = 5;
-//   string oper_name = 6;
-//   string dept_name = 7;
-//   string req_url = 8;
-//   string req_param = 9;
-//   string resp_result = 10;
-//   int64 status = 11;
-//   string ip = 12;
-//   string oper_time = 13;
-// }
-//
-// message ListOperLogResp {
-//   int64 total = 1;
-//   repeated OperLogItem list = 2;
-// }
-//
-// message ClearOperLogReq {}
-//
-// message WriteOperLogReq {
-//   string title = 1;
-//   string oper_type = 2;
-//   string method = 3;
-//   string req_method = 4;
-//   int64 oper_user_id = 5;
-//   string oper_name = 6;
-//   string req_url = 7;
-//   string req_param = 8;
-//   string resp_result = 9;
-//   int64 status = 10;
-//   string ip = 11;
-//   string user_agent = 12;
-//   string error_msg = 13;
-//   int64 cost_time_ms = 14;
-// }
-//
-// message WriteOperLogResp {
-//   int64 id = 1;
-// }
+  string role_code = 2;
+  bool has_role_code = 3;
+
+  string role_name = 4;
+  bool has_role_name = 5;
+
+  int64 sort = 6;
+  bool has_sort = 7;
+
+  string remark = 8;
+  bool has_remark = 9;
+
+  int64 operator_id = 20;
+}
+
+message UpdateRolePermissionsReq {
+  int64 id = 1;
+  repeated int64 menu_ids = 2;
+  repeated int64 api_ids = 3;
+  int64 operator_id = 20;
+}
+
+message DeleteRoleReq {
+  int64 role_id = 1;
+  int64 operator_id = 2;
+}
+
+message GetRoleReq {
+  int64 role_id = 1;
+}
+
+message ListRoleReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string keyword = 3;
+}
+
+message RoleItem {
+  int64 id = 1;
+  string role_name = 2;
+  string role_code = 3;
+  int64 status = 4;
+  int64 sort = 5;
+  string remark = 6;
+  string created_at = 7;
+}
+
+message RoleOption {
+  int64 id = 1;
+  string role_name = 2;
+  string role_code = 3;
+}
+
+message ListRoleResp {
+  int64 total = 1;
+  repeated RoleItem list = 2;
+}
+
+message ListAllRoleResp {
+  repeated RoleOption list_all = 1;
+}
+
+// ==================== System: 菜单管理 ====================
+
+message CreateMenuReq {
+  int64 parent_id = 1;
+  string menu_name = 2;
+  int64 menu_type = 3;
+  string path = 4;
+  string component = 5;
+  string icon = 6;
+  int64 sort = 7;
+  string perms = 8;
+  int64 status = 9;
+  string remark = 10;
+  int64 operator_id = 20;
+}
+
+message CreateMenuResp {
+  int64 menu_id = 1;
+}
+
+message UpdateMenuReq {
+  int64 id = 1;
+
+  int64 parent_id = 2;
+  bool has_parent_id = 3;
+
+  string menu_name = 4;
+  bool has_menu_name = 5;
+
+  int64 menu_type = 6;
+  bool has_menu_type = 7;
+
+  string path = 8;
+  bool has_path = 9;
+
+  string component = 10;
+  bool has_component = 11;
+
+  string icon = 12;
+  bool has_icon = 13;
+
+  int64 sort = 14;
+  bool has_sort = 15;
+
+  string perms = 16;
+  bool has_perms = 17;
+
+  int64 status = 18;
+  bool has_status = 19;
+
+  int64 visible = 20;
+  bool has_visible = 21;
+
+  string remark = 22;
+  bool has_remark = 23;
+
+  int64 operator_id = 30;
+}
+
+message DeleteMenuReq {
+  int64 menu_id = 1;
+  int64 operator_id = 2;
+}
+
+message GetMenuTreeReq {}
+
+message GetCurrentUserMenusReq {
+  int64 user_id = 1;
+}
+
+message MenuTreeResp {
+  repeated MenuItem list = 1;
+}
+
+// ==================== System: API 接口管理 ====================
+
+message CreateApiReq {
+  string api_name = 1;
+  string api_path = 2;
+  string method = 3;
+  string group = 4;
+  string remark = 5;
+  int64 operator_id = 20;
+}
+
+message CreateApiResp {
+  int64 api_id = 1;
+}
+
+message UpdateApiReq {
+  int64 id = 1;
+
+  string api_name = 2;
+  bool has_api_name = 3;
+
+  string api_path = 4;
+  bool has_api_path = 5;
+
+  string method = 6;
+  bool has_method = 7;
+
+  string group = 8;
+  bool has_group = 9;
+
+  string remark = 10;
+  bool has_remark = 11;
+
+  int64 operator_id = 20;
+}
+
+message DeleteApiReq {
+  int64 api_id = 1;
+  int64 operator_id = 2;
+}
+
+message ListApiReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string keyword = 3;
+  string group = 4;
+}
+
+message ApiItem {
+  int64 id = 1;
+  string api_name = 2;
+  string api_path = 3;
+  string method = 4;
+  string group = 5;
+  string remark = 6;
+  string created_at = 7;
+}
+
+message ApiOption {
+  int64 id = 1;
+  string api_name = 2;
+  string api_path = 3;
+  string remark = 4;
+}
+
+message ListApiResp {
+  int64 total = 1;
+  repeated ApiItem list = 2;
+}
+
+message ListAllApiResp {
+  repeated ApiOption list_all = 1;
+}
+
+// ==================== System: 字典管理 ====================
+
+message CreateDictTypeReq {
+  string dict_name = 1;
+  string dict_code = 2;
+  string remark = 3;
+  int64 status = 4;
+  int64 operator_id = 20;
+}
+
+message CreateDictTypeResp {
+  int64 dict_type_id = 1;
+}
+
+message UpdateDictTypeReq {
+  int64 id = 1;
+
+  string dict_name = 2;
+  bool has_dict_name = 3;
+
+  string dict_code = 4;
+  bool has_dict_code = 5;
+
+  string remark = 6;
+  bool has_remark = 7;
+
+  int64 status = 8;
+  bool has_status = 9;
+
+  int64 operator_id = 20;
+}
+
+message DeleteDictTypeReq {
+  int64 dict_type_id = 1;
+  int64 operator_id = 2;
+}
+
+message ListDictTypeReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string keyword = 3;
+}
+
+message DictTypeItem {
+  int64 id = 1;
+  string dict_name = 2;
+  string dict_code = 3;
+  string remark = 4;
+  int64 status = 5;
+  string created_at = 6;
+}
+
+message ListDictTypeResp {
+  int64 total = 1;
+  repeated DictTypeItem list = 2;
+}
+
+message CreateDictDataReq {
+  int64 dict_type_id = 1;
+  string dict_label = 2;
+  string dict_value = 3;
+  int64 sort = 4;
+  string remark = 5;
+  int64 status = 6;
+  int64 operator_id = 20;
+}
+
+message CreateDictDataResp {
+  int64 dict_data_id = 1;
+}
+
+message UpdateDictDataReq {
+  int64 id = 1;
+  int64 dict_type_id = 2;
+  string dict_label = 3;
+  string dict_value = 4;
+
+  int64 sort = 5;
+  bool has_sort = 6;
+
+  string remark = 7;
+  bool has_remark = 8;
+
+  int64 status = 9;
+  bool has_status = 10;
+
+  int64 operator_id = 20;
+}
+
+message DeleteDictDataReq {
+  int64 dict_data_id = 1;
+  int64 operator_id = 2;
+}
+
+message GetDictDataByTypeReq {
+  int64 dict_type_id = 1;
+}
+
+message DictDataItem {
+  int64 id = 1;
+  int64 dict_type = 2;
+  string dict_label = 3;
+  string dict_value = 4;
+  int64 sort = 5;
+  string remark = 6;
+  int64 status = 7;
+}
+
+message ListDictDataResp {
+  int64 total = 1;
+  repeated DictDataItem list = 2;
+}
+
+// ==================== System: 日志管理 ====================
+
+message ListLoginLogReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string keyword = 3;
+
+  int64 status = 4;
+  bool has_status = 5;
+
+  string start_time = 6;
+  string end_time = 7;
+}
+
+message LoginLogItem {
+  int64 id = 1;
+  int64 user_id = 2;
+  string username = 3;
+  string ip = 4;
+  string location = 5;
+  string user_agent = 6;
+  string os = 7;
+  int64 status = 8;
+  string msg = 9;
+  string login_time = 10;
+}
+
+message ListLoginLogResp {
+  int64 total = 1;
+  repeated LoginLogItem list = 2;
+}
+
+message ClearLoginLogReq {
+  // 如果是清空全部，保持空即可；如果未来要按条件清空，再加字段。
+}
+
+message ListOperLogReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string keyword = 3;
+  string business_type = 4;
+
+  int64 status = 5;
+  bool has_status = 6;
+
+  string start_time = 7;
+  string end_time = 8;
+}
+
+message OperLogItem {
+  int64 id = 1;
+  string title = 2;
+  string oper_type = 3;
+  string method = 4;
+  string req_method = 5;
+  string oper_name = 6;
+  string dept_name = 7;
+  string req_url = 8;
+  string req_param = 9;
+  string resp_result = 10;
+  int64 status = 11;
+  string ip = 12;
+  string oper_time = 13;
+}
+
+message ListOperLogResp {
+  int64 total = 1;
+  repeated OperLogItem list = 2;
+}
+
+message ClearOperLogReq {}
+
+message WriteOperLogReq {
+  string title = 1;
+  string oper_type = 2;
+  string method = 3;
+  string req_method = 4;
+  int64 oper_user_id = 5;
+  string oper_name = 6;
+  string req_url = 7;
+  string req_param = 8;
+  string resp_result = 9;
+  int64 status = 10;
+  string ip = 11;
+  string user_agent = 12;
+  string error_msg = 13;
+  int64 cost_time_ms = 14;
+}
+
+message WriteOperLogResp {
+  int64 id = 1;
+}
 
 // ==================== System: 文件管理（待启用） ====================
 //
@@ -660,39 +660,49 @@ message ListUserResp {
 //   repeated FileInfo list = 2;
 // }
 
-// ==================== Permission: 权限校验（待启用） ====================
+// ==================== Permission: 权限校验 ====================
 // 由网关中间件高频调用，读为主
-//
-// message CheckPermissionReq {
-//   int64 user_id = 1;
-//   string path = 2;
-//   string method = 3;
-// }
-//
-// message CheckPermissionResp {
-//   bool allowed = 1;
-// }
-//
-// message GetUserByIdReq {
-//   int64 user_id = 1;
-// }
-//
-// message GetUserByIdResp {
-//   int64 user_id = 1;
-//   string username = 2;
-//   string nickname = 3;
-//   string email = 4;
-//   string phone = 5;
-//   string avatar = 6;
-// }
-//
-// message GetRolesByUserIdReq {
-//   int64 user_id = 1;
-// }
-//
-// message GetRolesByUserIdResp {
-//   repeated string role_codes = 1;
-// }
+
+message CheckPermissionReq {
+  int64 user_id = 1;
+  string path = 2;
+  string method = 3;
+}
+
+message CheckPermissionResp {
+  bool allowed = 1;
+  string reason = 2;
+}
+
+message GetUserByIdReq {
+  int64 user_id = 1;
+}
+
+message GetUserByIdResp {
+  int64 user_id = 1;
+  string username = 2;
+  string nickname = 3;
+  string email = 4;
+  string phone = 5;
+  string avatar = 6;
+}
+
+message GetRolesByUserIdReq {
+  int64 user_id = 1;
+}
+
+message GetRolesByUserIdResp {
+  repeated string role_codes = 1;
+}
+
+// 黑名单查询
+message IsBlackListReq{
+  string blacklist_key = 1;
+}
+
+message IsBlackListResp{
+  bool is_black = 1;
+}
 
 // ==================== 服务定义 ====================
 
@@ -720,45 +730,45 @@ service SystemService {
   rpc ListUser(ListUserReq) returns (ListUserResp);
   rpc ResetPassword(ResetPasswordReq) returns (Empty);
 
-  // 角色管理（待启用）
-  // rpc CreateRole(CreateRoleReq) returns (CreateRoleResp);
-  // rpc UpdateRole(UpdateRoleReq) returns (Empty);
-  // rpc UpdateRolePermissions(UpdateRolePermissionsReq) returns (Empty);
-  // rpc DeleteRole(DeleteRoleReq) returns (Empty);
-  // rpc GetRole(GetRoleReq) returns (RoleItem);
-  // rpc ListRole(ListRoleReq) returns (ListRoleResp);
-  // rpc ListAllRole(Empty) returns (ListAllRoleResp);
+  // 角色管理
+  rpc CreateRole(CreateRoleReq) returns (CreateRoleResp);
+  rpc UpdateRole(UpdateRoleReq) returns (Empty);
+  rpc UpdateRolePermissions(UpdateRolePermissionsReq) returns (Empty);
+  rpc DeleteRole(DeleteRoleReq) returns (Empty);
+  rpc GetRole(GetRoleReq) returns (RoleItem);
+  rpc ListRole(ListRoleReq) returns (ListRoleResp);
+  rpc ListAllRole(Empty) returns (ListAllRoleResp);
 
-  // 菜单管理（待启用）
-  // rpc CreateMenu(CreateMenuReq) returns (CreateMenuResp);
-  // rpc UpdateMenu(UpdateMenuReq) returns (Empty);
-  // rpc DeleteMenu(DeleteMenuReq) returns (Empty);
-  // rpc GetMenuTree(GetMenuTreeReq) returns (MenuTreeResp);
-  // rpc GetCurrentUserMenus(GetCurrentUserMenusReq) returns (MenuTreeResp);
+  // 菜单管理
+  rpc CreateMenu(CreateMenuReq) returns (CreateMenuResp);
+  rpc UpdateMenu(UpdateMenuReq) returns (Empty);
+  rpc DeleteMenu(DeleteMenuReq) returns (Empty);
+  rpc GetMenuTree(GetMenuTreeReq) returns (MenuTreeResp);
+  rpc GetCurrentUserMenus(GetCurrentUserMenusReq) returns (MenuTreeResp);
 
-  // API 接口管理（待启用）
-  // rpc CreateApi(CreateApiReq) returns (CreateApiResp);
-  // rpc UpdateApi(UpdateApiReq) returns (Empty);
-  // rpc DeleteApi(DeleteApiReq) returns (Empty);
-  // rpc ListApi(ListApiReq) returns (ListApiResp);
-  // rpc ListAllApi(Empty) returns (ListAllApiResp);
+  // API 接口管理
+  rpc CreateApi(CreateApiReq) returns (CreateApiResp);
+  rpc UpdateApi(UpdateApiReq) returns (Empty);
+  rpc DeleteApi(DeleteApiReq) returns (Empty);
+  rpc ListApi(ListApiReq) returns (ListApiResp);
+  rpc ListAllApi(Empty) returns (ListAllApiResp);
 
-  // 字典管理（待启用）
-  // rpc CreateDictType(CreateDictTypeReq) returns (CreateDictTypeResp);
-  // rpc UpdateDictType(UpdateDictTypeReq) returns (Empty);
-  // rpc DeleteDictType(DeleteDictTypeReq) returns (Empty);
-  // rpc ListDictType(ListDictTypeReq) returns (ListDictTypeResp);
-  // rpc CreateDictData(CreateDictDataReq) returns (CreateDictDataResp);
-  // rpc UpdateDictData(UpdateDictDataReq) returns (Empty);
-  // rpc DeleteDictData(DeleteDictDataReq) returns (Empty);
-  // rpc GetDictDataByType(GetDictDataByTypeReq) returns (ListDictDataResp);
+  // 字典管理
+  rpc CreateDictType(CreateDictTypeReq) returns (CreateDictTypeResp);
+  rpc UpdateDictType(UpdateDictTypeReq) returns (Empty);
+  rpc DeleteDictType(DeleteDictTypeReq) returns (Empty);
+  rpc ListDictType(ListDictTypeReq) returns (ListDictTypeResp);
+  rpc CreateDictData(CreateDictDataReq) returns (CreateDictDataResp);
+  rpc UpdateDictData(UpdateDictDataReq) returns (Empty);
+  rpc DeleteDictData(DeleteDictDataReq) returns (Empty);
+  rpc GetDictDataByType(GetDictDataByTypeReq) returns (ListDictDataResp);
 
-  // 日志管理（待启用）
-  // rpc ListLoginLog(ListLoginLogReq) returns (ListLoginLogResp);
-  // rpc ClearLoginLog(ClearLoginLogReq) returns (Empty);
-  // rpc ListOperLog(ListOperLogReq) returns (ListOperLogResp);
-  // rpc ClearOperLog(ClearOperLogReq) returns (Empty);
-  // rpc WriteOperLog(WriteOperLogReq) returns (WriteOperLogResp);
+  // 日志管理
+  rpc ListLoginLog(ListLoginLogReq) returns (ListLoginLogResp);
+  rpc ClearLoginLog(ClearLoginLogReq) returns (Empty);
+  rpc ListOperLog(ListOperLogReq) returns (ListOperLogResp);
+  rpc ClearOperLog(ClearOperLogReq) returns (Empty);
+  rpc WriteOperLog(WriteOperLogReq) returns (WriteOperLogResp);
 
   // 文件管理（待启用）
   // rpc RegisterFile(RegisterFileReq) returns (RegisterFileResp);
@@ -766,9 +776,10 @@ service SystemService {
   // rpc ListFile(ListFileReq) returns (ListFileResp);
 }
 
-// 权限校验：网关中间件高频调用，读为主（待启用）
-// service PermissionService {
-//   rpc CheckPermission(CheckPermissionReq) returns (CheckPermissionResp);
-//   rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp);
-//   rpc GetRolesByUserId(GetRolesByUserIdReq) returns (GetRolesByUserIdResp);
-// }
+// 权限校验：网关中间件高频调用，读为主
+service PermissionService {
+  rpc CheckPermission(CheckPermissionReq) returns (CheckPermissionResp);
+  rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp);
+  rpc GetRolesByUserId(GetRolesByUserIdReq) returns (GetRolesByUserIdResp);
+  rpc IsTokenRevoked(IsBlackListReq) returns (IsBlackListResp);
+}

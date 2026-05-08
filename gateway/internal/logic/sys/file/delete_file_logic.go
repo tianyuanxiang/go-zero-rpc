@@ -24,8 +24,9 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteFileLogic) DeleteFile() error {
-	// todo: add your logic here and delete this line
+func (l *DeleteFileLogic) DeleteFile(fileId int64) error {
+	// TODO: 文件删除RPC（RegisterFile/DeleteFile/ListFile）尚未实现，
+	// proto 中对应的 rpc 定义已注释，待后续开启后补全此逻辑。
 
 	return nil
 }

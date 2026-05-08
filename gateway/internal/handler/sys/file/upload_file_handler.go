@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"go-zero-rpc/common/response"
 	"go-zero-rpc/gateway/internal/logic/sys/file"
 	"go-zero-rpc/gateway/internal/svc"
 )
@@ -18,7 +19,7 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.OkWithData(w, r, resp)
 		}
 	}
 }

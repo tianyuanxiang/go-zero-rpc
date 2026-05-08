@@ -8,6 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +28,25 @@ func NewListAllRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListA
 }
 
 func (l *ListAllRoleLogic) ListAllRole() (resp *types.ListAllResp, err error) {
-	// todo: add your logic here and delete this line
+	rpcResp, err := l.svcCtx.SysRpc.ListAllRole(l.ctx, &sys.Empty{})
+	if err != nil {
+		l.Logger.Errorf("调用ListAllRole RPC失败, err=%v", err)
+		return nil, err
+	}
 
-	return
+	listAll := make([]types.RoleOption, 0, len(rpcResp.ListAll))
+	for _, item := range rpcResp.ListAll {
+		if item == nil {
+			continue
+		}
+		listAll = append(listAll, types.RoleOption{
+			Id:       item.Id,
+			RoleName: item.RoleName,
+			RoleCode: item.RoleCode,
+		})
+	}
+
+	return &types.ListAllResp{
+		ListAll: listAll,
+	}, nil
 }

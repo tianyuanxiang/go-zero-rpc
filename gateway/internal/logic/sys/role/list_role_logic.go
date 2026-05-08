@@ -8,6 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +28,34 @@ func NewListRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListRole
 }
 
 func (l *ListRoleLogic) ListRole(req *types.ListRoleReq) (resp *types.ListRoleResp, err error) {
-	// todo: add your logic here and delete this line
+	rpcResp, err := l.svcCtx.SysRpc.ListRole(l.ctx, &sys.ListRoleReq{
+		Page:     int64(req.Page),
+		PageSize: int64(req.PageSize),
+		Keyword:  req.Keyword,
+	})
+	if err != nil {
+		l.Logger.Errorf("调用ListRole RPC失败, err=%v", err)
+		return nil, err
+	}
 
-	return
+	list := make([]types.RoleItem, 0, len(rpcResp.List))
+	for _, item := range rpcResp.List {
+		if item == nil {
+			continue
+		}
+		list = append(list, types.RoleItem{
+			Id:        item.Id,
+			RoleName:  item.RoleName,
+			RoleCode:  item.RoleCode,
+			Status:    int(item.Status),
+			Sort:      int(item.Sort),
+			Remark:    item.Remark,
+			CreatedAt: item.CreatedAt,
+		})
+	}
+
+	return &types.ListRoleResp{
+		Total: rpcResp.Total,
+		List:  list,
+	}, nil
 }
