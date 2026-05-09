@@ -7,7 +7,7 @@ package server
 import (
 	"context"
 
-	"go-zero-rpc/sys-rpc/internal/logic/systemservice"
+	systemservicelogic "go-zero-rpc/sys-rpc/internal/logic/systemservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	"go-zero-rpc/sys-rpc/sys"
 )
@@ -207,4 +207,20 @@ func (s *SystemServiceServer) ClearOperLog(ctx context.Context, in *sys.ClearOpe
 func (s *SystemServiceServer) WriteOperLog(ctx context.Context, in *sys.WriteOperLogReq) (*sys.WriteOperLogResp, error) {
 	l := systemservicelogic.NewWriteOperLogLogic(ctx, s.svcCtx)
 	return l.WriteOperLog(in)
+}
+
+// 文件管理（待启用）
+func (s *SystemServiceServer) RegisterFile(ctx context.Context, in *sys.RegisterFileReq) (*sys.RegisterFileResp, error) {
+	l := systemservicelogic.NewRegisterFileLogic(ctx, s.svcCtx)
+	return l.RegisterFile(in)
+}
+
+func (s *SystemServiceServer) DeleteFile(ctx context.Context, in *sys.DeleteFileReq) (*sys.Empty, error) {
+	l := systemservicelogic.NewDeleteFileLogic(ctx, s.svcCtx)
+	return l.DeleteFile(in)
+}
+
+func (s *SystemServiceServer) ListFile(ctx context.Context, in *sys.ListFileReq) (*sys.ListFileResp, error) {
+	l := systemservicelogic.NewListFileLogic(ctx, s.svcCtx)
+	return l.ListFile(in)
 }

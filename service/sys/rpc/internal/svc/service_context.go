@@ -12,6 +12,7 @@ import (
 	pkgsqlx "go-zero-rpc/sys-rpc/pkg/sqlx"
 
 	casbinv2 "github.com/casbin/casbin/v2"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -46,10 +47,10 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	rawConn := sqlx.NewMysql(c.DB.DataSource)
+	rawConn := sqlx.NewSqlConn("pgx", c.DB.DataSource)
 	conn := pkgsqlx.NewTimeoutConn(rawConn, 30*time.Second)
 
-	db := orm.NewMysql(&orm.Config{
+	db := orm.NewPostgres(&orm.Config{
 		DSN:         c.DB.DataSource,
 		Active:      20,
 		Idle:        10,

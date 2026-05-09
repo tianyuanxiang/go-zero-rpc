@@ -19,6 +19,7 @@ type (
 		sysDictTypeModel
 		SoftDeleteDictTypeTrans(ctx context.Context, tx *gorm.DB, dictTypeId int64) error
 		List(ctx context.Context, page, pageSize int, keyword string) ([]*SysDictType, int64, error)
+		InsertDictTypeReturningId(ctx context.Context, data *SysDictType) (int64, error)
 		UpdateDictType(ctx context.Context, id int64, updates map[string]interface{}) error
 	}
 
@@ -56,6 +57,11 @@ func (m *customSysDictTypeModel) List(ctx context.Context, page, pageSize int, k
 		return nil, 0, err
 	}
 	return dictTypes, total, nil
+}
+
+func (m *customSysDictTypeModel) InsertDictTypeReturningId(ctx context.Context, data *SysDictType) (int64, error) {
+	result := m.db.WithContext(ctx).Table("sys_dict_type").Create(data)
+	return data.Id, result.Error
 }
 
 func (m *customSysDictTypeModel) SoftDeleteDictTypeTrans(ctx context.Context, tx *gorm.DB, dictTypeId int64) error {

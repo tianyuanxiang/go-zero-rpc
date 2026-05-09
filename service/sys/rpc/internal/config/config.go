@@ -18,9 +18,9 @@ type Config struct {
 		RefreshExpire int64
 	}
 
-	// DB MySQL数据库配置
+	// DB PostgreSQL数据库配置
 	DB struct {
-		// DataSource MySQL连接字符串，格式：user:pass@tcp(host:port)/dbname?charset=utf8mb4&parseTime=True&loc=Local
+		// DataSource PostgreSQL连接字符串，格式：postgres://user:pass@host:port/dbname?sslmode=disable&TimeZone=Asia/Shanghai
 		DataSource string
 	}
 

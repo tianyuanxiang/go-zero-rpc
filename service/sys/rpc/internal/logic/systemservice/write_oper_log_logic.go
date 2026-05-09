@@ -69,15 +69,9 @@ func (l *WriteOperLogLogic) WriteOperLog(in *sys.WriteOperLogReq) (*sys.WriteOpe
 		OperTime: time.Now(),
 	}
 
-	res, err := l.svcCtx.SysOperLogModel.Insert(l.ctx, operLog)
+	logId, err := l.svcCtx.SysOperLogModel.InsertOperLogReturningId(l.ctx, operLog)
 	if err != nil {
 		l.Errorf("写入操作日志失败：%v", err)
-		return nil, xerr.NewCodeError(xerr.ErrInternal)
-	}
-
-	logId, err := res.LastInsertId()
-	if err != nil {
-		l.Errorf("获取操作日志插入ID失败：%v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 

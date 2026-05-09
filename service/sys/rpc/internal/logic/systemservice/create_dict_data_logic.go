@@ -45,7 +45,7 @@ func (l *CreateDictDataLogic) CreateDictData(in *sys.CreateDictDataReq) (*sys.Cr
 		return nil, xerr.NewCodeError(xerr.ErrNotFound)
 	}
 
-	res, err := l.svcCtx.SysDictDataModel.Insert(l.ctx, &systemmodel.SysDictData{
+	dictDataId, err := l.svcCtx.SysDictDataModel.InsertDictDataReturningId(l.ctx, &systemmodel.SysDictData{
 		TypeId:    in.DictTypeId,
 		Label:     in.DictLabel,
 		DictValue: in.DictValue,
@@ -55,12 +55,6 @@ func (l *CreateDictDataLogic) CreateDictData(in *sys.CreateDictDataReq) (*sys.Cr
 	})
 	if err != nil {
 		l.Errorf("插入字典数据失败：%v", err)
-		return nil, xerr.NewCodeError(xerr.ErrInternal)
-	}
-
-	dictDataId, err := res.LastInsertId()
-	if err != nil {
-		l.Errorf("获取字典数据插入ID失败：%v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 

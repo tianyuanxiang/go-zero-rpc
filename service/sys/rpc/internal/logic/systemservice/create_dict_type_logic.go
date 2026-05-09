@@ -44,7 +44,7 @@ func (l *CreateDictTypeLogic) CreateDictType(in *sys.CreateDictTypeReq) (*sys.Cr
 	}
 
 	// 2. 插入字典类型
-	res, err := l.svcCtx.SysDictTypeModel.Insert(l.ctx, &systemmodel.SysDictType{
+	dictTypeId, err := l.svcCtx.SysDictTypeModel.InsertDictTypeReturningId(l.ctx, &systemmodel.SysDictType{
 		Name:   in.DictName,
 		Code:   in.DictCode,
 		Status: in.Status,
@@ -52,12 +52,6 @@ func (l *CreateDictTypeLogic) CreateDictType(in *sys.CreateDictTypeReq) (*sys.Cr
 	})
 	if err != nil {
 		l.Errorf("插入字典类型失败：%v", err)
-		return nil, xerr.NewCodeError(xerr.ErrInternal)
-	}
-
-	dictTypeId, err := res.LastInsertId()
-	if err != nil {
-		l.Errorf("获取字典类型插入ID失败：%v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 

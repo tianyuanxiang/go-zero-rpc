@@ -19,6 +19,7 @@ type (
 		ListAll(ctx context.Context) ([]*SysMenu, error)
 		// HasChildren 检查是否有子菜单
 		HasChildren(ctx context.Context, id int64) (bool, error)
+		InsertMenuReturningId(ctx context.Context, data *SysMenu) (int64, error)
 		SoftDeleteTrans(ctx context.Context, tx *gorm.DB, id int64) error
 		UpdateMenuTrans(ctx context.Context, tx *gorm.DB, id int64, updates map[string]interface{}) error
 		BatchUpdateMenuStatus(ctx context.Context, tx *gorm.DB, ids []int64, status int) error
@@ -76,6 +77,11 @@ func (m *customSysMenuModel) HasChildren(ctx context.Context, id int64) (bool, e
 		return false, result.Error
 	}
 	return count > 0, nil
+}
+
+func (m *customSysMenuModel) InsertMenuReturningId(ctx context.Context, data *SysMenu) (int64, error) {
+	result := m.db.WithContext(ctx).Table("sys_menu").Create(data)
+	return data.Id, result.Error
 }
 
 func (m *customSysMenuModel) SoftDeleteTrans(ctx context.Context, tx *gorm.DB, id int64) error {

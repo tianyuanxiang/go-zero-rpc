@@ -31,6 +31,7 @@ type (
 	DeleteApiReq             = sys.DeleteApiReq
 	DeleteDictDataReq        = sys.DeleteDictDataReq
 	DeleteDictTypeReq        = sys.DeleteDictTypeReq
+	DeleteFileReq            = sys.DeleteFileReq
 	DeleteMenuReq            = sys.DeleteMenuReq
 	DeleteRoleReq            = sys.DeleteRoleReq
 	DeleteUserReq            = sys.DeleteUserReq
@@ -47,6 +48,8 @@ type (
 	ListDictDataResp         = sys.ListDictDataResp
 	ListDictTypeReq          = sys.ListDictTypeReq
 	ListDictTypeResp         = sys.ListDictTypeResp
+	ListFileReq              = sys.ListFileReq
+	ListFileResp             = sys.ListFileResp
 	ListLoginLogReq          = sys.ListLoginLogReq
 	ListLoginLogResp         = sys.ListLoginLogResp
 	ListOperLogReq           = sys.ListOperLogReq
@@ -56,6 +59,8 @@ type (
 	ListUserReq              = sys.ListUserReq
 	ListUserResp             = sys.ListUserResp
 	MenuTreeResp             = sys.MenuTreeResp
+	RegisterFileReq          = sys.RegisterFileReq
+	RegisterFileResp         = sys.RegisterFileResp
 	ResetPasswordReq         = sys.ResetPasswordReq
 	RoleItem                 = sys.RoleItem
 	UpdateApiReq             = sys.UpdateApiReq
@@ -112,6 +117,10 @@ type (
 		ListOperLog(ctx context.Context, in *ListOperLogReq, opts ...grpc.CallOption) (*ListOperLogResp, error)
 		ClearOperLog(ctx context.Context, in *ClearOperLogReq, opts ...grpc.CallOption) (*Empty, error)
 		WriteOperLog(ctx context.Context, in *WriteOperLogReq, opts ...grpc.CallOption) (*WriteOperLogResp, error)
+		// 文件管理（待启用）
+		RegisterFile(ctx context.Context, in *RegisterFileReq, opts ...grpc.CallOption) (*RegisterFileResp, error)
+		DeleteFile(ctx context.Context, in *DeleteFileReq, opts ...grpc.CallOption) (*Empty, error)
+		ListFile(ctx context.Context, in *ListFileReq, opts ...grpc.CallOption) (*ListFileResp, error)
 	}
 
 	defaultSystemService struct {
@@ -309,4 +318,20 @@ func (m *defaultSystemService) ClearOperLog(ctx context.Context, in *ClearOperLo
 func (m *defaultSystemService) WriteOperLog(ctx context.Context, in *WriteOperLogReq, opts ...grpc.CallOption) (*WriteOperLogResp, error) {
 	client := sys.NewSystemServiceClient(m.cli.Conn())
 	return client.WriteOperLog(ctx, in, opts...)
+}
+
+// 文件管理（待启用）
+func (m *defaultSystemService) RegisterFile(ctx context.Context, in *RegisterFileReq, opts ...grpc.CallOption) (*RegisterFileResp, error) {
+	client := sys.NewSystemServiceClient(m.cli.Conn())
+	return client.RegisterFile(ctx, in, opts...)
+}
+
+func (m *defaultSystemService) DeleteFile(ctx context.Context, in *DeleteFileReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := sys.NewSystemServiceClient(m.cli.Conn())
+	return client.DeleteFile(ctx, in, opts...)
+}
+
+func (m *defaultSystemService) ListFile(ctx context.Context, in *ListFileReq, opts ...grpc.CallOption) (*ListFileResp, error) {
+	client := sys.NewSystemServiceClient(m.cli.Conn())
+	return client.ListFile(ctx, in, opts...)
 }

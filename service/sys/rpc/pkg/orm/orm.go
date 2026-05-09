@@ -5,6 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
@@ -38,5 +39,30 @@ func NewMysql(c *Config) *gorm.DB {
 	sqlDB.SetConnMaxLifetime(c.IdleTimeout)
 
 	logx.Info("gorm 连接初始化成功")
+	return db
+}
+
+func NewPostgres(c *Config) *gorm.DB {
+	if c == nil {
+		panic("config cannot be nil")
+	}
+
+	db, err := gorm.Open(postgres.Open(c.DSN), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic(err)
+	}
+
+	sqlDB.SetMaxIdleConns(c.Idle)
+	sqlDB.SetMaxOpenConns(c.Active)
+	sqlDB.SetConnMaxLifetime(c.IdleTimeout)
+
+	logx.Info("gorm postgres 连接初始化成功")
 	return db
 }

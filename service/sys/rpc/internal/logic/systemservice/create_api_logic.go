@@ -44,7 +44,7 @@ func (l *CreateApiLogic) CreateApi(in *sys.CreateApiReq) (*sys.CreateApiResp, er
 	}
 
 	// 2. 插入接口
-	res, err := l.svcCtx.SysApiModel.Insert(l.ctx, &systemmodel.SysApi{
+	apiId, err := l.svcCtx.SysApiModel.InsertApiReturningId(l.ctx, &systemmodel.SysApi{
 		ApiPath:     in.ApiPath,
 		ApiName:     in.ApiName,
 		Method:      in.Method,
@@ -53,12 +53,6 @@ func (l *CreateApiLogic) CreateApi(in *sys.CreateApiReq) (*sys.CreateApiResp, er
 	})
 	if err != nil {
 		l.Errorf("插入接口记录失败：%v", err)
-		return nil, xerr.NewCodeError(xerr.ErrInternal)
-	}
-
-	apiId, err := res.LastInsertId()
-	if err != nil {
-		l.Errorf("获取接口插入ID失败：%v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 

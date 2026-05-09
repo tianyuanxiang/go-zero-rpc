@@ -7,7 +7,7 @@ package server
 import (
 	"context"
 
-	"go-zero-rpc/sys-rpc/internal/logic/permissionservice"
+	permissionservicelogic "go-zero-rpc/sys-rpc/internal/logic/permissionservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	"go-zero-rpc/sys-rpc/sys"
 )

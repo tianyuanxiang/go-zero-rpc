@@ -18,6 +18,7 @@ type (
 	SysDictDataModel interface {
 		sysDictDataModel
 		ListByDictTypeId(ctx context.Context, dictTypeId int64) ([]*SysDictData, int64, error)
+		InsertDictDataReturningId(ctx context.Context, data *SysDictData) (int64, error)
 		UpdateDictData(ctx context.Context, dictTypeId int64, updates map[string]interface{}) error
 		SoftDeleteDictDataByDictTypeIdTrans(ctx context.Context, tx *gorm.DB, dictTypeId int64) error
 		SoftDeleteDictDataByDictDataId(ctx context.Context, dictDataId int64) error
@@ -56,6 +57,11 @@ func (m *customSysDictDataModel) ListByDictTypeId(ctx context.Context, dictTypeI
 	}
 	return dictData, count, nil
 
+}
+
+func (m *customSysDictDataModel) InsertDictDataReturningId(ctx context.Context, data *SysDictData) (int64, error) {
+	result := m.db.WithContext(ctx).Table("sys_dict_data").Create(data)
+	return data.Id, result.Error
 }
 
 func (m *customSysDictDataModel) SoftDeleteDictDataByDictTypeIdTrans(ctx context.Context, tx *gorm.DB, dictTypeId int64) error {

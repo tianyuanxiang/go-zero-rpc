@@ -13,7 +13,7 @@ JwtAuth:
   RefreshExpire: 10080
 
 DB:
-  DataSource: "user:password@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local&timeout=10s"
+  DataSource: "postgres://user:password@127.0.0.1:5432/database?sslmode=disable&TimeZone=Asia/Shanghai"
 
 CacheRedis:
   - Host: "127.0.0.1:6379"

@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -115,7 +116,7 @@ func (c *Client) handleMessage(message []byte) {
 	switch msg.Type {
 	case MsgTypeHeartbeat:
 		// 心跳消息，回复 pong
-		c.Send <- []byte(`{"type":"heartbeat","timestamp":` + string(time.Now().Unix()) + `}`)
+		c.Send <- []byte(`{"type":"heartbeat","timestamp":` + strconv.FormatInt(time.Now().Unix(), 10) + `}`)
 	default:
 		// 其他消息可以在这里处理
 		logx.Infof("收到消息: userId=%d, type=%s", c.UserID, msg.Type)

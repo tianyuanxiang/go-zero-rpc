@@ -49,7 +49,7 @@ func (l *CreateMenuLogic) CreateMenu(in *sys.CreateMenuReq) (*sys.CreateMenuResp
 	}
 
 	// 2. 插入菜单
-	res, err := l.svcCtx.SysMenuModel.Insert(l.ctx, &systemmodel.SysMenu{
+	menuId, err := l.svcCtx.SysMenuModel.InsertMenuReturningId(l.ctx, &systemmodel.SysMenu{
 		ParentId:   in.ParentId,
 		Name:       in.MenuName,
 		MenuType:   in.MenuType,
@@ -63,12 +63,6 @@ func (l *CreateMenuLogic) CreateMenu(in *sys.CreateMenuReq) (*sys.CreateMenuResp
 	})
 	if err != nil {
 		l.Errorf("插入菜单记录失败：%v", err)
-		return nil, xerr.NewCodeError(xerr.ErrInternal)
-	}
-
-	menuId, err := res.LastInsertId()
-	if err != nil {
-		l.Errorf("获取菜单插入ID失败：%v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 

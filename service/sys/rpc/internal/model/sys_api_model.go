@@ -19,6 +19,7 @@ type (
 		sysApiModel
 		ListByIds(ctx context.Context, ids []int64) ([]SysApi, error)
 		List(ctx context.Context, page, pageSize int, group, keyword string) ([]*SysApi, int64, error)
+		InsertApiReturningId(ctx context.Context, data *SysApi) (int64, error)
 		UpdateApi(ctx context.Context, id int64, updates map[string]interface{}) error
 		SoftDeleteApiTrans(ctx context.Context, tx *gorm.DB, apiIds int64) error
 	}
@@ -77,6 +78,11 @@ func (m *customSysApiModel) ListByIds(ctx context.Context, ids []int64) ([]SysAp
 		return nil, result.Error
 	}
 	return apis, nil
+}
+
+func (m *customSysApiModel) InsertApiReturningId(ctx context.Context, data *SysApi) (int64, error) {
+	result := m.db.WithContext(ctx).Table("sys_api").Create(data)
+	return data.Id, result.Error
 }
 
 func (m *customSysApiModel) SoftDeleteApiTrans(ctx context.Context, tx *gorm.DB, apiIds int64) error {

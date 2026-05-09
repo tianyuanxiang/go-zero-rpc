@@ -7,7 +7,7 @@ package server
 import (
 	"context"
 
-	"go-zero-rpc/sys-rpc/internal/logic/authservice"
+	authservicelogic "go-zero-rpc/sys-rpc/internal/logic/authservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	"go-zero-rpc/sys-rpc/sys"
 )

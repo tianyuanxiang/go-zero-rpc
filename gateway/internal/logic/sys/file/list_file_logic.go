@@ -1,6 +1,3 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
 package file
 
 import (
@@ -8,6 +5,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +24,34 @@ func NewListFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListFile
 	}
 }
 
-func (l *ListFileLogic) ListFile(req *types.ListFileReq) (resp *types.ListFileResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *ListFileLogic) ListFile(req *types.ListFileReq) (*types.ListFileResp, error) {
+	rpcResp, err := l.svcCtx.SysRpc.ListFile(l.ctx, &sys.ListFileReq{
+		Page:     int64(req.Page),
+		PageSize: int64(req.PageSize),
+		Keyword:  req.Keyword,
+	})
+	if err != nil {
+		l.Errorf("list file rpc failed, err=%v", err)
+		return nil, err
+	}
 
-	return
+	list := make([]types.FileInfoResp, 0, len(rpcResp.List))
+	for _, item := range rpcResp.List {
+		if item == nil {
+			continue
+		}
+
+		list = append(list, types.FileInfoResp{
+			FileId:   item.FileId,
+			FileName: item.FileName,
+			FileURL:  item.FileUrl,
+			FileSize: item.FileSize,
+			MimeType: item.MimeType,
+		})
+	}
+
+	return &types.ListFileResp{
+		Total: rpcResp.Total,
+		List:  list,
+	}, nil
 }

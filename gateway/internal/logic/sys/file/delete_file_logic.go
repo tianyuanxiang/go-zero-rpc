@@ -1,13 +1,14 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
 package file
 
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
+	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/svc"
+	"go-zero-rpc/sys-rpc/sys"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type DeleteFileLogic struct {
@@ -24,9 +25,20 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteFileLogic) DeleteFile(fileId int64) error {
-	// TODO: 文件删除RPC（RegisterFile/DeleteFile/ListFile）尚未实现，
-	// proto 中对应的 rpc 定义已注释，待后续开启后补全此逻辑。
+func (l *DeleteFileLogic) DeleteFile(fileID int64) error {
+	userID := middleware.GetUserIdFromCtx(l.ctx)
+	if userID == 0 {
+		return xerr.NewCodeErrorMsg(xerr.ErrUnauthorized, "未授权，请先登录")
+	}
+
+	_, err := l.svcCtx.SysRpc.DeleteFile(l.ctx, &sys.DeleteFileReq{
+		FileId:     fileID,
+		OperatorId: userID,
+	})
+	if err != nil {
+		l.Errorf("delete file rpc failed, userId=%d, fileId=%d, err=%v", userID, fileID, err)
+		return err
+	}
 
 	return nil
 }

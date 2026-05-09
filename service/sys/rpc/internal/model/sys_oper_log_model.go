@@ -16,6 +16,7 @@ type (
 	// and implement the added methods in customSysOperLogModel.
 	SysOperLogModel interface {
 		sysOperLogModel
+		InsertOperLogReturningId(ctx context.Context, data *SysOperLog) (int64, error)
 		List(ctx context.Context, req *OperLogListReq) ([]SysOperLog, int64, error)
 	}
 
@@ -42,6 +43,11 @@ func NewSysOperLogModel(conn sqlx.SqlConn, c cache.CacheConf, db *gorm.DB, opts 
 		defaultSysOperLogModel: newSysOperLogModel(conn),
 		db:                     db,
 	}
+}
+
+func (m *customSysOperLogModel) InsertOperLogReturningId(ctx context.Context, data *SysOperLog) (int64, error) {
+	result := m.db.WithContext(ctx).Table("sys_oper_log").Create(data)
+	return data.Id, result.Error
 }
 
 func (m *customSysOperLogModel) List(ctx context.Context, req *OperLogListReq) ([]SysOperLog, int64, error) {

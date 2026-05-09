@@ -41,13 +41,13 @@ func main() {
 			Code: code,
 			Msg:  msg,
 		}
-		
+
 	})
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithFileServer("/uploads", http.Dir(c.Upload.Path)))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
