@@ -70,6 +70,7 @@ func (l *GetUserLogic) GetUser(in *sys.GetUserReq) (*sys.UserItem, error) {
 		Status:    userInfo.Status,
 		Remark:    userInfo.Remark,
 		Roles:     roleCodes,
+		RoleIds:   roleIds,
 		CreatedAt: userInfo.CreatedAt.Format("2006-01-02 15:04:05"),
 	}, nil
 }

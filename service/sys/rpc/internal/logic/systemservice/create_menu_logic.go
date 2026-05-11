@@ -59,6 +59,7 @@ func (l *CreateMenuLogic) CreateMenu(in *sys.CreateMenuReq) (*sys.CreateMenuResp
 		Sort:       in.Sort,
 		Permission: in.Perms,
 		Status:     in.Status,
+		Visible:    in.Visible,
 		Remark:     in.Remark,
 	})
 	if err != nil {

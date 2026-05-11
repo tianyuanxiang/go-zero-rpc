@@ -28,13 +28,15 @@ type UpdateRolePermissionsReq {
 
 // 角色信息响应体
 type RoleItem {
-	Id        int64  `json:"id"` // 角色ID
-	RoleName  string `json:"roleName"` // 角色名称
-	RoleCode  string `json:"roleCode"` // 角色编码
-	Status    int    `json:"status"`
-	Sort      int    `json:sort`
-	Remark    string `json:"remark"` // 备注
-	CreatedAt string `json:"createdAt"` // 创建时间
+	Id        int64   `json:"id"` // 角色ID
+	RoleName  string  `json:"roleName"` // 角色名称
+	RoleCode  string  `json:"roleCode"` // 角色编码
+	Status    int     `json:"status"`
+	Sort      int     `json:sort`
+	Remark    string  `json:"remark"`           // 备注
+	MenuIds   []int64 `json:"menuIds,optional"` // 关联菜单ID列表
+	ApiIds    []int64 `json:"apiIds,optional"`  // 关联接口ID列表
+	CreatedAt string  `json:"createdAt"`        // 创建时间
 }
 
 type RoleOption {
@@ -62,7 +64,7 @@ type ListRoleReq {
 }
 
 @server (
-	prefix:     /api/system
+	prefix:     /api/v1/system
 	group:      sys/role
 	middleware: AuthMiddleware,CasbinMiddleware
 )

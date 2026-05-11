@@ -45,6 +45,8 @@ type UserItem {
 	Avatar    string  `json:"avatar"`
 	Remark    string  `json:"remark"`
 	Roles     []string `json:"roles"` // 角色名称列表
+	RoleIds   []int64  `json:"roleIds,optional"` // 角色ID列表
+	RoleIds   []int64  `json:"roleIds,optional"` // 角色ID列表
 	CreatedAt string   `json:"createdAt"` // 创建时间
 	UpdatedAt string   `json:"updatedAt"` // 更新时间
 }
@@ -72,7 +74,7 @@ type ResetPasswordReq {
 }
 
 @server (
-	prefix:     /api/system
+	prefix:     /api/v1/system
 	group:      sys/user
 	middleware: AuthMiddleware,CasbinMiddleware
 )

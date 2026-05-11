@@ -82,9 +82,15 @@ func (l *ListUserLogic) ListUser(in *sys.ListUserReq) (*sys.ListUserResp, error)
 	}
 
 	// 6. 组装返回数据
+	// 构建 userId -> []int64 的角色ID映射
+	userRoleIdMap := make(map[int64][]int64)
+	for _, ur := range userRoleIds {
+		userRoleIdMap[ur.UserId] = append(userRoleIdMap[ur.UserId], ur.RoleId)
+	}
+
 	list := make([]*sys.UserItem, 0, len(users))
 	for _, user := range users {
-		list = append(list, &sys.UserItem{
+		item := &sys.UserItem{
 			Id:        user.Id,
 			Username:  user.Username,
 			Nickname:  user.Nickname,
@@ -94,9 +100,11 @@ func (l *ListUserLogic) ListUser(in *sys.ListUserReq) (*sys.ListUserResp, error)
 			Status:    user.Status,
 			Remark:    user.Remark,
 			Roles:     userRoleMap[user.Id],
+			RoleIds:   userRoleIdMap[user.Id],
 			CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
 			UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
-		})
+		}
+		list = append(list, item)
 	}
 
 	return &sys.ListUserResp{

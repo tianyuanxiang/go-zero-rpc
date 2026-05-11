@@ -39,7 +39,7 @@ type (
 )
 
 @server (
-	prefix: /api/auth
+	prefix: /api/v1/auth
 	group:  auth
 )
 service gateway-api {
@@ -59,7 +59,7 @@ type ChangePasswordReq {
 }
 
 @server (
-	prefix:     /api/auth
+	prefix:     /api/v1/auth
 	group:      auth
 	middleware: AuthMiddleware
 )

@@ -26,7 +26,7 @@ func NewGetRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRoleLo
 	}
 }
 
-// GetRole 根据角色ID查询角色详情。
+// GetRole 根据角色ID查询角色详情，包含关联的菜单ID和接口ID。
 func (l *GetRoleLogic) GetRole(in *sys.GetRoleReq) (*sys.RoleItem, error) {
 	role, err := l.svcCtx.SysRoleModel.FindOneByRoleId(l.ctx, in.RoleId)
 	if err != nil {
@@ -36,6 +36,21 @@ func (l *GetRoleLogic) GetRole(in *sys.GetRoleReq) (*sys.RoleItem, error) {
 		l.Errorf("查询角色[%d]失败：%v", in.RoleId, err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
+
+	// 查询角色关联的菜单ID列表
+	menuIds, err := l.svcCtx.SysRoleMenuModel.GetMenuIdsByRoleIds(l.ctx, []int64{in.RoleId})
+	if err != nil {
+		l.Errorf("查询角色[%d]关联菜单失败：%v", in.RoleId, err)
+		menuIds = []int64{}
+	}
+
+	// 查询角色关联的接口ID列表
+	apiIds, err := l.svcCtx.SysRoleApiModel.ListApiIdsByRoleId(l.ctx, in.RoleId)
+	if err != nil {
+		l.Errorf("查询角色[%d]关联接口失败：%v", in.RoleId, err)
+		apiIds = []int64{}
+	}
+
 	return &sys.RoleItem{
 		Id:        role.Id,
 		RoleCode:  role.Code,
@@ -44,5 +59,7 @@ func (l *GetRoleLogic) GetRole(in *sys.GetRoleReq) (*sys.RoleItem, error) {
 		Sort:      role.Sort,
 		Remark:    role.Remark,
 		CreatedAt: role.CreatedAt.Format("2006-01-02 15:04:05"),
+		MenuIds:   menuIds,
+		ApiIds:    apiIds,
 	}, nil
 }

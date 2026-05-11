@@ -116,6 +116,8 @@ func BuildMenuTree(menus []*systemmodel.SysMenu, parentId int64) []*sys.MenuItem
 			MenuType:  m.MenuType,
 			Perms:     m.Permission,
 			Sort:      m.Sort,
+			Status:    m.Status,
+			Visible:   m.Visible,
 		}
 		children := BuildMenuTree(menus, m.Id)
 		if len(children) > 0 {

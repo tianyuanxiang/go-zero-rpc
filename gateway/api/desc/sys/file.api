@@ -23,7 +23,7 @@ type ListFileResp {
 }
 
 @server (
-	prefix: /api/system
+	prefix: /api/v1/system
 	group: sys/file
 	middleware: AuthMiddleware,CasbinMiddleware
 )

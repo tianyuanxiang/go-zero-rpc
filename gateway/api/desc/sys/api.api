@@ -58,7 +58,7 @@ type ListApiResp {
 }
 
 @server (
-	prefix:     /api/system
+	prefix:     /api/v1/system
 	group:      sys/api
 	middleware: AuthMiddleware,CasbinMiddleware
 )

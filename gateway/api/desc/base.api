@@ -25,5 +25,6 @@ type MenuItem {
 	Sort      int64            `json:"sort"`             // 排序
 	Perms     string         `json:"perms"`            // 权限标识
 	Status    int            `json:"status"`           // 状态
+	Visible   int            `json:"visible"`           // 可见性
 	Children  []MenuItem `json:"children,optional"`// 子菜单列表
 }

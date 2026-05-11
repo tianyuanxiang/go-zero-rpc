@@ -33,9 +33,35 @@ func (l *ListRoleLogic) ListRole(in *sys.ListRoleReq) (*sys.ListRoleResp, error)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
+	// 批量查询角色关联的菜单ID和接口ID
+	roleIds := make([]int64, 0, len(roles))
+	for _, role := range roles {
+		roleIds = append(roleIds, role.Id)
+	}
+
+	// 构建角色菜单关联映射
+	roleMenuMap := make(map[int64][]int64)
+	roleApiMap := make(map[int64][]int64)
+	if len(roleIds) > 0 {
+		// 逐角色查询菜单ID
+		for _, roleId := range roleIds {
+			menuIds, mErr := l.svcCtx.SysRoleMenuModel.GetMenuIdsByRoleIds(l.ctx, []int64{roleId})
+			if mErr == nil {
+				roleMenuMap[roleId] = menuIds
+			}
+		}
+		// 逐角色查询接口ID
+		for _, roleId := range roleIds {
+			apiIds, aErr := l.svcCtx.SysRoleApiModel.ListApiIdsByRoleId(l.ctx, roleId)
+			if aErr == nil {
+				roleApiMap[roleId] = apiIds
+			}
+		}
+	}
+
 	list := make([]*sys.RoleItem, 0, len(roles))
 	for _, role := range roles {
-		list = append(list, &sys.RoleItem{
+		item := &sys.RoleItem{
 			Id:        role.Id,
 			RoleName:  role.Name,
 			RoleCode:  role.Code,
@@ -43,7 +69,18 @@ func (l *ListRoleLogic) ListRole(in *sys.ListRoleReq) (*sys.ListRoleResp, error)
 			Sort:      role.Sort,
 			Remark:    role.Remark,
 			CreatedAt: role.CreatedAt.Format("2006-01-02 15:04:05"),
-		})
+		}
+		if menuIds, ok := roleMenuMap[role.Id]; ok {
+			item.MenuIds = menuIds
+		} else {
+			item.MenuIds = []int64{}
+		}
+		if apiIds, ok := roleApiMap[role.Id]; ok {
+			item.ApiIds = apiIds
+		} else {
+			item.ApiIds = []int64{}
+		}
+		list = append(list, item)
 	}
 
 	return &sys.ListRoleResp{

@@ -54,6 +54,7 @@ message MenuItem {
   string perms = 9;
   int64 status = 10;
   repeated MenuItem children = 11;
+  int64 visible = 12;
 }
 
 // ==================== Auth: 登录与认证 ====================
@@ -180,6 +181,7 @@ message UserItem {
   repeated string roles = 9;
   string created_at = 10;
   string updated_at = 11;
+  repeated int64 role_ids = 12;
 }
 
 message ListUserResp {
@@ -251,6 +253,8 @@ message RoleItem {
   int64 sort = 5;
   string remark = 6;
   string created_at = 7;
+  repeated int64 menu_ids = 8;
+  repeated int64 api_ids = 9;
 }
 
 message RoleOption {
@@ -281,6 +285,7 @@ message CreateMenuReq {
   string perms = 8;
   int64 status = 9;
   string remark = 10;
+  int64 visible = 11;
   int64 operator_id = 20;
 }
 

@@ -366,6 +366,7 @@ type MenuItem struct {
 	Perms         string                 `protobuf:"bytes,9,opt,name=perms,proto3" json:"perms,omitempty"`
 	Status        int64                  `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`
 	Children      []*MenuItem            `protobuf:"bytes,11,rep,name=children,proto3" json:"children,omitempty"`
+	Visible       int64                  `protobuf:"varint,12,opt,name=visible,proto3" json:"visible,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -475,6 +476,13 @@ func (x *MenuItem) GetChildren() []*MenuItem {
 		return x.Children
 	}
 	return nil
+}
+
+func (x *MenuItem) GetVisible() int64 {
+	if x != nil {
+		return x.Visible
+	}
+	return 0
 }
 
 // 登录
@@ -1514,6 +1522,7 @@ type UserItem struct {
 	Roles         []string               `protobuf:"bytes,9,rep,name=roles,proto3" json:"roles,omitempty"`
 	CreatedAt     string                 `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     string                 `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	RoleIds       []int64                `protobuf:"varint,12,rep,packed,name=role_ids,json=roleIds,proto3" json:"role_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1623,6 +1632,13 @@ func (x *UserItem) GetUpdatedAt() string {
 		return x.UpdatedAt
 	}
 	return ""
+}
+
+func (x *UserItem) GetRoleIds() []int64 {
+	if x != nil {
+		return x.RoleIds
+	}
+	return nil
 }
 
 type ListUserResp struct {
@@ -2162,6 +2178,8 @@ type RoleItem struct {
 	Sort          int64                  `protobuf:"varint,5,opt,name=sort,proto3" json:"sort,omitempty"`
 	Remark        string                 `protobuf:"bytes,6,opt,name=remark,proto3" json:"remark,omitempty"`
 	CreatedAt     string                 `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	MenuIds       []int64                `protobuf:"varint,8,rep,packed,name=menu_ids,json=menuIds,proto3" json:"menu_ids,omitempty"`
+	ApiIds        []int64                `protobuf:"varint,9,rep,packed,name=api_ids,json=apiIds,proto3" json:"api_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2243,6 +2261,20 @@ func (x *RoleItem) GetCreatedAt() string {
 		return x.CreatedAt
 	}
 	return ""
+}
+
+func (x *RoleItem) GetMenuIds() []int64 {
+	if x != nil {
+		return x.MenuIds
+	}
+	return nil
+}
+
+func (x *RoleItem) GetApiIds() []int64 {
+	if x != nil {
+		return x.ApiIds
+	}
+	return nil
 }
 
 type RoleOption struct {
@@ -2413,6 +2445,7 @@ type CreateMenuReq struct {
 	Perms         string                 `protobuf:"bytes,8,opt,name=perms,proto3" json:"perms,omitempty"`
 	Status        int64                  `protobuf:"varint,9,opt,name=status,proto3" json:"status,omitempty"`
 	Remark        string                 `protobuf:"bytes,10,opt,name=remark,proto3" json:"remark,omitempty"`
+	Visible       int64                  `protobuf:"varint,11,opt,name=visible,proto3" json:"visible,omitempty"`
 	OperatorId    int64                  `protobuf:"varint,20,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2516,6 +2549,13 @@ func (x *CreateMenuReq) GetRemark() string {
 		return x.Remark
 	}
 	return ""
+}
+
+func (x *CreateMenuReq) GetVisible() int64 {
+	if x != nil {
+		return x.Visible
+	}
+	return 0
 }
 
 func (x *CreateMenuReq) GetOperatorId() int64 {
@@ -6211,7 +6251,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x05phone\x18\x05 \x01(\tR\x05phone\x12\x16\n" +
 	"\x06avatar\x18\x06 \x01(\tR\x06avatar\x12\x14\n" +
 	"\x05roles\x18\a \x03(\tR\x05roles\x12#\n" +
-	"\x05menus\x18\b \x03(\v2\r.sys.MenuItemR\x05menus\"\xa4\x02\n" +
+	"\x05menus\x18\b \x03(\v2\r.sys.MenuItemR\x05menus\"\xbe\x02\n" +
 	"\bMenuItem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
 	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x1b\n" +
@@ -6224,7 +6264,8 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x05perms\x18\t \x01(\tR\x05perms\x12\x16\n" +
 	"\x06status\x18\n" +
 	" \x01(\x03R\x06status\x12)\n" +
-	"\bchildren\x18\v \x03(\v2\r.sys.MenuItemR\bchildren\"~\n" +
+	"\bchildren\x18\v \x03(\v2\r.sys.MenuItemR\bchildren\x12\x18\n" +
+	"\avisible\x18\f \x01(\x03R\avisible\"~\n" +
 	"\bLoginReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1b\n" +
@@ -6312,7 +6353,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\akeyword\x18\x03 \x01(\tR\akeyword\x12\x16\n" +
 	"\x06status\x18\x04 \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
-	"has_status\x18\x05 \x01(\bR\thasStatus\"\x9a\x02\n" +
+	"has_status\x18\x05 \x01(\bR\thasStatus\"\xb5\x02\n" +
 	"\bUserItem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
@@ -6327,7 +6368,8 @@ const file_pb_sys_proto_rawDesc = "" +
 	"created_at\x18\n" +
 	" \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\tR\tupdatedAt\"G\n" +
+	"updated_at\x18\v \x01(\tR\tupdatedAt\x12\x19\n" +
+	"\brole_ids\x18\f \x03(\x03R\aroleIds\"G\n" +
 	"\fListUserResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12!\n" +
 	"\x04list\x18\x02 \x03(\v2\r.sys.UserItemR\x04list\"\xca\x01\n" +
@@ -6371,7 +6413,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\vListRoleReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x18\n" +
-	"\akeyword\x18\x03 \x01(\tR\akeyword\"\xb7\x01\n" +
+	"\akeyword\x18\x03 \x01(\tR\akeyword\"\xeb\x01\n" +
 	"\bRoleItem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
 	"\trole_name\x18\x02 \x01(\tR\broleName\x12\x1b\n" +
@@ -6380,7 +6422,9 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x04sort\x18\x05 \x01(\x03R\x04sort\x12\x16\n" +
 	"\x06remark\x18\x06 \x01(\tR\x06remark\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\a \x01(\tR\tcreatedAt\"V\n" +
+	"created_at\x18\a \x01(\tR\tcreatedAt\x12\x19\n" +
+	"\bmenu_ids\x18\b \x03(\x03R\amenuIds\x12\x17\n" +
+	"\aapi_ids\x18\t \x03(\x03R\x06apiIds\"V\n" +
 	"\n" +
 	"RoleOption\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
@@ -6390,7 +6434,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12!\n" +
 	"\x04list\x18\x02 \x03(\v2\r.sys.RoleItemR\x04list\"=\n" +
 	"\x0fListAllRoleResp\x12*\n" +
-	"\blist_all\x18\x01 \x03(\v2\x0f.sys.RoleOptionR\alistAll\"\xa7\x02\n" +
+	"\blist_all\x18\x01 \x03(\v2\x0f.sys.RoleOptionR\alistAll\"\xc1\x02\n" +
 	"\rCreateMenuReq\x12\x1b\n" +
 	"\tparent_id\x18\x01 \x01(\x03R\bparentId\x12\x1b\n" +
 	"\tmenu_name\x18\x02 \x01(\tR\bmenuName\x12\x1b\n" +
@@ -6402,7 +6446,8 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x05perms\x18\b \x01(\tR\x05perms\x12\x16\n" +
 	"\x06status\x18\t \x01(\x03R\x06status\x12\x16\n" +
 	"\x06remark\x18\n" +
-	" \x01(\tR\x06remark\x12\x1f\n" +
+	" \x01(\tR\x06remark\x12\x18\n" +
+	"\avisible\x18\v \x01(\x03R\avisible\x12\x1f\n" +
 	"\voperator_id\x18\x14 \x01(\x03R\n" +
 	"operatorId\")\n" +
 	"\x0eCreateMenuResp\x12\x17\n" +

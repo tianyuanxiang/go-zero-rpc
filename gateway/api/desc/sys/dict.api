@@ -79,7 +79,7 @@ type ListDictDataResp {
 }
 
 @server (
-	prefix:     /api/system
+	prefix:     /api/v1/system
 	group:      sys/dict
 	middleware: AuthMiddleware,CasbinMiddleware
 )
