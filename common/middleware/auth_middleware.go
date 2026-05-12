@@ -1,32 +1,30 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
 package middleware
 
 import (
 	"context"
 	"fmt"
-	"go-zero-rpc/common/jwtx"
-	"go-zero-rpc/common/response"
-	"go-zero-rpc/gateway/internal/config"
-	permclient "go-zero-rpc/sys-rpc/client/permissionservice"
-	"go-zero-rpc/sys-rpc/sys"
 	"net/http"
 	"strings"
+
+	"go-zero-rpc/common/jwtx"
+	"go-zero-rpc/common/response"
+	permclient "go-zero-rpc/sys-rpc/client/permissionservice"
+	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
+// AuthMiddleware JWT认证中间件。
 type AuthMiddleware struct {
 	permRpc permclient.PermissionService
 }
 
+// NewAuthMiddleware 创建认证中间件。
 func NewAuthMiddleware(permRpc permclient.PermissionService) *AuthMiddleware {
 	return &AuthMiddleware{permRpc: permRpc}
 }
 
 // ContextKey 自定义Context键类型，避免与其他包的键冲突。
-
 type ContextKey string
 
 const (
@@ -38,31 +36,22 @@ const (
 	RedisTokenBlacklistPrefix = "token:blacklist:"
 )
 
-// AuthMiddleware JWT认证中间件。
+// Handle 返回JWT认证中间件函数。
 //
 // 从请求头 Authorization 中提取Bearer Token，验证其有效性，
-// 并将解析出的 userId 和 username 写入请求上下文，供后续 Handler/Logic 使用。
-//
-// 验证失败（无token、格式错误、已过期）时直接返回 401 响应，不继续处理。
+// 并将解析出的 userId 和 username 写入请求上下文。
 //
 // 参数：
-//   - cfg : 应用程序配置（需要JWT密钥）
-//
-// 返回：
-//   - func(http.Handler) http.Handler : 标准中间件函数
-
-func (m *AuthMiddleware) Handle(cfg config.Config) func(handlerFunc http.HandlerFunc) http.HandlerFunc {
+//   - accessSecret: JWT访问令牌的密钥
+func (m *AuthMiddleware) Handle(accessSecret string) func(handlerFunc http.HandlerFunc) http.HandlerFunc {
 	return func(next http.HandlerFunc) http.HandlerFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// 从请求头获取Authorization字段
 			authHeader := r.Header.Get("Authorization")
 			if authHeader == "" {
 				response.FailUnauthorized(w, r)
 				return
 			}
 
-			// 检查并去除Bearer前缀
-			// 标准格式：Authorization: Bearer <token>
 			if !strings.HasPrefix(authHeader, "Bearer ") {
 				response.Fail(w, r, response.CodeUnauthorized, "Authorization格式错误，应为：Bearer <token>")
 				return
@@ -74,22 +63,18 @@ func (m *AuthMiddleware) Handle(cfg config.Config) func(handlerFunc http.Handler
 				return
 			}
 
-			// 解析并验证Token
-			claims, err := jwtx.ParseToken(tokenStr, cfg.Auth.AccessSecret)
+			claims, err := jwtx.ParseToken(tokenStr, accessSecret)
 			if err != nil {
 				logx.WithContext(r.Context()).Infof("Token验证失败：%v", err)
 				response.Fail(w, r, response.CodeTokenExpired, response.MsgTokenExpired)
 				return
 			}
 
-			// 仅允许访问令牌（Access Token）通过此中间件
-			// 刷新令牌只能用于 /api/auth/refresh 接口
 			if claims.TokenType != jwtx.TokenTypeAccess {
 				response.Fail(w, r, response.CodeUnauthorized, "请使用访问令牌访问此接口")
 				return
 			}
 
-			// 新增：检查 Token 是否在黑名单（已登出）
 			blacklistKey := fmt.Sprintf("%s%s", RedisTokenBlacklistPrefix, tokenStr)
 			isBlack, err := m.permRpc.IsTokenRevoked(r.Context(), &sys.IsBlackListReq{BlacklistKey: blacklistKey})
 			if err != nil {
@@ -103,7 +88,7 @@ func (m *AuthMiddleware) Handle(cfg config.Config) func(handlerFunc http.Handler
 				response.Fail(w, r, response.CodeUnauthorized, "Token已失效，请重新登录")
 				return
 			}
-			// 将用户信息写入Context，供后续Handler使用
+
 			ctx := context.WithValue(r.Context(), ContextKeyUserId, claims.UserId)
 			ctx = context.WithValue(ctx, ContextKeyUsername, claims.Username)
 
@@ -113,12 +98,6 @@ func (m *AuthMiddleware) Handle(cfg config.Config) func(handlerFunc http.Handler
 }
 
 // GetUserIdFromCtx 从Context中获取当前登录用户的ID。
-//
-// 参数：
-//   - ctx : 请求上下文
-//
-// 返回：
-//   - int64 : 用户ID，如果Context中没有则返回0
 func GetUserIdFromCtx(ctx context.Context) int64 {
 	userId, ok := ctx.Value(ContextKeyUserId).(int64)
 	if !ok {
@@ -128,12 +107,6 @@ func GetUserIdFromCtx(ctx context.Context) int64 {
 }
 
 // GetUsernameFromCtx 从Context中获取当前登录用户的用户名。
-//
-// 参数：
-//   - ctx : 请求上下文
-//
-// 返回：
-//   - string : 用户名，如果Context中没有则返回空字符串
 func GetUsernameFromCtx(ctx context.Context) string {
 	username, ok := ctx.Value(ContextKeyUsername).(string)
 	if !ok {
@@ -145,12 +118,6 @@ func GetUsernameFromCtx(ctx context.Context) string {
 // GetClientIP 从HTTP请求中获取客户端真实IP地址。
 //
 // 优先从 X-Forwarded-For 头获取，其次 X-Real-IP，最后从 RemoteAddr 截取。
-//
-// 参数：
-//   - r : HTTP请求
-//
-// 返回：
-//   - string : 客户端IP地址
 func GetClientIP(r *http.Request) string {
 	forwarded := r.Header.Get("X-Forwarded-For")
 	if forwarded != "" {

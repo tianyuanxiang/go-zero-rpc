@@ -1,25 +1,26 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.10.1
-
 package middleware
 
 import (
+	"net/http"
+
 	"go-zero-rpc/common/response"
 	permclient "go-zero-rpc/sys-rpc/client/permissionservice"
 	"go-zero-rpc/sys-rpc/sys"
-	"net/http"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
+// CasbinMiddleware RBAC权限校验中间件。
 type CasbinMiddleware struct {
 	permRpc permclient.PermissionService
 }
 
+// NewCasbinMiddleware 创建权限校验中间件。
 func NewCasbinMiddleware(permRpc permclient.PermissionService) *CasbinMiddleware {
 	return &CasbinMiddleware{permRpc: permRpc}
 }
 
+// Handle 返回Casbin权限校验中间件函数。
 func (m *CasbinMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId := GetUserIdFromCtx(r.Context())
@@ -48,7 +49,7 @@ func (m *CasbinMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			response.FailForbidden(w, r)
 			return
 		}
-		
+
 		next.ServeHTTP(w, r)
 	}
 }

@@ -41,7 +41,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.RefreshTokenHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/auth"),
+		rest.WithPrefix("/api/v1/auth"),
 	)
 
 	server.AddRoutes(
@@ -65,7 +65,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/auth"),
+		rest.WithPrefix("/api/v1/auth"),
 	)
 
 	server.AddRoutes(
@@ -99,7 +99,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 
 	server.AddRoutes(
@@ -148,7 +148,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 
 	server.AddRoutes(
@@ -172,7 +172,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 
 	server.AddRoutes(
@@ -201,7 +201,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 
 	server.AddRoutes(
@@ -235,7 +235,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 
 	server.AddRoutes(
@@ -279,7 +279,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 
 	server.AddRoutes(
@@ -318,6 +318,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/system"),
+		rest.WithPrefix("/api/v1/system"),
 	)
 }

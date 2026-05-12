@@ -4,8 +4,8 @@
 package svc
 
 import (
+	commonmw "go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/config"
-	"go-zero-rpc/gateway/internal/middleware"
 	"go-zero-rpc/gateway/internal/ws"
 	authclient "go-zero-rpc/sys-rpc/client/authservice"
 	permclient "go-zero-rpc/sys-rpc/client/permissionservice"
@@ -48,7 +48,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PermRpc: permclient.NewPermissionService(cli),
 		WsHub:   wsHub,
 
-		AuthMiddleware:   middleware.NewAuthMiddleware(permclient.NewPermissionService(cli)).Handle(c),
-		CasbinMiddleware: middleware.NewCasbinMiddleware(permclient.NewPermissionService(cli)).Handle,
+		AuthMiddleware:   commonmw.NewAuthMiddleware(permclient.NewPermissionService(cli)).Handle(c.Auth.AccessSecret),
+		CasbinMiddleware: commonmw.NewCasbinMiddleware(permclient.NewPermissionService(cli)).Handle,
 	}
 }

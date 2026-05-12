@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"go-zero-rpc/common/xerr"
-	"go-zero-rpc/gateway/internal/middleware"
+	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
 	"go-zero-rpc/gateway/pkg/upload"

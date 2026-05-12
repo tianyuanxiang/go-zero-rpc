@@ -5,7 +5,7 @@ package auth
 
 import (
 	"context"
-	"go-zero-rpc/gateway/internal/middleware"
+	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/sys-rpc/sys"
 	"net/http"
 	"strings"

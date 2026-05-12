@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"go-zero-rpc/common/xerr"
-	"go-zero-rpc/gateway/internal/middleware"
+	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/sys-rpc/sys"
 
