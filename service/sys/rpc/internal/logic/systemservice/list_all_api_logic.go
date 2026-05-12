@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,23 +26,23 @@ func NewListAllApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListAl
 }
 
 // ListAllApi 查询所有未软删除的API接口，用于下拉选择。
-func (l *ListAllApiLogic) ListAllApi(in *sys.Empty) (*sys.ListAllApiResp, error) {
+func (l *ListAllApiLogic) ListAllApi(in *pb.Empty) (*pb.ListAllApiResp, error) {
 	apis, err := l.svcCtx.SysApiModel.ListByIds(l.ctx, nil)
 	if err != nil {
 		l.Errorf("查询全部接口失败: %v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	list := make([]*sys.ApiOption, 0, len(apis))
+	list := make([]*pb.ApiOption, 0, len(apis))
 	for _, api := range apis {
-		list = append(list, &sys.ApiOption{
+		list = append(list, &pb.ApiOption{
 			Id:      api.Id,
 			ApiName: api.ApiName,
 			ApiPath: api.ApiPath,
 			Remark:  api.Description,
 		})
 	}
-	return &sys.ListAllApiResp{
+	return &pb.ListAllApiResp{
 		ListAll: list,
 	}, nil
 }

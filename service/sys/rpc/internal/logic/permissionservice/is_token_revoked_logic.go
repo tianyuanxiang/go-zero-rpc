@@ -3,9 +3,9 @@ package permissionservicelogic
 import (
 	"context"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +24,7 @@ func NewIsTokenRevokedLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Is
 	}
 }
 
-func (l *IsTokenRevokedLogic) IsTokenRevoked(in *sys.IsBlackListReq) (*sys.IsBlackListResp, error) {
+func (l *IsTokenRevokedLogic) IsTokenRevoked(in *pb.IsBlackListReq) (*pb.IsBlackListResp, error) {
 
 	exists, err := l.svcCtx.RDB.Exists(l.ctx, in.BlacklistKey).Result()
 	if err != nil {
@@ -33,11 +33,11 @@ func (l *IsTokenRevokedLogic) IsTokenRevoked(in *sys.IsBlackListReq) (*sys.IsBla
 	}
 	if exists > 0 {
 		l.Logger.Infof("Token has expired.")
-		return &sys.IsBlackListResp{
+		return &pb.IsBlackListResp{
 			IsBlack: true,
 		}, nil
 	}
-	return &sys.IsBlackListResp{
+	return &pb.IsBlackListResp{
 		IsBlack: false,
 	}, nil
 }

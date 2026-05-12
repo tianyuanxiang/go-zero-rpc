@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -27,7 +27,7 @@ func NewUpdateDictDataLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 // UpdateDictData 更新字典数据。
-func (l *UpdateDictDataLogic) UpdateDictData(in *sys.UpdateDictDataReq) (*sys.Empty, error) {
+func (l *UpdateDictDataLogic) UpdateDictData(in *pb.UpdateDictDataReq) (*pb.Empty, error) {
 	dictData, err := l.svcCtx.SysDictDataModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -71,5 +71,5 @@ func (l *UpdateDictDataLogic) UpdateDictData(in *sys.UpdateDictDataReq) (*sys.Em
 		l.Errorf("更新DictData[%d]失败：%v", in.Id, err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

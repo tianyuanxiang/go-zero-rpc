@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,23 +26,23 @@ func NewListAllRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListA
 }
 
 // ListAllRole 查询所有启用状态的角色，用于下拉选择。
-func (l *ListAllRoleLogic) ListAllRole(in *sys.Empty) (*sys.ListAllRoleResp, error) {
+func (l *ListAllRoleLogic) ListAllRole(in *pb.Empty) (*pb.ListAllRoleResp, error) {
 	roles, err := l.svcCtx.SysRoleModel.ListAll(l.ctx)
 	if err != nil {
 		l.Errorf("查询全部角色失败: %v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	list := make([]*sys.RoleOption, 0, len(roles))
+	list := make([]*pb.RoleOption, 0, len(roles))
 	for _, role := range roles {
-		list = append(list, &sys.RoleOption{
+		list = append(list, &pb.RoleOption{
 			Id:       role.Id,
 			RoleName: role.Name,
 			RoleCode: role.Code,
 		})
 	}
 
-	return &sys.ListAllRoleResp{
+	return &pb.ListAllRoleResp{
 		ListAll: list,
 	}, nil
 }

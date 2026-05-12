@@ -6,7 +6,7 @@ package auth
 import (
 	"context"
 	"go-zero-rpc/common/middleware"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"

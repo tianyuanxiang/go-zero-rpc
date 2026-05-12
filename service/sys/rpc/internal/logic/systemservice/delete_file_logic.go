@@ -3,11 +3,12 @@ package systemservicelogic
 import (
 	"context"
 	"errors"
+	"go-zero-rpc/sys-rpc/pb"
+
 	"os"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -27,7 +28,7 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteFileLogic) DeleteFile(in *sys.DeleteFileReq) (*sys.Empty, error) {
+func (l *DeleteFileLogic) DeleteFile(in *pb.DeleteFileReq) (*pb.Empty, error) {
 	file, err := l.svcCtx.SysFileModel.FindActiveById(l.ctx, in.FileId)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -52,5 +53,5 @@ func (l *DeleteFileLogic) DeleteFile(in *sys.DeleteFileReq) (*sys.Empty, error) 
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

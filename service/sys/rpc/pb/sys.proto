@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package sys;
-option go_package = "./sys";
+option go_package = "./pb";
 
 // ==================== 公共类型 ====================
 

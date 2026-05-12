@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -27,7 +27,7 @@ func NewDeleteDictDataLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 // DeleteDictData 软删除字典数据。
-func (l *DeleteDictDataLogic) DeleteDictData(in *sys.DeleteDictDataReq) (*sys.Empty, error) {
+func (l *DeleteDictDataLogic) DeleteDictData(in *pb.DeleteDictDataReq) (*pb.Empty, error) {
 	dictDataId := in.DictDataId
 
 	_, err := l.svcCtx.SysDictDataModel.FindOne(l.ctx, dictDataId)
@@ -43,5 +43,5 @@ func (l *DeleteDictDataLogic) DeleteDictData(in *sys.DeleteDictDataReq) (*sys.Em
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

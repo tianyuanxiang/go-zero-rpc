@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -34,7 +34,7 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 //  1. 查询菜单存在性
 //  2. 拼接动态更新字段
 //  3. 事务内：状态/可见性变化时级联更新子孙；执行菜单更新
-func (l *UpdateMenuLogic) UpdateMenu(in *sys.UpdateMenuReq) (*sys.Empty, error) {
+func (l *UpdateMenuLogic) UpdateMenu(in *pb.UpdateMenuReq) (*pb.Empty, error) {
 	oldMenu, err := l.svcCtx.SysMenuModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -132,7 +132,7 @@ func (l *UpdateMenuLogic) UpdateMenu(in *sys.UpdateMenuReq) (*sys.Empty, error) 
 		return nil, err
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }
 
 // cascadeStatus 批量更新指定菜单所有子孙的状态。

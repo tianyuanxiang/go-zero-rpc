@@ -3,10 +3,10 @@ package systemservicelogic
 import (
 	"context"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 	"go-zero-rpc/sys-rpc/pkg/encrypt"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -26,7 +26,7 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 	}
 }
 
-func (l *ResetPasswordLogic) ResetPassword(in *sys.ResetPasswordReq) (*sys.Empty, error) {
+func (l *ResetPasswordLogic) ResetPassword(in *pb.ResetPasswordReq) (*pb.Empty, error) {
 	// 获取当前用户userId
 	operatorId := in.OperatorId
 	if operatorId == 0 {
@@ -72,5 +72,5 @@ func (l *ResetPasswordLogic) ResetPassword(in *sys.ResetPasswordReq) (*sys.Empty
 	// 高敏操作审计日志（密码重置必须留痕，便于事后追溯）
 	l.Infof("操作者[%d]成功重置用户[%d]的密码", operatorId, in.UserId)
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

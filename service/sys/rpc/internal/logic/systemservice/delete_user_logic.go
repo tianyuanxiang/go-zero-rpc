@@ -4,9 +4,9 @@ import (
 	"context"
 	"go-zero-rpc/common/constants"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -27,7 +27,7 @@ func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteUserLogic) DeleteUser(in *sys.DeleteUserReq) (*sys.Empty, error) {
+func (l *DeleteUserLogic) DeleteUser(in *pb.DeleteUserReq) (*pb.Empty, error) {
 
 	if in.OperatorId == 0 {
 		return nil, xerr.NewCodeError(xerr.ErrUnauthorized)
@@ -89,5 +89,5 @@ func (l *DeleteUserLogic) DeleteUser(in *sys.DeleteUserReq) (*sys.Empty, error) 
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

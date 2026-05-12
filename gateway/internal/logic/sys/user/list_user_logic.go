@@ -5,7 +5,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

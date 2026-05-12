@@ -11,7 +11,7 @@ import (
 	permsvr "go-zero-rpc/sys-rpc/internal/server/permissionservice"
 	syssvr "go-zero-rpc/sys-rpc/internal/server/systemservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -36,9 +36,9 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		sys.RegisterAuthServiceServer(grpcServer, authsvr.NewAuthServiceServer(ctx))
-		sys.RegisterSystemServiceServer(grpcServer, syssvr.NewSystemServiceServer(ctx))
-		sys.RegisterPermissionServiceServer(grpcServer, permsvr.NewPermissionServiceServer(ctx))
+		pb.RegisterAuthServiceServer(grpcServer, authsvr.NewAuthServiceServer(ctx))
+		pb.RegisterSystemServiceServer(grpcServer, syssvr.NewSystemServiceServer(ctx))
+		pb.RegisterPermissionServiceServer(grpcServer, permsvr.NewPermissionServiceServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

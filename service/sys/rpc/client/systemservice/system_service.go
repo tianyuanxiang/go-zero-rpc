@@ -7,72 +7,72 @@ package systemservice
 import (
 	"context"
 
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 )
 
 type (
-	ClearLoginLogReq         = sys.ClearLoginLogReq
-	ClearOperLogReq          = sys.ClearOperLogReq
-	CreateApiReq             = sys.CreateApiReq
-	CreateApiResp            = sys.CreateApiResp
-	CreateDictDataReq        = sys.CreateDictDataReq
-	CreateDictDataResp       = sys.CreateDictDataResp
-	CreateDictTypeReq        = sys.CreateDictTypeReq
-	CreateDictTypeResp       = sys.CreateDictTypeResp
-	CreateMenuReq            = sys.CreateMenuReq
-	CreateMenuResp           = sys.CreateMenuResp
-	CreateRoleReq            = sys.CreateRoleReq
-	CreateRoleResp           = sys.CreateRoleResp
-	CreateUserReq            = sys.CreateUserReq
-	CreateUserResp           = sys.CreateUserResp
-	DeleteApiReq             = sys.DeleteApiReq
-	DeleteDictDataReq        = sys.DeleteDictDataReq
-	DeleteDictTypeReq        = sys.DeleteDictTypeReq
-	DeleteFileReq            = sys.DeleteFileReq
-	DeleteMenuReq            = sys.DeleteMenuReq
-	DeleteRoleReq            = sys.DeleteRoleReq
-	DeleteUserReq            = sys.DeleteUserReq
-	Empty                    = sys.Empty
-	GetCurrentUserMenusReq   = sys.GetCurrentUserMenusReq
-	GetDictDataByTypeReq     = sys.GetDictDataByTypeReq
-	GetMenuTreeReq           = sys.GetMenuTreeReq
-	GetRoleReq               = sys.GetRoleReq
-	GetUserReq               = sys.GetUserReq
-	ListAllApiResp           = sys.ListAllApiResp
-	ListAllRoleResp          = sys.ListAllRoleResp
-	ListApiReq               = sys.ListApiReq
-	ListApiResp              = sys.ListApiResp
-	ListDictDataResp         = sys.ListDictDataResp
-	ListDictTypeReq          = sys.ListDictTypeReq
-	ListDictTypeResp         = sys.ListDictTypeResp
-	ListFileReq              = sys.ListFileReq
-	ListFileResp             = sys.ListFileResp
-	ListLoginLogReq          = sys.ListLoginLogReq
-	ListLoginLogResp         = sys.ListLoginLogResp
-	ListOperLogReq           = sys.ListOperLogReq
-	ListOperLogResp          = sys.ListOperLogResp
-	ListRoleReq              = sys.ListRoleReq
-	ListRoleResp             = sys.ListRoleResp
-	ListUserReq              = sys.ListUserReq
-	ListUserResp             = sys.ListUserResp
-	MenuTreeResp             = sys.MenuTreeResp
-	RegisterFileReq          = sys.RegisterFileReq
-	RegisterFileResp         = sys.RegisterFileResp
-	ResetPasswordReq         = sys.ResetPasswordReq
-	RoleItem                 = sys.RoleItem
-	UpdateApiReq             = sys.UpdateApiReq
-	UpdateDictDataReq        = sys.UpdateDictDataReq
-	UpdateDictTypeReq        = sys.UpdateDictTypeReq
-	UpdateMenuReq            = sys.UpdateMenuReq
-	UpdateRolePermissionsReq = sys.UpdateRolePermissionsReq
-	UpdateRoleReq            = sys.UpdateRoleReq
-	UpdateUserReq            = sys.UpdateUserReq
-	UserItem                 = sys.UserItem
-	WriteOperLogReq          = sys.WriteOperLogReq
-	WriteOperLogResp         = sys.WriteOperLogResp
+	ClearLoginLogReq         = pb.ClearLoginLogReq
+	ClearOperLogReq          = pb.ClearOperLogReq
+	CreateApiReq             = pb.CreateApiReq
+	CreateApiResp            = pb.CreateApiResp
+	CreateDictDataReq        = pb.CreateDictDataReq
+	CreateDictDataResp       = pb.CreateDictDataResp
+	CreateDictTypeReq        = pb.CreateDictTypeReq
+	CreateDictTypeResp       = pb.CreateDictTypeResp
+	CreateMenuReq            = pb.CreateMenuReq
+	CreateMenuResp           = pb.CreateMenuResp
+	CreateRoleReq            = pb.CreateRoleReq
+	CreateRoleResp           = pb.CreateRoleResp
+	CreateUserReq            = pb.CreateUserReq
+	CreateUserResp           = pb.CreateUserResp
+	DeleteApiReq             = pb.DeleteApiReq
+	DeleteDictDataReq        = pb.DeleteDictDataReq
+	DeleteDictTypeReq        = pb.DeleteDictTypeReq
+	DeleteFileReq            = pb.DeleteFileReq
+	DeleteMenuReq            = pb.DeleteMenuReq
+	DeleteRoleReq            = pb.DeleteRoleReq
+	DeleteUserReq            = pb.DeleteUserReq
+	Empty                    = pb.Empty
+	GetCurrentUserMenusReq   = pb.GetCurrentUserMenusReq
+	GetDictDataByTypeReq     = pb.GetDictDataByTypeReq
+	GetMenuTreeReq           = pb.GetMenuTreeReq
+	GetRoleReq               = pb.GetRoleReq
+	GetUserReq               = pb.GetUserReq
+	ListAllApiResp           = pb.ListAllApiResp
+	ListAllRoleResp          = pb.ListAllRoleResp
+	ListApiReq               = pb.ListApiReq
+	ListApiResp              = pb.ListApiResp
+	ListDictDataResp         = pb.ListDictDataResp
+	ListDictTypeReq          = pb.ListDictTypeReq
+	ListDictTypeResp         = pb.ListDictTypeResp
+	ListFileReq              = pb.ListFileReq
+	ListFileResp             = pb.ListFileResp
+	ListLoginLogReq          = pb.ListLoginLogReq
+	ListLoginLogResp         = pb.ListLoginLogResp
+	ListOperLogReq           = pb.ListOperLogReq
+	ListOperLogResp          = pb.ListOperLogResp
+	ListRoleReq              = pb.ListRoleReq
+	ListRoleResp             = pb.ListRoleResp
+	ListUserReq              = pb.ListUserReq
+	ListUserResp             = pb.ListUserResp
+	MenuTreeResp             = pb.MenuTreeResp
+	RegisterFileReq          = pb.RegisterFileReq
+	RegisterFileResp         = pb.RegisterFileResp
+	ResetPasswordReq         = pb.ResetPasswordReq
+	RoleItem                 = pb.RoleItem
+	UpdateApiReq             = pb.UpdateApiReq
+	UpdateDictDataReq        = pb.UpdateDictDataReq
+	UpdateDictTypeReq        = pb.UpdateDictTypeReq
+	UpdateMenuReq            = pb.UpdateMenuReq
+	UpdateRolePermissionsReq = pb.UpdateRolePermissionsReq
+	UpdateRoleReq            = pb.UpdateRoleReq
+	UpdateUserReq            = pb.UpdateUserReq
+	UserItem                 = pb.UserItem
+	WriteOperLogReq          = pb.WriteOperLogReq
+	WriteOperLogResp         = pb.WriteOperLogResp
 
 	SystemService interface {
 		// 用户管理
@@ -136,202 +136,202 @@ func NewSystemService(cli zrpc.Client) SystemService {
 
 // 用户管理
 func (m *defaultSystemService) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.CreateUser(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateUser(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteUser(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*UserItem, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.GetUser(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListUser(ctx context.Context, in *ListUserReq, opts ...grpc.CallOption) (*ListUserResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListUser(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ResetPassword(ctx, in, opts...)
 }
 
 // 角色管理
 func (m *defaultSystemService) CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.CreateRole(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateRole(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateRolePermissions(ctx context.Context, in *UpdateRolePermissionsReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateRolePermissions(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteRole(ctx context.Context, in *DeleteRoleReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteRole(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) GetRole(ctx context.Context, in *GetRoleReq, opts ...grpc.CallOption) (*RoleItem, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.GetRole(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListRole(ctx context.Context, in *ListRoleReq, opts ...grpc.CallOption) (*ListRoleResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListRole(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListAllRole(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllRoleResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListAllRole(ctx, in, opts...)
 }
 
 // 菜单管理
 func (m *defaultSystemService) CreateMenu(ctx context.Context, in *CreateMenuReq, opts ...grpc.CallOption) (*CreateMenuResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.CreateMenu(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateMenu(ctx context.Context, in *UpdateMenuReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateMenu(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteMenu(ctx context.Context, in *DeleteMenuReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteMenu(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) GetMenuTree(ctx context.Context, in *GetMenuTreeReq, opts ...grpc.CallOption) (*MenuTreeResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.GetMenuTree(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) GetCurrentUserMenus(ctx context.Context, in *GetCurrentUserMenusReq, opts ...grpc.CallOption) (*MenuTreeResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.GetCurrentUserMenus(ctx, in, opts...)
 }
 
 // API 接口管理
 func (m *defaultSystemService) CreateApi(ctx context.Context, in *CreateApiReq, opts ...grpc.CallOption) (*CreateApiResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.CreateApi(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateApi(ctx context.Context, in *UpdateApiReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateApi(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteApi(ctx context.Context, in *DeleteApiReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteApi(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListApi(ctx context.Context, in *ListApiReq, opts ...grpc.CallOption) (*ListApiResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListApi(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListAllApi(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllApiResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListAllApi(ctx, in, opts...)
 }
 
 // 字典管理
 func (m *defaultSystemService) CreateDictType(ctx context.Context, in *CreateDictTypeReq, opts ...grpc.CallOption) (*CreateDictTypeResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.CreateDictType(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateDictType(ctx context.Context, in *UpdateDictTypeReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateDictType(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteDictType(ctx context.Context, in *DeleteDictTypeReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteDictType(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListDictType(ctx context.Context, in *ListDictTypeReq, opts ...grpc.CallOption) (*ListDictTypeResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListDictType(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) CreateDictData(ctx context.Context, in *CreateDictDataReq, opts ...grpc.CallOption) (*CreateDictDataResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.CreateDictData(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) UpdateDictData(ctx context.Context, in *UpdateDictDataReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.UpdateDictData(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteDictData(ctx context.Context, in *DeleteDictDataReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteDictData(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) GetDictDataByType(ctx context.Context, in *GetDictDataByTypeReq, opts ...grpc.CallOption) (*ListDictDataResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.GetDictDataByType(ctx, in, opts...)
 }
 
 // 日志管理
 func (m *defaultSystemService) ListLoginLog(ctx context.Context, in *ListLoginLogReq, opts ...grpc.CallOption) (*ListLoginLogResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListLoginLog(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ClearLoginLog(ctx context.Context, in *ClearLoginLogReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ClearLoginLog(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListOperLog(ctx context.Context, in *ListOperLogReq, opts ...grpc.CallOption) (*ListOperLogResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListOperLog(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ClearOperLog(ctx context.Context, in *ClearOperLogReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ClearOperLog(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) WriteOperLog(ctx context.Context, in *WriteOperLogReq, opts ...grpc.CallOption) (*WriteOperLogResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.WriteOperLog(ctx, in, opts...)
 }
 
 // 文件管理（待启用）
 func (m *defaultSystemService) RegisterFile(ctx context.Context, in *RegisterFileReq, opts ...grpc.CallOption) (*RegisterFileResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.RegisterFile(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) DeleteFile(ctx context.Context, in *DeleteFileReq, opts ...grpc.CallOption) (*Empty, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.DeleteFile(ctx, in, opts...)
 }
 
 func (m *defaultSystemService) ListFile(ctx context.Context, in *ListFileReq, opts ...grpc.CallOption) (*ListFileResp, error) {
-	client := sys.NewSystemServiceClient(m.cli.Conn())
+	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListFile(ctx, in, opts...)
 }

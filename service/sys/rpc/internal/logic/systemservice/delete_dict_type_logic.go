@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -28,7 +28,7 @@ func NewDeleteDictTypeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 // DeleteDictType 软删除字典类型，并级联软删除该类型下所有字典数据。
-func (l *DeleteDictTypeLogic) DeleteDictType(in *sys.DeleteDictTypeReq) (*sys.Empty, error) {
+func (l *DeleteDictTypeLogic) DeleteDictType(in *pb.DeleteDictTypeReq) (*pb.Empty, error) {
 	dictTypeId := in.DictTypeId
 
 	_, err := l.svcCtx.SysDictTypeModel.FindOne(l.ctx, dictTypeId)
@@ -59,5 +59,5 @@ func (l *DeleteDictTypeLogic) DeleteDictType(in *sys.DeleteDictTypeReq) (*sys.Em
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

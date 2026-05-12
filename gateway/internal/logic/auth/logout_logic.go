@@ -6,7 +6,7 @@ package auth
 import (
 	"context"
 	"go-zero-rpc/common/middleware"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 	"net/http"
 	"strings"
 

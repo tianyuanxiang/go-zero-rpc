@@ -3,13 +3,13 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	casbinpkg "go-zero-rpc/sys-rpc/pkg/casbin"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -42,9 +42,9 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 //   - in : 创建角色请求体
 //
 // 返回：
-//   - *sys.CreateRoleResp : 携带新建角色ID
+//   - *pb.CreateRoleResp : 携带新建角色ID
 //   - error               : 业务错误
-func (l *CreateRoleLogic) CreateRole(in *sys.CreateRoleReq) (*sys.CreateRoleResp, error) {
+func (l *CreateRoleLogic) CreateRole(in *pb.CreateRoleReq) (*pb.CreateRoleResp, error) {
 	// 1. 检查角色编码唯一性
 	existRole, err := l.svcCtx.SysRoleModel.FindOneByCode(l.ctx, in.RoleCode)
 	if err != nil && err != sqlx.ErrNotFound {
@@ -154,5 +154,5 @@ func (l *CreateRoleLogic) CreateRole(in *sys.CreateRoleReq) (*sys.CreateRoleResp
 		}
 	}
 
-	return &sys.CreateRoleResp{RoleId: newRoleId}, nil
+	return &pb.CreateRoleResp{RoleId: newRoleId}, nil
 }

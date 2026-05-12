@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -27,7 +27,7 @@ func NewUpdateDictTypeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 // UpdateDictType 更新字典类型。
-func (l *UpdateDictTypeLogic) UpdateDictType(in *sys.UpdateDictTypeReq) (*sys.Empty, error) {
+func (l *UpdateDictTypeLogic) UpdateDictType(in *pb.UpdateDictTypeReq) (*pb.Empty, error) {
 	dictType, err := l.svcCtx.SysDictTypeModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -65,5 +65,5 @@ func (l *UpdateDictTypeLogic) UpdateDictType(in *sys.UpdateDictTypeReq) (*sys.Em
 		l.Errorf("更新DictType[%d]失败：%v", in.Id, err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

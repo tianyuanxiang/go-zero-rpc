@@ -3,13 +3,13 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	casbinpkg "go-zero-rpc/sys-rpc/pkg/casbin"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -37,7 +37,7 @@ func NewUpdateRolePermissionsLogic(ctx context.Context, svcCtx *svc.ServiceConte
 //  2. 校验关联API与菜单存在性
 //  3. 事务内先删后插：更新菜单关联（菜单需补全祖先链）、更新接口关联
 //  4. 事务成功后全量覆盖Casbin策略
-func (l *UpdateRolePermissionsLogic) UpdateRolePermissions(in *sys.UpdateRolePermissionsReq) (*sys.Empty, error) {
+func (l *UpdateRolePermissionsLogic) UpdateRolePermissions(in *pb.UpdateRolePermissionsReq) (*pb.Empty, error) {
 	// 1. 检查角色是否存在
 	existRole, err := l.svcCtx.SysRoleModel.FindOne(l.ctx, in.Id)
 	if err != nil {
@@ -148,5 +148,5 @@ func (l *UpdateRolePermissionsLogic) UpdateRolePermissions(in *sys.UpdateRolePer
 		}
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

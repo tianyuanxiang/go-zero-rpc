@@ -9,7 +9,7 @@ import (
 	"go-zero-rpc/common/jwtx"
 	"go-zero-rpc/common/response"
 	permclient "go-zero-rpc/sys-rpc/client/permissionservice"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

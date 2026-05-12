@@ -4,7 +4,7 @@
 // 	protoc        v3.19.4
 // source: pb/sys.proto
 
-package sys
+package pb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -6862,7 +6862,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x0fCheckPermission\x12\x17.sys.CheckPermissionReq\x1a\x18.sys.CheckPermissionResp\x128\n" +
 	"\vGetUserById\x12\x13.sys.GetUserByIdReq\x1a\x14.sys.GetUserByIdResp\x12G\n" +
 	"\x10GetRolesByUserId\x12\x18.sys.GetRolesByUserIdReq\x1a\x19.sys.GetRolesByUserIdResp\x12;\n" +
-	"\x0eIsTokenRevoked\x12\x13.sys.IsBlackListReq\x1a\x14.sys.IsBlackListRespB\aZ\x05./sysb\x06proto3"
+	"\x0eIsTokenRevoked\x12\x13.sys.IsBlackListReq\x1a\x14.sys.IsBlackListRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_pb_sys_proto_rawDescOnce sync.Once

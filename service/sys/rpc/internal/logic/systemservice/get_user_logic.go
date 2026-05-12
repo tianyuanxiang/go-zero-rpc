@@ -3,9 +3,9 @@ package systemservicelogic
 import (
 	"context"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -25,7 +25,7 @@ func NewGetUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLo
 	}
 }
 
-func (l *GetUserLogic) GetUser(in *sys.GetUserReq) (*sys.UserItem, error) {
+func (l *GetUserLogic) GetUser(in *pb.GetUserReq) (*pb.UserItem, error) {
 	// 查询用户基本信息
 	userInfo, err := l.svcCtx.SysUserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
@@ -60,7 +60,7 @@ func (l *GetUserLogic) GetUser(in *sys.GetUserReq) (*sys.UserItem, error) {
 		}
 	}
 
-	return &sys.UserItem{
+	return &pb.UserItem{
 		Id:        userInfo.Id,
 		Username:  userInfo.Username,
 		Nickname:  userInfo.Nickname,

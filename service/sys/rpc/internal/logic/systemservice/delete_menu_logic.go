@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -33,7 +33,7 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 //  1. 校验菜单存在性
 //  2. 校验是否有子菜单（存在则禁止删除）
 //  3. 事务内：软删除菜单、删除角色菜单关联
-func (l *DeleteMenuLogic) DeleteMenu(in *sys.DeleteMenuReq) (*sys.Empty, error) {
+func (l *DeleteMenuLogic) DeleteMenu(in *pb.DeleteMenuReq) (*pb.Empty, error) {
 	menuId := in.MenuId
 
 	_, err := l.svcCtx.SysMenuModel.FindOne(l.ctx, menuId)
@@ -74,5 +74,5 @@ func (l *DeleteMenuLogic) DeleteMenu(in *sys.DeleteMenuReq) (*sys.Empty, error) 
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

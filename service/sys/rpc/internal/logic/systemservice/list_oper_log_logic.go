@@ -3,13 +3,14 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
+
 	"strconv"
 	"time"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +30,7 @@ func NewListOperLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListO
 }
 
 // ListOperLog 分页查询操作日志，支持关键词、业务类型、状态、时间范围筛选。
-func (l *ListOperLogLogic) ListOperLog(in *sys.ListOperLogReq) (*sys.ListOperLogResp, error) {
+func (l *ListOperLogLogic) ListOperLog(in *pb.ListOperLogReq) (*pb.ListOperLogResp, error) {
 	// 默认状态为 -1（不过滤），仅在 HasStatus 时使用上层指定的 status
 	status := -1
 	if in.HasStatus {
@@ -65,9 +66,9 @@ func (l *ListOperLogLogic) ListOperLog(in *sys.ListOperLogReq) (*sys.ListOperLog
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	list := make([]*sys.OperLogItem, 0, len(logs))
+	list := make([]*pb.OperLogItem, 0, len(logs))
 	for _, log := range logs {
-		list = append(list, &sys.OperLogItem{
+		list = append(list, &pb.OperLogItem{
 			Id:         log.Id,
 			Title:      log.Title,
 			OperType:   strconv.FormatInt(log.BusinessType, 10),
@@ -84,7 +85,7 @@ func (l *ListOperLogLogic) ListOperLog(in *sys.ListOperLogReq) (*sys.ListOperLog
 		})
 	}
 
-	return &sys.ListOperLogResp{
+	return &pb.ListOperLogResp{
 		Total: total,
 		List:  list,
 	}, nil

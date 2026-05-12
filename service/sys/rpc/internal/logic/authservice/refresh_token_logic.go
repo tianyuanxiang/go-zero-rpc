@@ -4,10 +4,10 @@ import (
 	"context"
 	"go-zero-rpc/common/jwtx"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
-
+	
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,7 +25,7 @@ func NewRefreshTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Refr
 	}
 }
 
-func (l *RefreshTokenLogic) RefreshToken(in *sys.RefreshTokenReq) (*sys.RefreshTokenResp, error) {
+func (l *RefreshTokenLogic) RefreshToken(in *pb.RefreshTokenReq) (*pb.RefreshTokenResp, error) {
 	// 1. 解析刷新令牌
 	claims, err := jwtx.ParseToken(in.RefreshToken, l.svcCtx.Config.JwtAuth.AccessSecret)
 	if err != nil {
@@ -56,7 +56,7 @@ func (l *RefreshTokenLogic) RefreshToken(in *sys.RefreshTokenReq) (*sys.RefreshT
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.RefreshTokenResp{
+	return &pb.RefreshTokenResp{
 		AccessToken: newAccessToken,
 		ExpiresIn:   l.svcCtx.Config.JwtAuth.AccessExpire,
 	}, err

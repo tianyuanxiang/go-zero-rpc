@@ -7,22 +7,22 @@ package authservice
 import (
 	"context"
 
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 )
 
 type (
-	ChangePasswordReq  = sys.ChangePasswordReq
-	CommonResp         = sys.CommonResp
-	GetCurrentUserReq  = sys.GetCurrentUserReq
-	GetCurrentUserResp = sys.GetCurrentUserResp
-	LoginReq           = sys.LoginReq
-	LoginResp          = sys.LoginResp
-	LogoutReq          = sys.LogoutReq
-	RefreshTokenReq    = sys.RefreshTokenReq
-	RefreshTokenResp   = sys.RefreshTokenResp
+	ChangePasswordReq  = pb.ChangePasswordReq
+	CommonResp         = pb.CommonResp
+	GetCurrentUserReq  = pb.GetCurrentUserReq
+	GetCurrentUserResp = pb.GetCurrentUserResp
+	LoginReq           = pb.LoginReq
+	LoginResp          = pb.LoginResp
+	LogoutReq          = pb.LogoutReq
+	RefreshTokenReq    = pb.RefreshTokenReq
+	RefreshTokenResp   = pb.RefreshTokenResp
 
 	AuthService interface {
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
@@ -44,26 +44,26 @@ func NewAuthService(cli zrpc.Client) AuthService {
 }
 
 func (m *defaultAuthService) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	client := sys.NewAuthServiceClient(m.cli.Conn())
+	client := pb.NewAuthServiceClient(m.cli.Conn())
 	return client.Login(ctx, in, opts...)
 }
 
 func (m *defaultAuthService) RefreshToken(ctx context.Context, in *RefreshTokenReq, opts ...grpc.CallOption) (*RefreshTokenResp, error) {
-	client := sys.NewAuthServiceClient(m.cli.Conn())
+	client := pb.NewAuthServiceClient(m.cli.Conn())
 	return client.RefreshToken(ctx, in, opts...)
 }
 
 func (m *defaultAuthService) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*CommonResp, error) {
-	client := sys.NewAuthServiceClient(m.cli.Conn())
+	client := pb.NewAuthServiceClient(m.cli.Conn())
 	return client.Logout(ctx, in, opts...)
 }
 
 func (m *defaultAuthService) ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*CommonResp, error) {
-	client := sys.NewAuthServiceClient(m.cli.Conn())
+	client := pb.NewAuthServiceClient(m.cli.Conn())
 	return client.ChangePassword(ctx, in, opts...)
 }
 
 func (m *defaultAuthService) GetCurrentUser(ctx context.Context, in *GetCurrentUserReq, opts ...grpc.CallOption) (*GetCurrentUserResp, error) {
-	client := sys.NewAuthServiceClient(m.cli.Conn())
+	client := pb.NewAuthServiceClient(m.cli.Conn())
 	return client.GetCurrentUser(ctx, in, opts...)
 }

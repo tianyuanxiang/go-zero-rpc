@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +31,7 @@ func NewGetMenuTreeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMe
 // 与 GetCurrentUserMenus 的区别：
 //   - GetMenuTree：管理员菜单管理界面使用，返回未软删除的全部菜单（不区分可见性、不区分角色）
 //   - GetCurrentUserMenus：前端导航菜单使用，按当前用户的角色过滤、过滤隐藏菜单
-func (l *GetMenuTreeLogic) GetMenuTree(in *sys.GetMenuTreeReq) (*sys.MenuTreeResp, error) {
+func (l *GetMenuTreeLogic) GetMenuTree(in *pb.GetMenuTreeReq) (*pb.MenuTreeResp, error) {
 	menus, err := l.svcCtx.SysMenuModel.ListAll(l.ctx)
 	if err != nil {
 		l.Errorf("查询全部菜单失败：%v", err)
@@ -39,5 +39,5 @@ func (l *GetMenuTreeLogic) GetMenuTree(in *sys.GetMenuTreeReq) (*sys.MenuTreeRes
 	}
 
 	menuTree := common.BuildMenuTree(menus, 0)
-	return &sys.MenuTreeResp{List: menuTree}, nil
+	return &pb.MenuTreeResp{List: menuTree}, nil
 }

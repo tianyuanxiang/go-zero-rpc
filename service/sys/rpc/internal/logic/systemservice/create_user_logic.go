@@ -4,10 +4,10 @@ import (
 	"context"
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
+	"go-zero-rpc/sys-rpc/pb"
 	"go-zero-rpc/sys-rpc/pkg/encrypt"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -40,9 +40,9 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 //   - in : 创建用户请求体
 //
 // 返回：
-//   - *sys.CreateUserResp : 携带新建用户ID，供调用方做后续审计、跳转详情等
+//   - *pb.CreateUserResp : 携带新建用户ID，供调用方做后续审计、跳转详情等
 //   - error : 业务错误，遵循 gRPC status 约定（成功为 nil）
-func (l *CreateUserLogic) CreateUser(in *sys.CreateUserReq) (*sys.CreateUserResp, error) {
+func (l *CreateUserLogic) CreateUser(in *pb.CreateUserReq) (*pb.CreateUserResp, error) {
 	// 1. 检查用户名唯一性
 	existUser, err := l.svcCtx.SysUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil && err != sqlx.ErrNotFound {
@@ -107,5 +107,5 @@ func (l *CreateUserLogic) CreateUser(in *sys.CreateUserReq) (*sys.CreateUserResp
 		return nil, err
 	}
 
-	return &sys.CreateUserResp{UserId: newUserId}, nil
+	return &pb.CreateUserResp{UserId: newUserId}, nil
 }

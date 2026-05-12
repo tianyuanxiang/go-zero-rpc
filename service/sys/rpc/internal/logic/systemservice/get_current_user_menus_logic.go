@@ -3,13 +3,13 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/constants"
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,7 +36,7 @@ func NewGetCurrentUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext
 //  3. 非 admin 的菜单需补全祖先链，确保父菜单不会缺失
 //  4. 过滤隐藏菜单
 //  5. 构建菜单树
-func (l *GetCurrentUserMenusLogic) GetCurrentUserMenus(in *sys.GetCurrentUserMenusReq) (*sys.MenuTreeResp, error) {
+func (l *GetCurrentUserMenusLogic) GetCurrentUserMenus(in *pb.GetCurrentUserMenusReq) (*pb.MenuTreeResp, error) {
 	userId := in.UserId
 	if userId == 0 {
 		return nil, xerr.NewCodeError(xerr.ErrUnauthorized)
@@ -50,7 +50,7 @@ func (l *GetCurrentUserMenusLogic) GetCurrentUserMenus(in *sys.GetCurrentUserMen
 
 	if len(roleIds) == 0 {
 		l.Errorf("用户[%d]角色ID为空", userId)
-		return &sys.MenuTreeResp{List: []*sys.MenuItem{}}, nil
+		return &pb.MenuTreeResp{List: []*pb.MenuItem{}}, nil
 	}
 
 	var menus []*systemmodel.SysMenu
@@ -87,7 +87,7 @@ func (l *GetCurrentUserMenusLogic) GetCurrentUserMenus(in *sys.GetCurrentUserMen
 	}
 
 	menuTree := common.BuildMenuTree(visible, 0)
-	return &sys.MenuTreeResp{List: menuTree}, nil
+	return &pb.MenuTreeResp{List: menuTree}, nil
 }
 
 // isAdmin 判断给定角色ID列表中是否含有超级管理员角色。

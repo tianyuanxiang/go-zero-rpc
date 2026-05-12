@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -32,7 +32,7 @@ func NewCreateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateA
 // 业务流程：
 //  1. 校验路径+方法组合唯一性
 //  2. 写入接口数据
-func (l *CreateApiLogic) CreateApi(in *sys.CreateApiReq) (*sys.CreateApiResp, error) {
+func (l *CreateApiLogic) CreateApi(in *pb.CreateApiReq) (*pb.CreateApiResp, error) {
 	// 1. 检查路径+方法组合唯一性
 	exist, err := l.svcCtx.SysApiModel.FindOneByApiPathMethod(l.ctx, in.ApiPath, in.Method)
 	if err != nil && err != sqlx.ErrNotFound {
@@ -56,5 +56,5 @@ func (l *CreateApiLogic) CreateApi(in *sys.CreateApiReq) (*sys.CreateApiResp, er
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.CreateApiResp{ApiId: apiId}, nil
+	return &pb.CreateApiResp{ApiId: apiId}, nil
 }

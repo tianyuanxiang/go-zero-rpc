@@ -8,7 +8,7 @@ import (
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -28,7 +28,7 @@ func NewGetCurrentUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetCurrentUserLogic) GetCurrentUser(in *sys.GetCurrentUserReq) (*sys.GetCurrentUserResp, error) {
+func (l *GetCurrentUserLogic) GetCurrentUser(in *pb.GetCurrentUserReq) (*pb.GetCurrentUserResp, error) {
 	userId := in.UserId
 	if userId == 0 {
 		return nil, xerr.NewCodeError(xerr.ErrUnauthorized)
@@ -90,8 +90,8 @@ func (l *GetCurrentUserLogic) GetCurrentUser(in *sys.GetCurrentUserReq) (*sys.Ge
 
 	menuTree := common.BuildMenuTree(menus, 0)
 
-	return &sys.GetCurrentUserResp{
-		UserInfo: &sys.UserInfo{
+	return &pb.GetCurrentUserResp{
+		UserInfo: &pb.UserInfo{
 			UserId:   user.Id,
 			Username: user.Username,
 			Nickname: user.Nickname,

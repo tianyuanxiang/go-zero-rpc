@@ -4,13 +4,13 @@ package systemservicelogic
 import (
 	"context"
 	"database/sql"
+	"go-zero-rpc/sys-rpc/pb"
 	"strconv"
 	"time"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -37,7 +37,7 @@ func NewWriteOperLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Writ
 //   - oper_type 在 proto 里以字符串形式承载业务类型枚举值（如 "1"=新增）；
 //     由调用方编码，本服务原样写入 business_type 字段。
 //   - req_param / resp_result 为可选字段，使用 sql.NullString 存入。
-func (l *WriteOperLogLogic) WriteOperLog(in *sys.WriteOperLogReq) (*sys.WriteOperLogResp, error) {
+func (l *WriteOperLogLogic) WriteOperLog(in *pb.WriteOperLogReq) (*pb.WriteOperLogResp, error) {
 	// 将 proto 中的 oper_type（string）转为 model 中的 BusinessType（int64）
 	var businessType int64
 	if in.OperType != "" {
@@ -75,5 +75,5 @@ func (l *WriteOperLogLogic) WriteOperLog(in *sys.WriteOperLogReq) (*sys.WriteOpe
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.WriteOperLogResp{Id: logId}, nil
+	return &pb.WriteOperLogResp{Id: logId}, nil
 }

@@ -6,7 +6,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,9 +32,9 @@ func (l *ResetPasswordLogic) ResetPassword(req *types.ResetPasswordReq) error {
 	}
 
 	_, err := l.svcCtx.SysRpc.ResetPassword(l.ctx, &sys.ResetPasswordReq{
-		UserId:     req.Id,
+		UserId:      req.Id,
 		NewPassword: req.NewPassword,
-		OperatorId: userId,
+		OperatorId:  userId,
 	})
 	if err != nil {
 		l.Logger.Errorf("调用ResetPassword RPC失败, operatorId=%d, targetId=%d, err=%v", userId, req.Id, err)

@@ -3,9 +3,9 @@ package systemservicelogic
 import (
 	"context"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -26,7 +26,7 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateUserLogic) UpdateUser(in *sys.UpdateUserReq) (*sys.Empty, error) {
+func (l *UpdateUserLogic) UpdateUser(in *pb.UpdateUserReq) (*pb.Empty, error) {
 
 	// 检查用户是否存在
 	sysUser, err := l.svcCtx.SysUserModel.FindOne(l.ctx, in.Id)
@@ -118,8 +118,8 @@ func (l *UpdateUserLogic) UpdateUser(in *sys.UpdateUserReq) (*sys.Empty, error) 
 
 	if err != nil {
 		l.Errorf("更新用户事务执行失败: %v", err)
-		return &sys.Empty{}, err
+		return &pb.Empty{}, err
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

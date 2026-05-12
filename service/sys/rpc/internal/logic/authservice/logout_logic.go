@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"go-zero-rpc/common/jwtx"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 	"time"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +27,7 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 	}
 }
 
-func (l *LogoutLogic) Logout(in *sys.LogoutReq) (*sys.CommonResp, error) {
+func (l *LogoutLogic) Logout(in *pb.LogoutReq) (*pb.CommonResp, error) {
 	tokenStr := in.AccessToken
 	if tokenStr == "" {
 		l.Errorf("logout err: token empty")
@@ -57,7 +57,7 @@ func (l *LogoutLogic) Logout(in *sys.LogoutReq) (*sys.CommonResp, error) {
 	}
 	l.Infof("用户[%d]登出成功，Token已加入黑名单", in.UserId)
 
-	return &sys.CommonResp{
+	return &pb.CommonResp{
 		Code: 0,
 		Msg:  "已登出",
 	}, nil

@@ -7,11 +7,11 @@ import (
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	sysmodel "go-zero-rpc/sys-rpc/internal/model"
+	"go-zero-rpc/sys-rpc/pb"
 	"go-zero-rpc/sys-rpc/pkg/encrypt"
 	"time"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -41,7 +41,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 // 6. 异步记录登录日志
 // 7. 返回 LoginResp
 
-func (l *LoginLogic) Login(in *sys.LoginReq) (*sys.LoginResp, error) {
+func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginResp, error) {
 	// 1. 查用户
 	user, err := l.svcCtx.SysUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
@@ -127,12 +127,12 @@ func (l *LoginLogic) Login(in *sys.LoginReq) (*sys.LoginResp, error) {
 	// 6. 登录日志
 	l.recordLoginLog(in.Username, user.Id, in.ClientIp, in.UserAgent, 1, "登录成功")
 
-	// 7. 组装返回（types.UserInfo 改成 sys.UserInfo）
-	return &sys.LoginResp{
+	// 7. 组装返回（types.UserInfo 改成 pb.UserInfo）
+	return &pb.LoginResp{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		ExpiresIn:    l.svcCtx.Config.JwtAuth.AccessExpire,
-		UserInfo: &sys.UserInfo{
+		UserInfo: &pb.UserInfo{
 			UserId:   user.Id,
 			Username: user.Username,
 			Email:    user.Email,
@@ -140,7 +140,7 @@ func (l *LoginLogic) Login(in *sys.LoginReq) (*sys.LoginResp, error) {
 			Nickname: user.Nickname,
 			Avatar:   user.Avatar,
 			Roles:    roleCodes,
-			Menus:    menuTree, // []*sys.MenuItem
+			Menus:    menuTree, // []*pb.MenuItem
 		},
 	}, nil
 }

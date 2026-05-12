@@ -3,8 +3,8 @@ package common
 import (
 	"context"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
+	"go-zero-rpc/sys-rpc/pb"
 	casbinpkg "go-zero-rpc/sys-rpc/pkg/casbin"
-	"go-zero-rpc/sys-rpc/sys"
 
 	casbinv2 "github.com/casbin/casbin/v2"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -100,13 +100,13 @@ type MenuQuerier interface {
 }
 
 // buildMenuTree 将扁平菜单列表递归构建为树形结构。
-func BuildMenuTree(menus []*systemmodel.SysMenu, parentId int64) []*sys.MenuItem {
-	result := make([]*sys.MenuItem, 0)
+func BuildMenuTree(menus []*systemmodel.SysMenu, parentId int64) []*pb.MenuItem {
+	result := make([]*pb.MenuItem, 0)
 	for _, m := range menus {
 		if m.ParentId != parentId {
 			continue
 		}
-		menuNode := sys.MenuItem{
+		menuNode := pb.MenuItem{
 			Id:        m.Id,
 			ParentId:  m.ParentId,
 			MenuName:  m.Name,

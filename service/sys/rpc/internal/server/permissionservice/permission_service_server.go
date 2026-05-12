@@ -7,14 +7,14 @@ package server
 import (
 	"context"
 
-	permissionservicelogic "go-zero-rpc/sys-rpc/internal/logic/permissionservice"
+	"go-zero-rpc/sys-rpc/internal/logic/permissionservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 )
 
 type PermissionServiceServer struct {
 	svcCtx *svc.ServiceContext
-	sys.UnimplementedPermissionServiceServer
+	pb.UnimplementedPermissionServiceServer
 }
 
 func NewPermissionServiceServer(svcCtx *svc.ServiceContext) *PermissionServiceServer {
@@ -23,22 +23,22 @@ func NewPermissionServiceServer(svcCtx *svc.ServiceContext) *PermissionServiceSe
 	}
 }
 
-func (s *PermissionServiceServer) CheckPermission(ctx context.Context, in *sys.CheckPermissionReq) (*sys.CheckPermissionResp, error) {
+func (s *PermissionServiceServer) CheckPermission(ctx context.Context, in *pb.CheckPermissionReq) (*pb.CheckPermissionResp, error) {
 	l := permissionservicelogic.NewCheckPermissionLogic(ctx, s.svcCtx)
 	return l.CheckPermission(in)
 }
 
-func (s *PermissionServiceServer) GetUserById(ctx context.Context, in *sys.GetUserByIdReq) (*sys.GetUserByIdResp, error) {
+func (s *PermissionServiceServer) GetUserById(ctx context.Context, in *pb.GetUserByIdReq) (*pb.GetUserByIdResp, error) {
 	l := permissionservicelogic.NewGetUserByIdLogic(ctx, s.svcCtx)
 	return l.GetUserById(in)
 }
 
-func (s *PermissionServiceServer) GetRolesByUserId(ctx context.Context, in *sys.GetRolesByUserIdReq) (*sys.GetRolesByUserIdResp, error) {
+func (s *PermissionServiceServer) GetRolesByUserId(ctx context.Context, in *pb.GetRolesByUserIdReq) (*pb.GetRolesByUserIdResp, error) {
 	l := permissionservicelogic.NewGetRolesByUserIdLogic(ctx, s.svcCtx)
 	return l.GetRolesByUserId(in)
 }
 
-func (s *PermissionServiceServer) IsTokenRevoked(ctx context.Context, in *sys.IsBlackListReq) (*sys.IsBlackListResp, error) {
+func (s *PermissionServiceServer) IsTokenRevoked(ctx context.Context, in *pb.IsBlackListReq) (*pb.IsBlackListResp, error) {
 	l := permissionservicelogic.NewIsTokenRevokedLogic(ctx, s.svcCtx)
 	return l.IsTokenRevoked(in)
 }

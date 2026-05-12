@@ -3,12 +3,13 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
+
 	"time"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +32,7 @@ func NewListLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *List
 //
 // 参数说明：
 //   - in.HasStatus = true 时按 in.Status 过滤；否则不按状态过滤（传 -1 表示不过滤）
-func (l *ListLoginLogLogic) ListLoginLog(in *sys.ListLoginLogReq) (*sys.ListLoginLogResp, error) {
+func (l *ListLoginLogLogic) ListLoginLog(in *pb.ListLoginLogReq) (*pb.ListLoginLogResp, error) {
 	// 默认状态为 -1（不过滤），仅在 HasStatus 时使用上层指定的 status
 	status := -1
 	if in.HasStatus {
@@ -66,9 +67,9 @@ func (l *ListLoginLogLogic) ListLoginLog(in *sys.ListLoginLogReq) (*sys.ListLogi
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	list := make([]*sys.LoginLogItem, 0, len(logs))
+	list := make([]*pb.LoginLogItem, 0, len(logs))
 	for _, log := range logs {
-		list = append(list, &sys.LoginLogItem{
+		list = append(list, &pb.LoginLogItem{
 			Id:        log.Id,
 			UserId:    log.UserId,
 			Username:  log.Username,
@@ -82,7 +83,7 @@ func (l *ListLoginLogLogic) ListLoginLog(in *sys.ListLoginLogReq) (*sys.ListLogi
 		})
 	}
 
-	return &sys.ListLoginLogResp{
+	return &pb.ListLoginLogResp{
 		Total: total,
 		List:  list,
 	}, nil

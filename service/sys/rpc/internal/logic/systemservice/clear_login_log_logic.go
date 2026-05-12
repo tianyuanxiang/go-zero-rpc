@@ -4,11 +4,12 @@ package systemservicelogic
 import (
 	"context"
 	"database/sql"
+	"go-zero-rpc/sys-rpc/pb"
+
 	"time"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +32,7 @@ func NewClearLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 //
 // 注：proto 中 ClearLoginLogReq 为空，语义为「清空全部」。
 // 通过批量将 deleted_at 设置为当前时间实现软删除。
-func (l *ClearLoginLogLogic) ClearLoginLog(in *sys.ClearLoginLogReq) (*sys.Empty, error) {
+func (l *ClearLoginLogLogic) ClearLoginLog(in *pb.ClearLoginLogReq) (*pb.Empty, error) {
 	result := l.svcCtx.Orm.WithContext(l.ctx).Table("sys_login_log").
 		Where("deleted_at IS NULL").
 		Update("deleted_at", sql.NullTime{
@@ -43,5 +44,5 @@ func (l *ClearLoginLogLogic) ClearLoginLog(in *sys.ClearLoginLogReq) (*sys.Empty
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

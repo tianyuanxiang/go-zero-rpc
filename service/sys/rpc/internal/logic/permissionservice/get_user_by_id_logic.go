@@ -3,11 +3,11 @@ package permissionservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	sysmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func NewGetUserByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 // GetUserById 根据用户ID查询用户基础信息。
 //
 // 该方法被网关在鉴权阶段调用，仅返回必要字段（不含密码、状态等敏感字段）。
-func (l *GetUserByIdLogic) GetUserById(in *sys.GetUserByIdReq) (*sys.GetUserByIdResp, error) {
+func (l *GetUserByIdLogic) GetUserById(in *pb.GetUserByIdReq) (*pb.GetUserByIdResp, error) {
 	user, err := l.svcCtx.SysUserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		if err == sysmodel.ErrNotFound {
@@ -39,7 +39,7 @@ func (l *GetUserByIdLogic) GetUserById(in *sys.GetUserByIdReq) (*sys.GetUserById
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.GetUserByIdResp{
+	return &pb.GetUserByIdResp{
 		UserId:   user.Id,
 		Username: user.Username,
 		Nickname: user.Nickname,

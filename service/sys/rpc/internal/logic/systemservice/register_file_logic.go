@@ -2,6 +2,8 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
+
 	"path"
 	"path/filepath"
 	"strings"
@@ -9,7 +11,6 @@ import (
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,7 @@ func NewRegisterFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Regi
 	}
 }
 
-func (l *RegisterFileLogic) RegisterFile(in *sys.RegisterFileReq) (*sys.RegisterFileResp, error) {
+func (l *RegisterFileLogic) RegisterFile(in *pb.RegisterFileReq) (*pb.RegisterFileResp, error) {
 	originName := strings.TrimSpace(in.FileName)
 	fileURL := strings.TrimSpace(in.FileUrl)
 	if originName == "" || fileURL == "" {
@@ -60,8 +61,8 @@ func (l *RegisterFileLogic) RegisterFile(in *sys.RegisterFileReq) (*sys.Register
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.RegisterFileResp{
-		File: &sys.FileInfo{
+	return &pb.RegisterFileResp{
+		File: &pb.FileInfo{
 			FileId:   fileId,
 			FileName: originName,
 			FileUrl:  fileURL,

@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	casbinpkg "go-zero-rpc/sys-rpc/pkg/casbin"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -34,7 +34,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 //  2. 检查变更后的角色编码是否与其他角色冲突
 //  3. 拼接动态更新字段并执行更新
 //  4. 若编码发生变化，迁移Casbin策略到新编码
-func (l *UpdateRoleLogic) UpdateRole(in *sys.UpdateRoleReq) (*sys.Empty, error) {
+func (l *UpdateRoleLogic) UpdateRole(in *pb.UpdateRoleReq) (*pb.Empty, error) {
 	// 1. 检查角色是否存在
 	existRole, err := l.svcCtx.SysRoleModel.FindOne(l.ctx, in.Id)
 	if err != nil {
@@ -76,7 +76,7 @@ func (l *UpdateRoleLogic) UpdateRole(in *sys.UpdateRoleReq) (*sys.Empty, error) 
 	}
 
 	if len(updates) == 0 {
-		return &sys.Empty{}, nil
+		return &pb.Empty{}, nil
 	}
 
 	if err := l.svcCtx.SysRoleModel.UpdateRoleTrans(l.ctx, in.Id, updates); err != nil {
@@ -108,5 +108,5 @@ func (l *UpdateRoleLogic) UpdateRole(in *sys.UpdateRoleReq) (*sys.Empty, error) 
 		}
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

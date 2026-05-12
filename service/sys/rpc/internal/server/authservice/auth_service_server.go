@@ -7,14 +7,14 @@ package server
 import (
 	"context"
 
-	authservicelogic "go-zero-rpc/sys-rpc/internal/logic/authservice"
+	"go-zero-rpc/sys-rpc/internal/logic/authservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 )
 
 type AuthServiceServer struct {
 	svcCtx *svc.ServiceContext
-	sys.UnimplementedAuthServiceServer
+	pb.UnimplementedAuthServiceServer
 }
 
 func NewAuthServiceServer(svcCtx *svc.ServiceContext) *AuthServiceServer {
@@ -23,27 +23,27 @@ func NewAuthServiceServer(svcCtx *svc.ServiceContext) *AuthServiceServer {
 	}
 }
 
-func (s *AuthServiceServer) Login(ctx context.Context, in *sys.LoginReq) (*sys.LoginResp, error) {
+func (s *AuthServiceServer) Login(ctx context.Context, in *pb.LoginReq) (*pb.LoginResp, error) {
 	l := authservicelogic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
 }
 
-func (s *AuthServiceServer) RefreshToken(ctx context.Context, in *sys.RefreshTokenReq) (*sys.RefreshTokenResp, error) {
+func (s *AuthServiceServer) RefreshToken(ctx context.Context, in *pb.RefreshTokenReq) (*pb.RefreshTokenResp, error) {
 	l := authservicelogic.NewRefreshTokenLogic(ctx, s.svcCtx)
 	return l.RefreshToken(in)
 }
 
-func (s *AuthServiceServer) Logout(ctx context.Context, in *sys.LogoutReq) (*sys.CommonResp, error) {
+func (s *AuthServiceServer) Logout(ctx context.Context, in *pb.LogoutReq) (*pb.CommonResp, error) {
 	l := authservicelogic.NewLogoutLogic(ctx, s.svcCtx)
 	return l.Logout(in)
 }
 
-func (s *AuthServiceServer) ChangePassword(ctx context.Context, in *sys.ChangePasswordReq) (*sys.CommonResp, error) {
+func (s *AuthServiceServer) ChangePassword(ctx context.Context, in *pb.ChangePasswordReq) (*pb.CommonResp, error) {
 	l := authservicelogic.NewChangePasswordLogic(ctx, s.svcCtx)
 	return l.ChangePassword(in)
 }
 
-func (s *AuthServiceServer) GetCurrentUser(ctx context.Context, in *sys.GetCurrentUserReq) (*sys.GetCurrentUserResp, error) {
+func (s *AuthServiceServer) GetCurrentUser(ctx context.Context, in *pb.GetCurrentUserReq) (*pb.GetCurrentUserResp, error) {
 	l := authservicelogic.NewGetCurrentUserLogic(ctx, s.svcCtx)
 	return l.GetCurrentUser(in)
 }

@@ -1,0 +1,6 @@
+go 1.24.0
+
+use (
+	.
+	D:/GoProject/project_new/go-zero-rpc/common
+)

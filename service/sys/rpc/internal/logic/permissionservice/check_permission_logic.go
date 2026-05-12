@@ -4,12 +4,12 @@ package permissionservicelogic
 import (
 	"context"
 	"fmt"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/constants"
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	casbinpkg "go-zero-rpc/sys-rpc/pkg/casbin"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -40,9 +40,9 @@ func NewCheckPermissionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *C
 //   - in : 校验请求体（user_id / path / method）
 //
 // 返回：
-//   - *sys.CheckPermissionResp : allowed=true 表示有权限
+//   - *pb.CheckPermissionResp : allowed=true 表示有权限
 //   - error                    : 业务错误
-func (l *CheckPermissionLogic) CheckPermission(in *sys.CheckPermissionReq) (*sys.CheckPermissionResp, error) {
+func (l *CheckPermissionLogic) CheckPermission(in *pb.CheckPermissionReq) (*pb.CheckPermissionResp, error) {
 	if in.UserId == 0 {
 		return nil, xerr.NewCodeError(xerr.ErrUnauthorized)
 	}
@@ -57,7 +57,7 @@ func (l *CheckPermissionLogic) CheckPermission(in *sys.CheckPermissionReq) (*sys
 
 	if len(roleIds) == 0 {
 		l.Logger.Infof("\u001B[31m%s\u001B[0m", "********************************** casbinMiddleware end *********************************")
-		return &sys.CheckPermissionResp{Allowed: false, Reason: "roleIds is not found."}, nil
+		return &pb.CheckPermissionResp{Allowed: false, Reason: "roleIds is not found."}, nil
 	}
 
 	// 2. 校验权限
@@ -70,7 +70,7 @@ func (l *CheckPermissionLogic) CheckPermission(in *sys.CheckPermissionReq) (*sys
 		// 2.1 admin 角色直接放行
 		if role.Code == constants.RoleCodeAdmin {
 			l.Logger.Infof("\u001B[31m%s\u001B[0m", "********************************** casbinMiddleware end *********************************")
-			return &sys.CheckPermissionResp{Allowed: true}, nil
+			return &pb.CheckPermissionResp{Allowed: true}, nil
 		}
 
 		// 2.2 普通角色走 casbin 校验
@@ -81,12 +81,12 @@ func (l *CheckPermissionLogic) CheckPermission(in *sys.CheckPermissionReq) (*sys
 		}
 		if ok {
 			l.Logger.Infof("\u001B[31m%s\u001B[0m", "********************************** casbinMiddleware end *********************************")
-			return &sys.CheckPermissionResp{Allowed: true}, nil
+			return &pb.CheckPermissionResp{Allowed: true}, nil
 		}
 		roleCodes = append(roleCodes, role.Code)
 	}
 
 	l.Logger.Infof("\u001B[31m%s\u001B[0m", "********************************** casbinMiddleware end *********************************")
-	return &sys.CheckPermissionResp{Allowed: false,
+	return &pb.CheckPermissionResp{Allowed: false,
 		Reason: fmt.Sprintf("Code: %s, Path: %s, Method: %s is denied.", roleCodes, in.Path, in.Method)}, nil
 }

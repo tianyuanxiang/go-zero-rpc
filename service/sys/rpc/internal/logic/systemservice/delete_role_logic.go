@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
 	casbinpkg "go-zero-rpc/sys-rpc/pkg/casbin"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -34,7 +34,7 @@ func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 //  1. 校验角色是否存在
 //  2. 事务内：软删除角色、清除用户关联、清除菜单关联、清除接口关联
 //  3. 事务成功后清除Casbin策略
-func (l *DeleteRoleLogic) DeleteRole(in *sys.DeleteRoleReq) (*sys.Empty, error) {
+func (l *DeleteRoleLogic) DeleteRole(in *pb.DeleteRoleReq) (*pb.Empty, error) {
 	roleId := in.RoleId
 
 	// 1. 检查角色是否存在
@@ -82,5 +82,5 @@ func (l *DeleteRoleLogic) DeleteRole(in *sys.DeleteRoleReq) (*sys.Empty, error) 
 		l.Errorf("删除Casbin策略失败（角色编码: %s）：%v", result.Code, err)
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

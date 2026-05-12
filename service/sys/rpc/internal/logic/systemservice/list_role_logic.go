@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +26,7 @@ func NewListRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListRole
 }
 
 // ListRole 分页查询角色列表，支持关键词模糊检索。
-func (l *ListRoleLogic) ListRole(in *sys.ListRoleReq) (*sys.ListRoleResp, error) {
+func (l *ListRoleLogic) ListRole(in *pb.ListRoleReq) (*pb.ListRoleResp, error) {
 	roles, count, err := l.svcCtx.SysRoleModel.List(l.ctx, int(in.Page), int(in.PageSize), in.Keyword)
 	if err != nil {
 		l.Errorf("查询角色列表失败 %v", err)
@@ -59,9 +59,9 @@ func (l *ListRoleLogic) ListRole(in *sys.ListRoleReq) (*sys.ListRoleResp, error)
 		}
 	}
 
-	list := make([]*sys.RoleItem, 0, len(roles))
+	list := make([]*pb.RoleItem, 0, len(roles))
 	for _, role := range roles {
-		item := &sys.RoleItem{
+		item := &pb.RoleItem{
 			Id:        role.Id,
 			RoleName:  role.Name,
 			RoleCode:  role.Code,
@@ -83,7 +83,7 @@ func (l *ListRoleLogic) ListRole(in *sys.ListRoleReq) (*sys.ListRoleResp, error)
 		list = append(list, item)
 	}
 
-	return &sys.ListRoleResp{
+	return &pb.ListRoleResp{
 		Total: count,
 		List:  list,
 	}, nil

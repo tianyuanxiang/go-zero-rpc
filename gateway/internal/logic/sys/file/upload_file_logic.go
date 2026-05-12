@@ -7,12 +7,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/common/middleware"
+	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
 	"go-zero-rpc/gateway/pkg/upload"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

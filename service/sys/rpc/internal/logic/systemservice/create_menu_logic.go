@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +31,7 @@ func NewCreateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 // 业务流程：
 //  1. 若指定父菜单ID，校验父菜单存在且不是按钮类型
 //  2. 写入菜单数据
-func (l *CreateMenuLogic) CreateMenu(in *sys.CreateMenuReq) (*sys.CreateMenuResp, error) {
+func (l *CreateMenuLogic) CreateMenu(in *pb.CreateMenuReq) (*pb.CreateMenuResp, error) {
 	// 1. 确认父菜单是否存在
 	if in.ParentId > 0 {
 		menus, err := l.svcCtx.SysMenuModel.ListByIds(l.ctx, []int64{in.ParentId})
@@ -67,5 +67,5 @@ func (l *CreateMenuLogic) CreateMenu(in *sys.CreateMenuReq) (*sys.CreateMenuResp
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.CreateMenuResp{MenuId: menuId}, nil
+	return &pb.CreateMenuResp{MenuId: menuId}, nil
 }

@@ -3,10 +3,10 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -27,7 +27,7 @@ func NewGetRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRoleLo
 }
 
 // GetRole 根据角色ID查询角色详情，包含关联的菜单ID和接口ID。
-func (l *GetRoleLogic) GetRole(in *sys.GetRoleReq) (*sys.RoleItem, error) {
+func (l *GetRoleLogic) GetRole(in *pb.GetRoleReq) (*pb.RoleItem, error) {
 	role, err := l.svcCtx.SysRoleModel.FindOneByRoleId(l.ctx, in.RoleId)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -51,7 +51,7 @@ func (l *GetRoleLogic) GetRole(in *sys.GetRoleReq) (*sys.RoleItem, error) {
 		apiIds = []int64{}
 	}
 
-	return &sys.RoleItem{
+	return &pb.RoleItem{
 		Id:        role.Id,
 		RoleCode:  role.Code,
 		RoleName:  role.Name,

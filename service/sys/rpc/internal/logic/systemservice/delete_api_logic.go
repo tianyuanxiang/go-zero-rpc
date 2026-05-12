@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -35,7 +35,7 @@ func NewDeleteApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteA
 //  2. 提前查询接口绑定的所有角色（用于事务后重建Casbin策略）
 //  3. 事务内：软删除接口、删除 role_api 关联
 //  4. 事务成功后重建 Casbin 策略
-func (l *DeleteApiLogic) DeleteApi(in *sys.DeleteApiReq) (*sys.Empty, error) {
+func (l *DeleteApiLogic) DeleteApi(in *pb.DeleteApiReq) (*pb.Empty, error) {
 	apiId := in.ApiId
 
 	oldApi, err := l.svcCtx.SysApiModel.FindOne(l.ctx, apiId)
@@ -84,5 +84,5 @@ func (l *DeleteApiLogic) DeleteApi(in *sys.DeleteApiReq) (*sys.Empty, error) {
 		roleIds,
 	)
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

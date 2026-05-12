@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/common"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -33,7 +33,7 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 //  1. 校验接口存在性
 //  2. 拼接动态更新字段并执行更新
 //  3. 若 path 或 method 发生变化，重建关联角色的Casbin策略
-func (l *UpdateApiLogic) UpdateApi(in *sys.UpdateApiReq) (*sys.Empty, error) {
+func (l *UpdateApiLogic) UpdateApi(in *pb.UpdateApiReq) (*pb.Empty, error) {
 	oldApi, err := l.svcCtx.SysApiModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -93,5 +93,5 @@ func (l *UpdateApiLogic) UpdateApi(in *sys.UpdateApiReq) (*sys.Empty, error) {
 		}
 	}
 
-	return &sys.Empty{}, nil
+	return &pb.Empty{}, nil
 }

@@ -7,14 +7,14 @@ package server
 import (
 	"context"
 
-	systemservicelogic "go-zero-rpc/sys-rpc/internal/logic/systemservice"
+	"go-zero-rpc/sys-rpc/internal/logic/systemservice"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 )
 
 type SystemServiceServer struct {
 	svcCtx *svc.ServiceContext
-	sys.UnimplementedSystemServiceServer
+	pb.UnimplementedSystemServiceServer
 }
 
 func NewSystemServiceServer(svcCtx *svc.ServiceContext) *SystemServiceServer {
@@ -24,203 +24,203 @@ func NewSystemServiceServer(svcCtx *svc.ServiceContext) *SystemServiceServer {
 }
 
 // 用户管理
-func (s *SystemServiceServer) CreateUser(ctx context.Context, in *sys.CreateUserReq) (*sys.CreateUserResp, error) {
+func (s *SystemServiceServer) CreateUser(ctx context.Context, in *pb.CreateUserReq) (*pb.CreateUserResp, error) {
 	l := systemservicelogic.NewCreateUserLogic(ctx, s.svcCtx)
 	return l.CreateUser(in)
 }
 
-func (s *SystemServiceServer) UpdateUser(ctx context.Context, in *sys.UpdateUserReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateUser(ctx context.Context, in *pb.UpdateUserReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateUserLogic(ctx, s.svcCtx)
 	return l.UpdateUser(in)
 }
 
-func (s *SystemServiceServer) DeleteUser(ctx context.Context, in *sys.DeleteUserReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteUser(ctx context.Context, in *pb.DeleteUserReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteUserLogic(ctx, s.svcCtx)
 	return l.DeleteUser(in)
 }
 
-func (s *SystemServiceServer) GetUser(ctx context.Context, in *sys.GetUserReq) (*sys.UserItem, error) {
+func (s *SystemServiceServer) GetUser(ctx context.Context, in *pb.GetUserReq) (*pb.UserItem, error) {
 	l := systemservicelogic.NewGetUserLogic(ctx, s.svcCtx)
 	return l.GetUser(in)
 }
 
-func (s *SystemServiceServer) ListUser(ctx context.Context, in *sys.ListUserReq) (*sys.ListUserResp, error) {
+func (s *SystemServiceServer) ListUser(ctx context.Context, in *pb.ListUserReq) (*pb.ListUserResp, error) {
 	l := systemservicelogic.NewListUserLogic(ctx, s.svcCtx)
 	return l.ListUser(in)
 }
 
-func (s *SystemServiceServer) ResetPassword(ctx context.Context, in *sys.ResetPasswordReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) ResetPassword(ctx context.Context, in *pb.ResetPasswordReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewResetPasswordLogic(ctx, s.svcCtx)
 	return l.ResetPassword(in)
 }
 
 // 角色管理
-func (s *SystemServiceServer) CreateRole(ctx context.Context, in *sys.CreateRoleReq) (*sys.CreateRoleResp, error) {
+func (s *SystemServiceServer) CreateRole(ctx context.Context, in *pb.CreateRoleReq) (*pb.CreateRoleResp, error) {
 	l := systemservicelogic.NewCreateRoleLogic(ctx, s.svcCtx)
 	return l.CreateRole(in)
 }
 
-func (s *SystemServiceServer) UpdateRole(ctx context.Context, in *sys.UpdateRoleReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateRole(ctx context.Context, in *pb.UpdateRoleReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateRoleLogic(ctx, s.svcCtx)
 	return l.UpdateRole(in)
 }
 
-func (s *SystemServiceServer) UpdateRolePermissions(ctx context.Context, in *sys.UpdateRolePermissionsReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateRolePermissions(ctx context.Context, in *pb.UpdateRolePermissionsReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateRolePermissionsLogic(ctx, s.svcCtx)
 	return l.UpdateRolePermissions(in)
 }
 
-func (s *SystemServiceServer) DeleteRole(ctx context.Context, in *sys.DeleteRoleReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteRole(ctx context.Context, in *pb.DeleteRoleReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteRoleLogic(ctx, s.svcCtx)
 	return l.DeleteRole(in)
 }
 
-func (s *SystemServiceServer) GetRole(ctx context.Context, in *sys.GetRoleReq) (*sys.RoleItem, error) {
+func (s *SystemServiceServer) GetRole(ctx context.Context, in *pb.GetRoleReq) (*pb.RoleItem, error) {
 	l := systemservicelogic.NewGetRoleLogic(ctx, s.svcCtx)
 	return l.GetRole(in)
 }
 
-func (s *SystemServiceServer) ListRole(ctx context.Context, in *sys.ListRoleReq) (*sys.ListRoleResp, error) {
+func (s *SystemServiceServer) ListRole(ctx context.Context, in *pb.ListRoleReq) (*pb.ListRoleResp, error) {
 	l := systemservicelogic.NewListRoleLogic(ctx, s.svcCtx)
 	return l.ListRole(in)
 }
 
-func (s *SystemServiceServer) ListAllRole(ctx context.Context, in *sys.Empty) (*sys.ListAllRoleResp, error) {
+func (s *SystemServiceServer) ListAllRole(ctx context.Context, in *pb.Empty) (*pb.ListAllRoleResp, error) {
 	l := systemservicelogic.NewListAllRoleLogic(ctx, s.svcCtx)
 	return l.ListAllRole(in)
 }
 
 // 菜单管理
-func (s *SystemServiceServer) CreateMenu(ctx context.Context, in *sys.CreateMenuReq) (*sys.CreateMenuResp, error) {
+func (s *SystemServiceServer) CreateMenu(ctx context.Context, in *pb.CreateMenuReq) (*pb.CreateMenuResp, error) {
 	l := systemservicelogic.NewCreateMenuLogic(ctx, s.svcCtx)
 	return l.CreateMenu(in)
 }
 
-func (s *SystemServiceServer) UpdateMenu(ctx context.Context, in *sys.UpdateMenuReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateMenu(ctx context.Context, in *pb.UpdateMenuReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateMenuLogic(ctx, s.svcCtx)
 	return l.UpdateMenu(in)
 }
 
-func (s *SystemServiceServer) DeleteMenu(ctx context.Context, in *sys.DeleteMenuReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteMenu(ctx context.Context, in *pb.DeleteMenuReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteMenuLogic(ctx, s.svcCtx)
 	return l.DeleteMenu(in)
 }
 
-func (s *SystemServiceServer) GetMenuTree(ctx context.Context, in *sys.GetMenuTreeReq) (*sys.MenuTreeResp, error) {
+func (s *SystemServiceServer) GetMenuTree(ctx context.Context, in *pb.GetMenuTreeReq) (*pb.MenuTreeResp, error) {
 	l := systemservicelogic.NewGetMenuTreeLogic(ctx, s.svcCtx)
 	return l.GetMenuTree(in)
 }
 
-func (s *SystemServiceServer) GetCurrentUserMenus(ctx context.Context, in *sys.GetCurrentUserMenusReq) (*sys.MenuTreeResp, error) {
+func (s *SystemServiceServer) GetCurrentUserMenus(ctx context.Context, in *pb.GetCurrentUserMenusReq) (*pb.MenuTreeResp, error) {
 	l := systemservicelogic.NewGetCurrentUserMenusLogic(ctx, s.svcCtx)
 	return l.GetCurrentUserMenus(in)
 }
 
 // API 接口管理
-func (s *SystemServiceServer) CreateApi(ctx context.Context, in *sys.CreateApiReq) (*sys.CreateApiResp, error) {
+func (s *SystemServiceServer) CreateApi(ctx context.Context, in *pb.CreateApiReq) (*pb.CreateApiResp, error) {
 	l := systemservicelogic.NewCreateApiLogic(ctx, s.svcCtx)
 	return l.CreateApi(in)
 }
 
-func (s *SystemServiceServer) UpdateApi(ctx context.Context, in *sys.UpdateApiReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateApi(ctx context.Context, in *pb.UpdateApiReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateApiLogic(ctx, s.svcCtx)
 	return l.UpdateApi(in)
 }
 
-func (s *SystemServiceServer) DeleteApi(ctx context.Context, in *sys.DeleteApiReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteApi(ctx context.Context, in *pb.DeleteApiReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteApiLogic(ctx, s.svcCtx)
 	return l.DeleteApi(in)
 }
 
-func (s *SystemServiceServer) ListApi(ctx context.Context, in *sys.ListApiReq) (*sys.ListApiResp, error) {
+func (s *SystemServiceServer) ListApi(ctx context.Context, in *pb.ListApiReq) (*pb.ListApiResp, error) {
 	l := systemservicelogic.NewListApiLogic(ctx, s.svcCtx)
 	return l.ListApi(in)
 }
 
-func (s *SystemServiceServer) ListAllApi(ctx context.Context, in *sys.Empty) (*sys.ListAllApiResp, error) {
+func (s *SystemServiceServer) ListAllApi(ctx context.Context, in *pb.Empty) (*pb.ListAllApiResp, error) {
 	l := systemservicelogic.NewListAllApiLogic(ctx, s.svcCtx)
 	return l.ListAllApi(in)
 }
 
 // 字典管理
-func (s *SystemServiceServer) CreateDictType(ctx context.Context, in *sys.CreateDictTypeReq) (*sys.CreateDictTypeResp, error) {
+func (s *SystemServiceServer) CreateDictType(ctx context.Context, in *pb.CreateDictTypeReq) (*pb.CreateDictTypeResp, error) {
 	l := systemservicelogic.NewCreateDictTypeLogic(ctx, s.svcCtx)
 	return l.CreateDictType(in)
 }
 
-func (s *SystemServiceServer) UpdateDictType(ctx context.Context, in *sys.UpdateDictTypeReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateDictType(ctx context.Context, in *pb.UpdateDictTypeReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateDictTypeLogic(ctx, s.svcCtx)
 	return l.UpdateDictType(in)
 }
 
-func (s *SystemServiceServer) DeleteDictType(ctx context.Context, in *sys.DeleteDictTypeReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteDictType(ctx context.Context, in *pb.DeleteDictTypeReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteDictTypeLogic(ctx, s.svcCtx)
 	return l.DeleteDictType(in)
 }
 
-func (s *SystemServiceServer) ListDictType(ctx context.Context, in *sys.ListDictTypeReq) (*sys.ListDictTypeResp, error) {
+func (s *SystemServiceServer) ListDictType(ctx context.Context, in *pb.ListDictTypeReq) (*pb.ListDictTypeResp, error) {
 	l := systemservicelogic.NewListDictTypeLogic(ctx, s.svcCtx)
 	return l.ListDictType(in)
 }
 
-func (s *SystemServiceServer) CreateDictData(ctx context.Context, in *sys.CreateDictDataReq) (*sys.CreateDictDataResp, error) {
+func (s *SystemServiceServer) CreateDictData(ctx context.Context, in *pb.CreateDictDataReq) (*pb.CreateDictDataResp, error) {
 	l := systemservicelogic.NewCreateDictDataLogic(ctx, s.svcCtx)
 	return l.CreateDictData(in)
 }
 
-func (s *SystemServiceServer) UpdateDictData(ctx context.Context, in *sys.UpdateDictDataReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) UpdateDictData(ctx context.Context, in *pb.UpdateDictDataReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewUpdateDictDataLogic(ctx, s.svcCtx)
 	return l.UpdateDictData(in)
 }
 
-func (s *SystemServiceServer) DeleteDictData(ctx context.Context, in *sys.DeleteDictDataReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteDictData(ctx context.Context, in *pb.DeleteDictDataReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteDictDataLogic(ctx, s.svcCtx)
 	return l.DeleteDictData(in)
 }
 
-func (s *SystemServiceServer) GetDictDataByType(ctx context.Context, in *sys.GetDictDataByTypeReq) (*sys.ListDictDataResp, error) {
+func (s *SystemServiceServer) GetDictDataByType(ctx context.Context, in *pb.GetDictDataByTypeReq) (*pb.ListDictDataResp, error) {
 	l := systemservicelogic.NewGetDictDataByTypeLogic(ctx, s.svcCtx)
 	return l.GetDictDataByType(in)
 }
 
 // 日志管理
-func (s *SystemServiceServer) ListLoginLog(ctx context.Context, in *sys.ListLoginLogReq) (*sys.ListLoginLogResp, error) {
+func (s *SystemServiceServer) ListLoginLog(ctx context.Context, in *pb.ListLoginLogReq) (*pb.ListLoginLogResp, error) {
 	l := systemservicelogic.NewListLoginLogLogic(ctx, s.svcCtx)
 	return l.ListLoginLog(in)
 }
 
-func (s *SystemServiceServer) ClearLoginLog(ctx context.Context, in *sys.ClearLoginLogReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) ClearLoginLog(ctx context.Context, in *pb.ClearLoginLogReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewClearLoginLogLogic(ctx, s.svcCtx)
 	return l.ClearLoginLog(in)
 }
 
-func (s *SystemServiceServer) ListOperLog(ctx context.Context, in *sys.ListOperLogReq) (*sys.ListOperLogResp, error) {
+func (s *SystemServiceServer) ListOperLog(ctx context.Context, in *pb.ListOperLogReq) (*pb.ListOperLogResp, error) {
 	l := systemservicelogic.NewListOperLogLogic(ctx, s.svcCtx)
 	return l.ListOperLog(in)
 }
 
-func (s *SystemServiceServer) ClearOperLog(ctx context.Context, in *sys.ClearOperLogReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) ClearOperLog(ctx context.Context, in *pb.ClearOperLogReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewClearOperLogLogic(ctx, s.svcCtx)
 	return l.ClearOperLog(in)
 }
 
-func (s *SystemServiceServer) WriteOperLog(ctx context.Context, in *sys.WriteOperLogReq) (*sys.WriteOperLogResp, error) {
+func (s *SystemServiceServer) WriteOperLog(ctx context.Context, in *pb.WriteOperLogReq) (*pb.WriteOperLogResp, error) {
 	l := systemservicelogic.NewWriteOperLogLogic(ctx, s.svcCtx)
 	return l.WriteOperLog(in)
 }
 
 // 文件管理（待启用）
-func (s *SystemServiceServer) RegisterFile(ctx context.Context, in *sys.RegisterFileReq) (*sys.RegisterFileResp, error) {
+func (s *SystemServiceServer) RegisterFile(ctx context.Context, in *pb.RegisterFileReq) (*pb.RegisterFileResp, error) {
 	l := systemservicelogic.NewRegisterFileLogic(ctx, s.svcCtx)
 	return l.RegisterFile(in)
 }
 
-func (s *SystemServiceServer) DeleteFile(ctx context.Context, in *sys.DeleteFileReq) (*sys.Empty, error) {
+func (s *SystemServiceServer) DeleteFile(ctx context.Context, in *pb.DeleteFileReq) (*pb.Empty, error) {
 	l := systemservicelogic.NewDeleteFileLogic(ctx, s.svcCtx)
 	return l.DeleteFile(in)
 }
 
-func (s *SystemServiceServer) ListFile(ctx context.Context, in *sys.ListFileReq) (*sys.ListFileResp, error) {
+func (s *SystemServiceServer) ListFile(ctx context.Context, in *pb.ListFileReq) (*pb.ListFileResp, error) {
 	l := systemservicelogic.NewListFileLogic(ctx, s.svcCtx)
 	return l.ListFile(in)
 }

@@ -7,21 +7,21 @@ package permissionservice
 import (
 	"context"
 
-	"go-zero-rpc/sys-rpc/sys"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 )
 
 type (
-	CheckPermissionReq   = sys.CheckPermissionReq
-	CheckPermissionResp  = sys.CheckPermissionResp
-	GetRolesByUserIdReq  = sys.GetRolesByUserIdReq
-	GetRolesByUserIdResp = sys.GetRolesByUserIdResp
-	GetUserByIdReq       = sys.GetUserByIdReq
-	GetUserByIdResp      = sys.GetUserByIdResp
-	IsBlackListReq       = sys.IsBlackListReq
-	IsBlackListResp      = sys.IsBlackListResp
+	CheckPermissionReq   = pb.CheckPermissionReq
+	CheckPermissionResp  = pb.CheckPermissionResp
+	GetRolesByUserIdReq  = pb.GetRolesByUserIdReq
+	GetRolesByUserIdResp = pb.GetRolesByUserIdResp
+	GetUserByIdReq       = pb.GetUserByIdReq
+	GetUserByIdResp      = pb.GetUserByIdResp
+	IsBlackListReq       = pb.IsBlackListReq
+	IsBlackListResp      = pb.IsBlackListResp
 
 	PermissionService interface {
 		CheckPermission(ctx context.Context, in *CheckPermissionReq, opts ...grpc.CallOption) (*CheckPermissionResp, error)
@@ -42,21 +42,21 @@ func NewPermissionService(cli zrpc.Client) PermissionService {
 }
 
 func (m *defaultPermissionService) CheckPermission(ctx context.Context, in *CheckPermissionReq, opts ...grpc.CallOption) (*CheckPermissionResp, error) {
-	client := sys.NewPermissionServiceClient(m.cli.Conn())
+	client := pb.NewPermissionServiceClient(m.cli.Conn())
 	return client.CheckPermission(ctx, in, opts...)
 }
 
 func (m *defaultPermissionService) GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error) {
-	client := sys.NewPermissionServiceClient(m.cli.Conn())
+	client := pb.NewPermissionServiceClient(m.cli.Conn())
 	return client.GetUserById(ctx, in, opts...)
 }
 
 func (m *defaultPermissionService) GetRolesByUserId(ctx context.Context, in *GetRolesByUserIdReq, opts ...grpc.CallOption) (*GetRolesByUserIdResp, error) {
-	client := sys.NewPermissionServiceClient(m.cli.Conn())
+	client := pb.NewPermissionServiceClient(m.cli.Conn())
 	return client.GetRolesByUserId(ctx, in, opts...)
 }
 
 func (m *defaultPermissionService) IsTokenRevoked(ctx context.Context, in *IsBlackListReq, opts ...grpc.CallOption) (*IsBlackListResp, error) {
-	client := sys.NewPermissionServiceClient(m.cli.Conn())
+	client := pb.NewPermissionServiceClient(m.cli.Conn())
 	return client.IsTokenRevoked(ctx, in, opts...)
 }

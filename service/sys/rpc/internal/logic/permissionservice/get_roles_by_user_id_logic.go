@@ -3,11 +3,11 @@ package permissionservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/constants"
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,7 +32,7 @@ func NewGetRolesByUserIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 //  1. 查询用户绑定的角色ID列表
 //  2. 逐个查询角色信息，过滤掉已禁用/不存在的角色
 //  3. 若包含 admin 角色，直接返回（admin 优先级最高）
-func (l *GetRolesByUserIdLogic) GetRolesByUserId(in *sys.GetRolesByUserIdReq) (*sys.GetRolesByUserIdResp, error) {
+func (l *GetRolesByUserIdLogic) GetRolesByUserId(in *pb.GetRolesByUserIdReq) (*pb.GetRolesByUserIdResp, error) {
 	if in.UserId == 0 {
 		return nil, xerr.NewCodeError(xerr.ErrUnauthorized)
 	}
@@ -51,14 +51,14 @@ func (l *GetRolesByUserIdLogic) GetRolesByUserId(in *sys.GetRolesByUserIdReq) (*
 		}
 		// admin 优先级最高，命中即返回
 		if role.Code == constants.RoleCodeAdmin {
-			return &sys.GetRolesByUserIdResp{
+			return &pb.GetRolesByUserIdResp{
 				RoleCodes: []string{constants.RoleCodeAdmin},
 			}, nil
 		}
 		roleCodes = append(roleCodes, role.Code)
 	}
 
-	return &sys.GetRolesByUserIdResp{
+	return &pb.GetRolesByUserIdResp{
 		RoleCodes: roleCodes,
 	}, nil
 }

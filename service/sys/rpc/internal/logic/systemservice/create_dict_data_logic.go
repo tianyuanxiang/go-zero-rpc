@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -28,7 +28,7 @@ func NewCreateDictDataLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cr
 }
 
 // CreateDictData 创建字典数据，前置校验所属字典类型存在且未删除。
-func (l *CreateDictDataLogic) CreateDictData(in *sys.CreateDictDataReq) (*sys.CreateDictDataResp, error) {
+func (l *CreateDictDataLogic) CreateDictData(in *pb.CreateDictDataReq) (*pb.CreateDictDataResp, error) {
 	// 创建数据之前先查是否有该字典类型
 	dictType, err := l.svcCtx.SysDictTypeModel.FindOne(l.ctx, in.DictTypeId)
 	if err != nil {
@@ -58,5 +58,5 @@ func (l *CreateDictDataLogic) CreateDictData(in *sys.CreateDictDataReq) (*sys.Cr
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.CreateDictDataResp{DictDataId: dictDataId}, nil
+	return &pb.CreateDictDataResp{DictDataId: dictDataId}, nil
 }

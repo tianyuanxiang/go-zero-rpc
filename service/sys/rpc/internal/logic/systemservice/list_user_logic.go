@@ -3,9 +3,9 @@ package systemservicelogic
 import (
 	"context"
 	"go-zero-rpc/common/xerr"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +24,7 @@ func NewListUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListUser
 	}
 }
 
-func (l *ListUserLogic) ListUser(in *sys.ListUserReq) (*sys.ListUserResp, error) {
+func (l *ListUserLogic) ListUser(in *pb.ListUserReq) (*pb.ListUserResp, error) {
 	// 根据 has_status 决定是否启用 status 过滤
 	var statusFilter *int
 	if in.HasStatus {
@@ -88,9 +88,9 @@ func (l *ListUserLogic) ListUser(in *sys.ListUserReq) (*sys.ListUserResp, error)
 		userRoleIdMap[ur.UserId] = append(userRoleIdMap[ur.UserId], ur.RoleId)
 	}
 
-	list := make([]*sys.UserItem, 0, len(users))
+	list := make([]*pb.UserItem, 0, len(users))
 	for _, user := range users {
-		item := &sys.UserItem{
+		item := &pb.UserItem{
 			Id:        user.Id,
 			Username:  user.Username,
 			Nickname:  user.Nickname,
@@ -107,7 +107,7 @@ func (l *ListUserLogic) ListUser(in *sys.ListUserReq) (*sys.ListUserResp, error)
 		list = append(list, item)
 	}
 
-	return &sys.ListUserResp{
+	return &pb.ListUserResp{
 		List:  list,
 		Total: total,
 	}, nil

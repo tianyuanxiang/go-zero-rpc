@@ -3,11 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
 	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
-	"go-zero-rpc/sys-rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -32,7 +32,7 @@ func NewCreateDictTypeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cr
 // 业务流程：
 //  1. 校验字典编码唯一性
 //  2. 写入字典类型记录
-func (l *CreateDictTypeLogic) CreateDictType(in *sys.CreateDictTypeReq) (*sys.CreateDictTypeResp, error) {
+func (l *CreateDictTypeLogic) CreateDictType(in *pb.CreateDictTypeReq) (*pb.CreateDictTypeResp, error) {
 	// 1. 检查字典编码唯一性
 	exist, err := l.svcCtx.SysDictTypeModel.FindOneByCode(l.ctx, in.DictCode)
 	if err != nil && err != sqlx.ErrNotFound {
@@ -55,5 +55,5 @@ func (l *CreateDictTypeLogic) CreateDictType(in *sys.CreateDictTypeReq) (*sys.Cr
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	return &sys.CreateDictTypeResp{DictTypeId: dictTypeId}, nil
+	return &pb.CreateDictTypeResp{DictTypeId: dictTypeId}, nil
 }
