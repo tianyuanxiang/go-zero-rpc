@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package role
@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,7 +32,7 @@ func (l *GetRoleLogic) GetRole(roleId int64) (resp *types.RoleItem, err error) {
 		RoleId: roleId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用GetRole RPC失败, roleId=%d, err=%v", roleId, err)
+		l.Logger.Errorf("Call the GetRole failed, roleId=%d, err=%v", roleId, err)
 		return nil, err
 	}
 

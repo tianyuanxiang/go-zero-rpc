@@ -1,4 +1,4 @@
-package user
+﻿package user
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -44,7 +44,7 @@ func (l *CreateUserLogic) CreateUser(req *types.CreateUserReq) error {
 		OperatorId: userId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用CreateUser RPC失败, operatorId=%d, err=%v", userId, err)
+		l.Logger.Errorf("Call the CreateUser failed, operatorId=%d, err=%v", userId, err)
 		return err
 	}
 

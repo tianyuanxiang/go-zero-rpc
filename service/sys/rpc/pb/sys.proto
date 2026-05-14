@@ -409,7 +409,13 @@ message ApiOption {
   int64 id = 1;
   string api_name = 2;
   string api_path = 3;
-  string remark = 4;
+  string method = 4;
+  string remark = 5;
+}
+
+message ApiGroupOption {
+  string group = 1;
+  repeated ApiOption apis = 2;
 }
 
 message ListApiResp {
@@ -418,7 +424,30 @@ message ListApiResp {
 }
 
 message ListAllApiResp {
-  repeated ApiOption list_all = 1;
+  repeated ApiGroupOption groups = 1;
+}
+
+// ==================== System: Casbin 策略查看 ====================
+
+message ListCasbinRuleReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string role_code = 3;
+  string path = 4;
+  string method = 5;
+}
+
+message CasbinRuleItem {
+  int64 id = 1;
+  string ptype = 2;
+  string role_code = 3;
+  string api_path = 4;
+  string method = 5;
+}
+
+message ListCasbinRuleResp {
+  int64 total = 1;
+  repeated CasbinRuleItem list = 2;
 }
 
 // ==================== System: 字典管理 ====================
@@ -757,6 +786,7 @@ service SystemService {
   rpc DeleteApi(DeleteApiReq) returns (Empty);
   rpc ListApi(ListApiReq) returns (ListApiResp);
   rpc ListAllApi(Empty) returns (ListAllApiResp);
+  rpc ListCasbinRule(ListCasbinRuleReq) returns (ListCasbinRuleResp);
 
   // 字典管理
   rpc CreateDictType(CreateDictTypeReq) returns (CreateDictTypeResp);

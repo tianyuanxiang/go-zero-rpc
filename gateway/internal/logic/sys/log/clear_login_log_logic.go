@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package log
@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"go-zero-rpc/gateway/internal/svc"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func NewClearLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 func (l *ClearLoginLogLogic) ClearLoginLog() error {
 	_, err := l.svcCtx.SysRpc.ClearLoginLog(l.ctx, &sys.ClearLoginLogReq{})
 	if err != nil {
-		l.Logger.Errorf("调用ClearLoginLog RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the ClearLoginLog failed, err=%v", err)
 		return err
 	}
 

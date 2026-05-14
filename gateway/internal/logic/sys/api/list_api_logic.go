@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package api
@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *ListApiLogic) ListApi(req *types.ListApiReq) (resp *types.ListApiResp, 
 		Group:    req.Group,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用ListApi RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the ListApi failed, err=%v", err)
 		return nil, err
 	}
 

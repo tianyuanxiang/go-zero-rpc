@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package role
@@ -9,7 +9,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -41,7 +41,7 @@ func (l *CreateRoleLogic) CreateRole(req *types.CreateRoleReq) error {
 		OperatorId: operatorId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用CreateRole RPC失败, operatorId=%d, err=%v", operatorId, err)
+		l.Logger.Errorf("Call the CreateRole failed, operatorId=%d, err=%v", operatorId, err)
 		return err
 	}
 

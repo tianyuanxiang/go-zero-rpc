@@ -8,26 +8,19 @@ import (
 
 	auth "go-zero-rpc/gateway/internal/handler/auth"
 	sysapi "go-zero-rpc/gateway/internal/handler/sys/api"
+	syscasbin "go-zero-rpc/gateway/internal/handler/sys/casbin"
 	sysdict "go-zero-rpc/gateway/internal/handler/sys/dict"
 	sysfile "go-zero-rpc/gateway/internal/handler/sys/file"
 	syslog "go-zero-rpc/gateway/internal/handler/sys/log"
 	sysmenu "go-zero-rpc/gateway/internal/handler/sys/menu"
 	sysrole "go-zero-rpc/gateway/internal/handler/sys/role"
 	sysuser "go-zero-rpc/gateway/internal/handler/sys/user"
-	ws "go-zero-rpc/gateway/internal/handler/ws"
 	"go-zero-rpc/gateway/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
-	// WebSocket 路由（不需要经过 AuthMiddleware）
-	server.AddRoute(rest.Route{
-		Method:  http.MethodGet,
-		Path:    "/ws",
-		Handler: ws.WsHandler(serverCtx),
-	})
-
 	server.AddRoutes(
 		[]rest.Route{
 			{
@@ -96,6 +89,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/api/all",
 					Handler: sysapi.ListAllApiHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1/system"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AuthMiddleware, serverCtx.CasbinMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/casbin/rules",
+					Handler: syscasbin.ListCasbinRuleHandler(serverCtx),
 				},
 			}...,
 		),

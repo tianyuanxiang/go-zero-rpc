@@ -1,11 +1,11 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package auth
 
 import (
 	"context"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
@@ -32,7 +32,7 @@ func (l *RefreshTokenLogic) RefreshToken(req *types.RefreshTokenReq) (resp *type
 		RefreshToken: req.RefreshToken,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用RefreshToken RPC失败", err)
+		l.Logger.Errorf("Call the RefreshToken failed, err=%v", err)
 		return nil, err
 	}
 

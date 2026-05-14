@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,7 +30,7 @@ func NewGetMenuTreeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMe
 func (l *GetMenuTreeLogic) GetMenuTree() (resp *types.MenuTreeResp, err error) {
 	rpcResp, err := l.svcCtx.SysRpc.GetMenuTree(l.ctx, &sys.GetMenuTreeReq{})
 	if err != nil {
-		l.Logger.Errorf("调用GetMenuTree RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the GetMenuTree failed, err=%v", err)
 		return nil, err
 	}
 
@@ -39,7 +39,7 @@ func (l *GetMenuTreeLogic) GetMenuTree() (resp *types.MenuTreeResp, err error) {
 	}, nil
 }
 
-// convertMenuItems 将 RPC 返回的菜单树递归转换为 HTTP 响应结构。
+// convertMenuItems maps RPC menu nodes to HTTP response nodes.
 func convertMenuItems(in []*sys.MenuItem) []types.MenuItem {
 	out := make([]types.MenuItem, 0, len(in))
 	for _, item := range in {

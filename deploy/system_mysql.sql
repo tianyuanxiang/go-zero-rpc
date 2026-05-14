@@ -16,7 +16,6 @@ CREATE TABLE casbin_rule (
   v5 VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX casbin_rule_uk_casbin_rule ON casbin_rule (ptype, v0, v1, v2, v3, v4, v5);
 
 -- ----------------------------
 -- Records of casbin_rule
@@ -92,6 +91,7 @@ INSERT INTO sys_api VALUES (44, '/api/nothing', 'GET', 'none', '只更新了名�
 INSERT INTO sys_api VALUES (45, '/api/test/create', 'POST', 'test', '', '2026-04-30 17:45:06', '2026-05-03 10:41:42', '2026-05-03 10:41:43', '测试接口-创建');
 INSERT INTO sys_api VALUES (46, '/api/test/:id', 'GET', 'test', '根据ID获取详情', '2026-04-30 17:45:34', '2026-04-30 17:45:34', NULL, '测试接口-详情');
 INSERT INTO sys_api VALUES (47, '/api/test/:id', 'PUT', 'test', '', '2026-04-30 17:45:54', '2026-04-30 17:45:54', NULL, '测试接口-更新');
+INSERT INTO sys_api VALUES (48, '/api/system/casbin/rules', 'GET', '权限管理', '只读查询Casbin策略列表', '2026-05-13 00:00:00', '2026-05-13 00:00:00', NULL, 'Casbin策略列表');
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -476,7 +476,7 @@ INSERT INTO sys_user_role VALUES (9, 9, 7);
 
 -- Reset BIGSERIAL sequences to match the original MySQL next values.
 SELECT setval(pg_get_serial_sequence('casbin_rule', 'id')::regclass, 57, false);
-SELECT setval(pg_get_serial_sequence('sys_api', 'id')::regclass, 48, false);
+SELECT setval(pg_get_serial_sequence('sys_api', 'id')::regclass, 49, false);
 SELECT setval(pg_get_serial_sequence('sys_dict_data', 'id')::regclass, 18, false);
 SELECT setval(pg_get_serial_sequence('sys_dict_type', 'id')::regclass, 9, false);
 SELECT setval(pg_get_serial_sequence('sys_file', 'id')::regclass, 1, false);

@@ -12,7 +12,7 @@ import (
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
 	"go-zero-rpc/gateway/pkg/upload"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -33,29 +33,29 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 
 func (l *UploadFileLogic) UploadFile(r *http.Request) (*types.FileInfoResp, error) {
 	if err := r.ParseMultipartForm(l.svcCtx.Config.Upload.MaxSize); err != nil {
-		return nil, xerr.NewCodeErrorMsg(xerr.ErrParamInvalid, "文件大小超限或表单解析失败")
+		return nil, xerr.NewCodeErrorMsg(xerr.ErrParamInvalid, "涓婁紶鏂囦欢澶у皬瓒呭嚭闄愬埗")
 	}
 
 	file, header, err := r.FormFile("file")
 	if err != nil {
-		return nil, xerr.NewCodeErrorMsg(xerr.ErrParamInvalid, "缺少 file 字段")
+		return nil, xerr.NewCodeErrorMsg(xerr.ErrParamInvalid, "璇烽€夋嫨涓婁紶鏂囦欢")
 	}
 	defer file.Close()
 
 	ext := strings.ToLower(filepath.Ext(header.Filename))
 	if !allowExt(l.svcCtx.Config.Upload.AllowedExts, ext) {
-		return nil, xerr.NewCodeErrorMsg(xerr.ErrParamInvalid, fmt.Sprintf("不支持的文件类型：%s", ext))
+		return nil, xerr.NewCodeErrorMsg(xerr.ErrParamInvalid, fmt.Sprintf("unsupported file type: %s", ext))
 	}
 
 	userID := middleware.GetUserIdFromCtx(l.ctx)
 	if userID == 0 {
-		return nil, xerr.NewCodeErrorMsg(xerr.ErrUnauthorized, "未授权，请先登录")
+		return nil, xerr.NewCodeErrorMsg(xerr.ErrUnauthorized, "闁哄牜浜濆鍧楀级閸愯法绀夐悹鍥у槻閸樻盯鎯傜拠鑼Э")
 	}
 
 	savedFile, err := upload.SaveFile(file, header, l.svcCtx.Config.Upload.Path)
 	if err != nil {
 		l.Errorf("save upload file failed, name=%s, err=%v", header.Filename, err)
-		return nil, xerr.NewCodeErrorMsg(xerr.ErrInternal, "文件保存失败")
+		return nil, xerr.NewCodeErrorMsg(xerr.ErrInternal, "鏂囦欢淇濆瓨澶辫触")
 	}
 
 	rpcResp, err := l.svcCtx.SysRpc.RegisterFile(l.ctx, &sys.RegisterFileReq{
@@ -72,7 +72,7 @@ func (l *UploadFileLogic) UploadFile(r *http.Request) (*types.FileInfoResp, erro
 	}
 	if rpcResp.File == nil {
 		_ = upload.RemoveFile(savedFile.FilePath)
-		return nil, xerr.NewCodeErrorMsg(xerr.ErrInternal, "文件注册失败")
+		return nil, xerr.NewCodeErrorMsg(xerr.ErrInternal, "鏂囦欢娉ㄥ唽澶辫触")
 	}
 
 	return &types.FileInfoResp{

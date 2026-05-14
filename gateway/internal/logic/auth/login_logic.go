@@ -5,7 +5,7 @@ package auth
 
 import (
 	"context"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 	"net/http"
 
 	"go-zero-rpc/gateway/internal/svc"
@@ -30,7 +30,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq, r *http.Request) (resp *types.LoginResp, err error) {
 
-	// 把 HTTP 上下文信息注入到 RPC 请求里
+	// Forward HTTP login request to auth RPC.
 	rpcResp, err := l.svcCtx.AuthRpc.Login(r.Context(), &sys.LoginReq{
 		Username:  req.Username,
 		Password:  req.Password,
@@ -59,7 +59,7 @@ func (l *LoginLogic) Login(req *types.LoginReq, r *http.Request) (resp *types.Lo
 }
 
 func getClientIP(r *http.Request) string {
-	// 复制 internal/middleware/auth_middleware.go 的 GetClientIP
+	// 婢跺秴鍩?internal/middleware/auth_middleware.go 閻?GetClientIP
 	if v := r.Header.Get("X-Forwarded-For"); v != "" {
 		return v
 	}

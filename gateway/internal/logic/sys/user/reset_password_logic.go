@@ -1,4 +1,4 @@
-package user
+﻿package user
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -37,7 +37,7 @@ func (l *ResetPasswordLogic) ResetPassword(req *types.ResetPasswordReq) error {
 		OperatorId:  userId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用ResetPassword RPC失败, operatorId=%d, targetId=%d, err=%v", userId, req.Id, err)
+		l.Logger.Errorf("Call the ResetPassword failed, operatorId=%d, targetId=%d, err=%v", userId, req.Id, err)
 		return err
 	}
 

@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package role
@@ -9,7 +9,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -38,7 +38,7 @@ func (l *UpdateRolePermissionsLogic) UpdateRolePermissions(req *types.UpdateRole
 		OperatorId: operatorId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用UpdateRolePermissions RPC失败, operatorId=%d, roleId=%d, err=%v", operatorId, req.Id, err)
+		l.Logger.Errorf("Call the UpdateRolePermissions failed, operatorId=%d, roleId=%d, err=%v", operatorId, req.Id, err)
 		return err
 	}
 

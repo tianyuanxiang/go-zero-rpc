@@ -3,10 +3,11 @@ package systemservicelogic
 
 import (
 	"context"
-	"go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/common/xerr"
+	systemmodel "go-zero-rpc/sys-rpc/internal/model"
 	"go-zero-rpc/sys-rpc/internal/svc"
+	"go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,24 +26,47 @@ func NewListAllApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListAl
 	}
 }
 
-// ListAllApi 查询所有未软删除的API接口，用于下拉选择。
 func (l *ListAllApiLogic) ListAllApi(in *pb.Empty) (*pb.ListAllApiResp, error) {
-	apis, err := l.svcCtx.SysApiModel.ListByIds(l.ctx, nil)
-	if err != nil {
+	var apis []systemmodel.SysApi
+	if err := l.svcCtx.Orm.WithContext(l.ctx).
+		Table("sys_api").
+		Where("deleted_at IS NULL").
+		Order("api_group ASC, api_path ASC, method ASC").
+		Find(&apis).Error; err != nil {
 		l.Errorf("查询全部接口失败: %v", err)
 		return nil, xerr.NewCodeError(xerr.ErrInternal)
 	}
 
-	list := make([]*pb.ApiOption, 0, len(apis))
+	const defaultGroup = "未分组"
+
+	groups := make([]*pb.ApiGroupOption, 0)
+	groupIndex := make(map[string]int)
 	for _, api := range apis {
-		list = append(list, &pb.ApiOption{
+		group := api.ApiGroup
+		if group == "" {
+			group = defaultGroup
+		}
+
+		idx, ok := groupIndex[group]
+		if !ok {
+			idx = len(groups)
+			groupIndex[group] = idx
+			groups = append(groups, &pb.ApiGroupOption{
+				Group: group,
+				Apis:  make([]*pb.ApiOption, 0),
+			})
+		}
+
+		groups[idx].Apis = append(groups[idx].Apis, &pb.ApiOption{
 			Id:      api.Id,
 			ApiName: api.ApiName,
 			ApiPath: api.ApiPath,
+			Method:  api.Method,
 			Remark:  api.Description,
 		})
 	}
+
 	return &pb.ListAllApiResp{
-		ListAll: list,
+		Groups: groups,
 	}, nil
 }

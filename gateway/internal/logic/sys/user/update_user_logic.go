@@ -1,4 +1,4 @@
-package user
+﻿package user
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -68,7 +68,7 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 
 	_, err := l.svcCtx.SysRpc.UpdateUser(l.ctx, rpcReq)
 	if err != nil {
-		l.Errorf("调用UpdateUser RPC失败, operatorId=%d, targetId=%d, err=%v", userId, req.Id, err)
+		l.Errorf("Call the UpdateUser failed, operatorId=%d, targetId=%d, err=%v", userId, req.Id, err)
 		return err
 	}
 

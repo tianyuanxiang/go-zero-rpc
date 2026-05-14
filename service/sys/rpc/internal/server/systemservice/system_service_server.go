@@ -142,6 +142,11 @@ func (s *SystemServiceServer) ListAllApi(ctx context.Context, in *pb.Empty) (*pb
 	return l.ListAllApi(in)
 }
 
+func (s *SystemServiceServer) ListCasbinRule(ctx context.Context, in *pb.ListCasbinRuleReq) (*pb.ListCasbinRuleResp, error) {
+	l := systemservicelogic.NewListCasbinRuleLogic(ctx, s.svcCtx)
+	return l.ListCasbinRule(in)
+}
+
 // 字典管理
 func (s *SystemServiceServer) CreateDictType(ctx context.Context, in *pb.CreateDictTypeReq) (*pb.CreateDictTypeResp, error) {
 	l := systemservicelogic.NewCreateDictTypeLogic(ctx, s.svcCtx)

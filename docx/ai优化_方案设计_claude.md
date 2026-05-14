@@ -538,8 +538,8 @@ go-zero-rpc/
 │           │   └── db/          # asyncpg + pgvector 客户端
 │           └── tests/
 ├── deploy/
-│   ├── sys.sql
-│   ├── system.sql
+│   ├── system_mysql.sql
+│   ├── system_pgsql.sql
 │   └── ai.sql                   # 新增，本文第五节的建表 SQL
 └── docx/
     ├── ai优化.md

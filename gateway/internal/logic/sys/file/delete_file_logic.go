@@ -6,7 +6,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/common/xerr"
 	"go-zero-rpc/gateway/internal/svc"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +28,7 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 func (l *DeleteFileLogic) DeleteFile(fileID int64) error {
 	userID := middleware.GetUserIdFromCtx(l.ctx)
 	if userID == 0 {
-		return xerr.NewCodeErrorMsg(xerr.ErrUnauthorized, "未授权，请先登录")
+		return xerr.NewCodeErrorMsg(xerr.ErrUnauthorized, "鏈巿鏉冿紝璇峰厛鐧诲綍")
 	}
 
 	_, err := l.svcCtx.SysRpc.DeleteFile(l.ctx, &sys.DeleteFileReq{

@@ -1,11 +1,11 @@
-package user
+﻿package user
 
 import (
 	"context"
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -37,7 +37,7 @@ func (l *ListUserLogic) ListUser(req *types.ListUserReq) (resp *types.ListUserRe
 
 	rpcResp, err := l.svcCtx.SysRpc.ListUser(l.ctx, rpcReq)
 	if err != nil {
-		l.Logger.Errorf("调用ListUser RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the ListUser failed, err=%v", err)
 		return nil, err
 	}
 

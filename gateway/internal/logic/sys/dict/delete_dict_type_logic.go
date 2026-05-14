@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package dict
@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *DeleteDictTypeLogic) DeleteDictType(dictTypeId int64) error {
 		OperatorId: userId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用DeleteDictType RPC失败, operatorId=%d, dictTypeId=%d, err=%v", userId, dictTypeId, err)
+		l.Logger.Errorf("Call the DeleteDictType failed, operatorId=%d, dictTypeId=%d, err=%v", userId, dictTypeId, err)
 		return err
 	}
 

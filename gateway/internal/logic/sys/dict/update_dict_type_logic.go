@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package dict
@@ -9,7 +9,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -55,7 +55,7 @@ func (l *UpdateDictTypeLogic) UpdateDictType(req *types.UpdateDictTypeReq) error
 
 	_, err := l.svcCtx.SysRpc.UpdateDictType(l.ctx, rpcReq)
 	if err != nil {
-		l.Logger.Errorf("调用UpdateDictType RPC失败, operatorId=%d, dictTypeId=%d, err=%v", operatorId, req.Id, err)
+		l.Logger.Errorf("Call the UpdateDictType failed, operatorId=%d, dictTypeId=%d, err=%v", operatorId, req.Id, err)
 		return err
 	}
 

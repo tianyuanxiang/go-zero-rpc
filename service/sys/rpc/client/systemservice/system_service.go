@@ -45,6 +45,8 @@ type (
 	ListAllRoleResp          = pb.ListAllRoleResp
 	ListApiReq               = pb.ListApiReq
 	ListApiResp              = pb.ListApiResp
+	ListCasbinRuleReq        = pb.ListCasbinRuleReq
+	ListCasbinRuleResp       = pb.ListCasbinRuleResp
 	ListDictDataResp         = pb.ListDictDataResp
 	ListDictTypeReq          = pb.ListDictTypeReq
 	ListDictTypeResp         = pb.ListDictTypeResp
@@ -102,6 +104,7 @@ type (
 		DeleteApi(ctx context.Context, in *DeleteApiReq, opts ...grpc.CallOption) (*Empty, error)
 		ListApi(ctx context.Context, in *ListApiReq, opts ...grpc.CallOption) (*ListApiResp, error)
 		ListAllApi(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllApiResp, error)
+		ListCasbinRule(ctx context.Context, in *ListCasbinRuleReq, opts ...grpc.CallOption) (*ListCasbinRuleResp, error)
 		// 字典管理
 		CreateDictType(ctx context.Context, in *CreateDictTypeReq, opts ...grpc.CallOption) (*CreateDictTypeResp, error)
 		UpdateDictType(ctx context.Context, in *UpdateDictTypeReq, opts ...grpc.CallOption) (*Empty, error)
@@ -251,6 +254,11 @@ func (m *defaultSystemService) ListApi(ctx context.Context, in *ListApiReq, opts
 func (m *defaultSystemService) ListAllApi(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllApiResp, error) {
 	client := pb.NewSystemServiceClient(m.cli.Conn())
 	return client.ListAllApi(ctx, in, opts...)
+}
+
+func (m *defaultSystemService) ListCasbinRule(ctx context.Context, in *ListCasbinRuleReq, opts ...grpc.CallOption) (*ListCasbinRuleResp, error) {
+	client := pb.NewSystemServiceClient(m.cli.Conn())
+	return client.ListCasbinRule(ctx, in, opts...)
 }
 
 // 字典管理

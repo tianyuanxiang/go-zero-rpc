@@ -1,0 +1,34 @@
+// Casbin策略查询请求
+type ListCasbinRuleReq {
+	Page     int    `form:"page,default=1"` // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	RoleCode string `form:"roleCode,optional"` // 角色编码
+	Path     string `form:"path,optional"` // 接口路径
+	Method   string `form:"method,optional"` // HTTP方法
+}
+
+// Casbin策略项
+type CasbinRuleItem {
+	Id       int64  `json:"id"` // 策略ID
+	Ptype    string `json:"ptype"` // 策略类型
+	RoleCode string `json:"roleCode"` // 角色编码
+	ApiPath  string `json:"apiPath"` // 接口路径
+	Method   string `json:"method"` // HTTP方法
+}
+
+// Casbin策略列表响应体
+type ListCasbinRuleResp {
+	Total int64            `json:"total"` // 总数
+	List  []CasbinRuleItem `json:"list"` // 策略列表
+}
+
+@server (
+	prefix:     /api/v1/system
+	group:      sys/casbin
+	middleware: AuthMiddleware,CasbinMiddleware
+)
+service gateway-api {
+	// 只读查询Casbin策略列表
+	@handler ListCasbinRuleHandler
+	get /casbin/rules (ListCasbinRuleReq) returns (ListCasbinRuleResp)
+}

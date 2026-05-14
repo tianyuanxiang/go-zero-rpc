@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package menu
@@ -9,7 +9,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -83,7 +83,7 @@ func (l *UpdateMenuLogic) UpdateMenu(req *types.UpdateMenuReq) error {
 
 	_, err := l.svcCtx.SysRpc.UpdateMenu(l.ctx, rpcReq)
 	if err != nil {
-		l.Logger.Errorf("调用UpdateMenu RPC失败, operatorId=%d, menuId=%d, err=%v", operatorId, req.Id, err)
+		l.Logger.Errorf("Call the UpdateMenu failed, operatorId=%d, menuId=%d, err=%v", operatorId, req.Id, err)
 		return err
 	}
 

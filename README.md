@@ -2,23 +2,18 @@
 
 基于 **go-zero v1.10** 的微服务架构仓库，集成 RBAC 权限管理、JWT 双Token认证、WebSocket 实时通信、定时任务调度等企业级后台管理系统所需的核心能力。该仓库可直接作为新项目的脚手架，快速启动微服务开发。
 
-## 技术栈
+## 技术栈介绍
 
-| 技术 | 版本 | 用途 |
-|---|---|---|
-| **go-zero** | v1.10.1 | 微服务核心框架（REST + gRPC） |
-| **goctl** | 1.10.1 | 代码生成工具 |
-| **GORM** | v1.31.1 | ORM（复杂查询、事务、软删除） |
-| **PostgreSQL** | 14.x | 主数据库（pgx v5 驱动） |
-| **Redis** | go-redis v9 | 缓存、Token黑名单、分布式锁 |
-| **Casbin** | v2.100.0 | RBAC 权限管理（gorm-adapter 持久化） |
-| **JWT** | v5.3.1 | Token 认证（双Token机制） |
-| **etcd** | v3.5.21 | 服务注册与发现、配置中心 |
-| **Gorilla WebSocket** | v1.5.4 | WebSocket 连接管理 |
-| **robfig/cron** | v3.0.1 | 定时任务调度 |
-| **excelize** | v2.10.1 | Excel 文件导入导出 |
-| **OpenTelemetry** | (内置) | 分布式链路追踪 |
-| **Prometheus** | (内置) | 指标采集与监控 |
+| 技术            | 版本        | 用途                                 |
+| --------------- | ----------- | ------------------------------------ |
+| **go-zero**     | v1.10.1     | 微服务核心框架（REST + gRPC）        |
+| **GORM**        | v1.31.1     | ORM（复杂查询、事务、软删除）        |
+| **PostgreSQL**  | 14.x        | 主数据库（pgx v5 驱动）              |
+| **Redis**       | go-redis v9 | 缓存、Token黑名单、分布式锁          |
+| **Casbin**      | v2.100.0    | RBAC 权限管理（gorm-adapter 持久化） |
+| **JWT**         | v5.3.1      | Token 认证（双Token机制）            |
+| **etcd**        | v3.5.21     | 服务注册与发现、配置中心             |
+| **robfig/cron** | v3.0.1      | 定时任务调度                         |
 
 ## 架构设计
 
@@ -75,15 +70,15 @@ service/sys/rpc/
 
 ### 系统管理 (SystemService)
 
-| 模块 | 功能 |
-|---|---|
-| **用户管理** | 创建、编辑、删除（软删除）、列表查询、重置密码 |
-| **角色管理** | 创建、编辑、删除、分配菜单权限、分配 API 权限 |
+| 模块         | 功能                                                  |
+| ------------ | ----------------------------------------------------- |
+| **用户管理** | 创建、编辑、删除（软删除）、列表查询、重置密码        |
+| **角色管理** | 创建、编辑、删除、分配菜单权限、分配 API 权限         |
 | **菜单管理** | 树形菜单 CRUD、支持目录/菜单/按钮三种类型、可见性控制 |
-| **API管理** | 接口注册、路径+方法唯一性校验 |
-| **字典管理** | 字典类型 CRUD + 字典数据 CRUD |
-| **文件管理** | 文件上传、列表查询、删除 |
-| **日志管理** | 登录日志查询/清理、操作日志查询/清理 |
+| **API管理**  | 接口注册、路径+方法唯一性校验                         |
+| **字典管理** | 字典类型 CRUD + 字典数据 CRUD                         |
+| **文件管理** | 文件上传、列表查询、删除                              |
+| **日志管理** | 登录日志查询/清理、操作日志查询/清理                  |
 
 ### 权限管理 (PermissionService)
 
@@ -122,7 +117,7 @@ go-zero-rpc/
 │   ├── api/                         #   .api 定义文件（goctl 生成代码的源）
 │   │   └── desc/                    #     按模块拆分的 API 定义
 │   ├── etc/                         #   配置文件
-│   │   ├── gateway-api.yaml         #     生产配置（git-ignored）
+│   │   ├── gateway-api.yaml         #     生产配置
 │   │   └── gateway-api.example.yaml #     配置模板（git 跟踪）
 │   └── internal/
 │       ├── config/                  #   配置结构体
@@ -162,7 +157,7 @@ go-zero-rpc/
 │           └── logic/               #   任务执行逻辑
 │
 ├── deploy/                          # 数据库脚本
-│   └── system.sql                   #   PostgreSQL 初始化 DDL + DML
+│   └── system_pgsql.sql                   #   PostgreSQL 初始化 DDL + DML
 │
 ├── etc/                             # 全局配置
 │   └── rbac_model.conf              #   Casbin RBAC 模型定义
@@ -201,7 +196,7 @@ cd go-zero-rpc
 
 ```bash
 createdb system
-psql -d system -f deploy/system.sql
+psql -d system -f deploy/system_pgsql.sql
 ```
 
 ### 3. 配置服务
@@ -326,38 +321,6 @@ curl http://localhost:8888/api/v1/system/user \
   -H "Authorization: Bearer <access_token>"
 ```
 
-## API 接口概览
-
-所有 API 前缀：`/api/v1`
-
-| 路径前缀 | 方法 | 说明 | 中间件 |
-|---|---|---|---|
-| `/auth/login` | POST | 用户登录 | 无 |
-| `/auth/refresh` | POST | 刷新 Token | 无 |
-| `/auth/logout` | POST | 退出登录 | Auth |
-| `/auth/changePassword` | POST | 修改密码 | Auth |
-| `/auth/userInfo` | GET | 获取当前用户信息 | Auth |
-| `/system/user` | GET/POST | 用户列表/创建 | Auth + Casbin |
-| `/system/user/:id` | PUT/DELETE | 编辑/删除用户 | Auth + Casbin |
-| `/system/user/resetPassword` | POST | 重置密码 | Auth + Casbin |
-| `/system/role` | GET/POST | 角色列表/创建 | Auth + Casbin |
-| `/system/role/:id` | PUT/DELETE | 编辑/删除角色 | Auth + Casbin |
-| `/system/role/permissions` | PUT | 分配角色权限 | Auth + Casbin |
-| `/system/menu` | GET/POST | 菜单列表/创建 | Auth + Casbin |
-| `/system/menu/:id` | PUT/DELETE | 编辑/删除菜单 | Auth + Casbin |
-| `/system/api` | GET/POST | API列表/创建 | Auth + Casbin |
-| `/system/api/:id` | PUT/DELETE | 编辑/删除API | Auth + Casbin |
-| `/system/dict/type` | GET/POST | 字典类型列表/创建 | Auth + Casbin |
-| `/system/dict/type/:id` | PUT/DELETE | 编辑/删除字典类型 | Auth + Casbin |
-| `/system/dict/data` | GET/POST | 字典数据列表/创建 | Auth + Casbin |
-| `/system/dict/data/:id` | PUT/DELETE | 编辑/删除字典数据 | Auth + Casbin |
-| `/system/file` | GET | 文件列表 | Auth + Casbin |
-| `/system/file/upload` | POST | 文件上传 | Auth + Casbin |
-| `/system/file/:id` | DELETE | 删除文件 | Auth + Casbin |
-| `/system/log/login` | GET/DELETE | 登录日志查询/清理 | Auth + Casbin |
-| `/system/log/oper` | GET/DELETE | 操作日志查询/清理 | Auth + Casbin |
-| `/ws` | GET | WebSocket 连接 | Query Token |
-
 ## 统一响应格式
 
 所有 HTTP 接口返回统一格式：
@@ -406,53 +369,11 @@ HTTP Request
 
 ### 复用步骤
 
-**1. 克隆并重置 Git**
+参考
 
-```bash
-git clone https://github.com/tianyuanxiang/go-zero-rpc.git my-new-project
-cd my-new-project
-rm -rf .git && git init
-```
+[Project Introduction.md]: 
 
-**2. 修改模块路径**
 
-将所有 `go-zero-rpc` 替换为新项目模块名：
-
-```bash
-# Linux/Mac
-find . -name "*.go" -o -name "go.mod" -o -name "go.work" | xargs sed -i 's/go-zero-rpc/my-new-project/g'
-
-# Windows (PowerShell)
-Get-ChildItem -Recurse -Include *.go,go.mod,go.work | ForEach-Object {
-    (Get-Content $_.FullName) -replace 'go-zero-rpc','my-new-project' | Set-Content $_.FullName
-}
-```
-
-**3. 修改 Protobuf 定义**
-
-编辑 `service/sys/rpc/pb/sys.proto`，将 `option go_package` 中的模块路径替换后重新生成代码：
-
-```bash
-cd service/sys/rpc
-goctl rpc protoc pb/sys.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style go_zero
-```
-
-**4. 修改 API 定义并重新生成**
-
-编辑 `gateway/api/*.api` 文件，根据业务需求增删接口，然后重新生成：
-
-```bash
-cd gateway
-goctl api go -api api/gateway.api -dir . -style go_zero
-```
-
-**5. 修改配置文件**
-
-参照各 `*.example.yaml` 创建实际配置，修改数据库连接、Redis 地址、etcd 地址等。
-
-**6. 添加新业务模块**
-
-在 `service/sys/rpc/pb/sys.proto` 中添加新的 Service 和 RPC 方法，重新生成代码后，在 `internal/logic/` 下实现业务逻辑，在 `internal/model/` 下添加数据模型。
 
 ### 模块依赖关系
 
@@ -473,32 +394,32 @@ service/job/      -- 定时任务，依赖 sys.rpc 的 gRPC 客户端
 
 ### Gateway 配置参数
 
-| 参数 | 说明 | 默认值 |
-|---|---|---|
-| `Name` | 服务名称 | gateway |
-| `Host` | 监听地址 | 0.0.0.0 |
-| `Port` | 监听端口 | 8888 |
-| `Mode` | 运行模式 (dev/test/pro) | dev |
-| `Timeout` | 请求超时 (ms) | 30000 |
-| `Auth.AccessSecret` | JWT 签名密钥 | - |
-| `Auth.AccessExpire` | AccessToken 有效期 (秒) | 1200 |
-| `SysRpc.Etcd.Hosts` | etcd 集群地址 | - |
-| `SysRpc.Etcd.Key` | etcd 服务注册 Key | sys.rpc |
+| 参数                | 说明                    | 默认值  |
+| ------------------- | ----------------------- | ------- |
+| `Name`              | 服务名称                | gateway |
+| `Host`              | 监听地址                | 0.0.0.0 |
+| `Port`              | 监听端口                | 8888    |
+| `Mode`              | 运行模式 (dev/test/pro) | dev     |
+| `Timeout`           | 请求超时 (ms)           | 30000   |
+| `Auth.AccessSecret` | JWT 签名密钥            | -       |
+| `Auth.AccessExpire` | AccessToken 有效期 (秒) | 1200    |
+| `SysRpc.Etcd.Hosts` | etcd 集群地址           | -       |
+| `SysRpc.Etcd.Key`   | etcd 服务注册 Key       | sys.rpc |
 
 ### SysRPC 配置参数
 
-| 参数 | 说明 | 默认值 |
-|---|---|---|
-| `Name` | 服务名称 | sys.rpc |
-| `ListenOn` | 监听地址 | 0.0.0.0:9100 |
-| `JwtAuth.AccessSecret` | JWT 签名密钥 | - |
-| `JwtAuth.AccessExpire` | AccessToken 有效期 (秒) | 1200 |
-| `JwtAuth.RefreshExpire` | RefreshToken 有效期 (分钟) | 10080 |
-| `DB.DataSource` | PostgreSQL 连接字符串 | - |
-| `CacheRedis` | go-zero 内置缓存 Redis | - |
-| `BizRedis` | 业务 Redis（Token黑名单等） | - |
-| `CasbinModelPath` | Casbin 模型文件路径 | etc/rbac_model.conf |
-| `UploadPath` | 文件上传目录 | uploads |
+| 参数                    | 说明                        | 默认值              |
+| ----------------------- | --------------------------- | ------------------- |
+| `Name`                  | 服务名称                    | sys.rpc             |
+| `ListenOn`              | 监听地址                    | 0.0.0.0:9100        |
+| `JwtAuth.AccessSecret`  | JWT 签名密钥                | -                   |
+| `JwtAuth.AccessExpire`  | AccessToken 有效期 (秒)     | 1200                |
+| `JwtAuth.RefreshExpire` | RefreshToken 有效期 (分钟)  | 10080               |
+| `DB.DataSource`         | PostgreSQL 连接字符串       | -                   |
+| `CacheRedis`            | go-zero 内置缓存 Redis      | -                   |
+| `BizRedis`              | 业务 Redis（Token黑名单等） | -                   |
+| `CasbinModelPath`       | Casbin 模型文件路径         | etc/rbac_model.conf |
+| `UploadPath`            | 文件上传目录                | uploads             |
 
 ## License
 

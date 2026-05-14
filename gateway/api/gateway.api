@@ -14,6 +14,7 @@ import (
 	"desc/sys/role.api"
 	"desc/sys/menu.api"
 	"desc/sys/api.api"
+	"desc/sys/casbin.api"
 	"desc/sys/dict.api"
 	"desc/sys/log.api"
 	"desc/sys/file.api"

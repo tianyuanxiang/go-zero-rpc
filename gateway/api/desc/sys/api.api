@@ -35,12 +35,18 @@ type ApiOption {
 	Id      int64  `json:"id"` // 接口ID
 	ApiName string `json:"apiName"` // 接口名称
 	ApiPath string `json:"apiPath"` // 接口路径,如：/api/system/user
+	Method  string `json:"method"` // HTTP方法
 	Remark  string `json:"remark"` // 角色编码
+}
+
+type ApiGroupOption {
+	Group string `json:"group"` // 接口分组
+	Apis  []ApiOption `json:"apis"` // 分组下的接口
 }
 
 // 所有接口列表响应体
 type ListAllApiResp {
-	ListAll []ApiOption `list`
+	Groups []ApiGroupOption `json:"groups"`
 }
 
 // API列表查询请求

@@ -3,6 +3,11 @@
 
 package types
 
+type ApiGroupOption struct {
+	Group string      `json:"group"` // 接口分组
+	Apis  []ApiOption `json:"apis"`  // 分组下的接口
+}
+
 type ApiItem struct {
 	Id        int64  `json:"id"`        // 接口ID
 	ApiName   string `json:"apiName"`   // 接口名称
@@ -17,7 +22,16 @@ type ApiOption struct {
 	Id      int64  `json:"id"`      // 接口ID
 	ApiName string `json:"apiName"` // 接口名称
 	ApiPath string `json:"apiPath"` // 接口路径,如：/api/system/user
+	Method  string `json:"method"`  // HTTP方法
 	Remark  string `json:"remark"`  // 角色编码
+}
+
+type CasbinRuleItem struct {
+	Id       int64  `json:"id"`       // 策略ID
+	Ptype    string `json:"ptype"`    // 策略类型
+	RoleCode string `json:"roleCode"` // 角色编码
+	ApiPath  string `json:"apiPath"`  // 接口路径
+	Method   string `json:"method"`   // HTTP方法
 }
 
 type ChangePasswordReq struct {
@@ -59,6 +73,7 @@ type CreateMenuReq struct {
 	Sort      int    `json:"sort,optional"`      // 排序序号，越小越靠前
 	Perms     string `json:"perms,optional"`     // 权限标识（如：system:user:list）
 	Status    int    `json:"status"`             // 状态：1显示 0隐藏
+	Visible   int    `json:"visible,optional"`   // 可见性
 	Remark    string `json:"remark,optional"`
 }
 
@@ -119,7 +134,7 @@ type GetUserReq struct {
 }
 
 type ListAllApiResp struct {
-	ListAll []ApiOption `list`
+	Groups []ApiGroupOption `json:"groups"`
 }
 
 type ListAllResp struct {
@@ -136,6 +151,19 @@ type ListApiReq struct {
 type ListApiResp struct {
 	Total int64     `json:"total"` // 总数
 	List  []ApiItem `json:"list"`  // 接口列表
+}
+
+type ListCasbinRuleReq struct {
+	Page     int    `form:"page,default=1"`      // 页码
+	PageSize int    `form:"pageSize,default=20"` // 每页数量
+	RoleCode string `form:"roleCode,optional"`   // 角色编码
+	Path     string `form:"path,optional"`       // 接口路径
+	Method   string `form:"method,optional"`     // HTTP方法
+}
+
+type ListCasbinRuleResp struct {
+	Total int64            `json:"total"` // 总数
+	List  []CasbinRuleItem `json:"list"`  // 策略列表
 }
 
 type ListDictDataResp struct {
@@ -253,6 +281,7 @@ type MenuItem struct {
 	Sort      int64      `json:"sort"`              // 排序
 	Perms     string     `json:"perms"`             // 权限标识
 	Status    int        `json:"status"`            // 状态
+	Visible   int        `json:"visible"`           // 可见性
 	Children  []MenuItem `json:"children,optional"` // 子菜单列表
 }
 
@@ -291,13 +320,15 @@ type ResetPasswordReq struct {
 }
 
 type RoleItem struct {
-	Id        int64  `json:"id"`       // 角色ID
-	RoleName  string `json:"roleName"` // 角色名称
-	RoleCode  string `json:"roleCode"` // 角色编码
-	Status    int    `json:"status"`
-	Sort      int    `json:sort`
-	Remark    string `json:"remark"`    // 备注
-	CreatedAt string `json:"createdAt"` // 创建时间
+	Id        int64   `json:"id"`       // 角色ID
+	RoleName  string  `json:"roleName"` // 角色名称
+	RoleCode  string  `json:"roleCode"` // 角色编码
+	Status    int     `json:"status"`
+	Sort      int     `json:sort`
+	Remark    string  `json:"remark"`           // 备注
+	MenuIds   []int64 `json:"menuIds,optional"` // 关联菜单ID列表
+	ApiIds    []int64 `json:"apiIds,optional"`  // 关联接口ID列表
+	CreatedAt string  `json:"createdAt"`        // 创建时间
 }
 
 type RoleOption struct {
@@ -401,7 +432,8 @@ type UserItem struct {
 	Status    int      `json:"status"`   // 状态
 	Avatar    string   `json:"avatar"`
 	Remark    string   `json:"remark"`
-	Roles     []string `json:"roles"`     // 角色名称列表
-	CreatedAt string   `json:"createdAt"` // 创建时间
-	UpdatedAt string   `json:"updatedAt"` // 更新时间
+	Roles     []string `json:"roles"`            // 角色名称列表
+	RoleIds   []int64  `json:"roleIds,optional"` // 角色ID列表
+	CreatedAt string   `json:"createdAt"`        // 创建时间
+	UpdatedAt string   `json:"updatedAt"`        // 更新时间
 }

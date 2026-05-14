@@ -300,6 +300,7 @@ const (
 	SystemService_DeleteApi_FullMethodName             = "/sys.SystemService/DeleteApi"
 	SystemService_ListApi_FullMethodName               = "/sys.SystemService/ListApi"
 	SystemService_ListAllApi_FullMethodName            = "/sys.SystemService/ListAllApi"
+	SystemService_ListCasbinRule_FullMethodName        = "/sys.SystemService/ListCasbinRule"
 	SystemService_CreateDictType_FullMethodName        = "/sys.SystemService/CreateDictType"
 	SystemService_UpdateDictType_FullMethodName        = "/sys.SystemService/UpdateDictType"
 	SystemService_DeleteDictType_FullMethodName        = "/sys.SystemService/DeleteDictType"
@@ -356,6 +357,7 @@ type SystemServiceClient interface {
 	DeleteApi(ctx context.Context, in *DeleteApiReq, opts ...grpc.CallOption) (*Empty, error)
 	ListApi(ctx context.Context, in *ListApiReq, opts ...grpc.CallOption) (*ListApiResp, error)
 	ListAllApi(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListAllApiResp, error)
+	ListCasbinRule(ctx context.Context, in *ListCasbinRuleReq, opts ...grpc.CallOption) (*ListCasbinRuleResp, error)
 	// 字典管理
 	CreateDictType(ctx context.Context, in *CreateDictTypeReq, opts ...grpc.CallOption) (*CreateDictTypeResp, error)
 	UpdateDictType(ctx context.Context, in *UpdateDictTypeReq, opts ...grpc.CallOption) (*Empty, error)
@@ -615,6 +617,16 @@ func (c *systemServiceClient) ListAllApi(ctx context.Context, in *Empty, opts ..
 	return out, nil
 }
 
+func (c *systemServiceClient) ListCasbinRule(ctx context.Context, in *ListCasbinRuleReq, opts ...grpc.CallOption) (*ListCasbinRuleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCasbinRuleResp)
+	err := c.cc.Invoke(ctx, SystemService_ListCasbinRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemServiceClient) CreateDictType(ctx context.Context, in *CreateDictTypeReq, opts ...grpc.CallOption) (*CreateDictTypeResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateDictTypeResp)
@@ -813,6 +825,7 @@ type SystemServiceServer interface {
 	DeleteApi(context.Context, *DeleteApiReq) (*Empty, error)
 	ListApi(context.Context, *ListApiReq) (*ListApiResp, error)
 	ListAllApi(context.Context, *Empty) (*ListAllApiResp, error)
+	ListCasbinRule(context.Context, *ListCasbinRuleReq) (*ListCasbinRuleResp, error)
 	// 字典管理
 	CreateDictType(context.Context, *CreateDictTypeReq) (*CreateDictTypeResp, error)
 	UpdateDictType(context.Context, *UpdateDictTypeReq) (*Empty, error)
@@ -910,6 +923,9 @@ func (UnimplementedSystemServiceServer) ListApi(context.Context, *ListApiReq) (*
 }
 func (UnimplementedSystemServiceServer) ListAllApi(context.Context, *Empty) (*ListAllApiResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAllApi not implemented")
+}
+func (UnimplementedSystemServiceServer) ListCasbinRule(context.Context, *ListCasbinRuleReq) (*ListCasbinRuleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCasbinRule not implemented")
 }
 func (UnimplementedSystemServiceServer) CreateDictType(context.Context, *CreateDictTypeReq) (*CreateDictTypeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDictType not implemented")
@@ -1394,6 +1410,24 @@ func _SystemService_ListAllApi_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_ListCasbinRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCasbinRuleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListCasbinRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListCasbinRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListCasbinRule(ctx, req.(*ListCasbinRuleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemService_CreateDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateDictTypeReq)
 	if err := dec(in); err != nil {
@@ -1780,6 +1814,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAllApi",
 			Handler:    _SystemService_ListAllApi_Handler,
+		},
+		{
+			MethodName: "ListCasbinRule",
+			Handler:    _SystemService_ListCasbinRule_Handler,
 		},
 		{
 			MethodName: "CreateDictType",

@@ -6,7 +6,7 @@ package auth
 import (
 	"context"
 	"go-zero-rpc/common/middleware"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
@@ -29,7 +29,7 @@ func NewGetCurrentUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetCurrentUserLogic) GetCurrentUser() (resp *types.UserInfoResp, err error) {
-	// 从JWT认证中间件注入的Context中获取当前登录用户ID
+	// 浠嶫WT璁よ瘉涓棿浠舵敞鍏ョ殑Context涓幏鍙栧綋鍓嶇櫥褰曠敤鎴稩D
 	userId := middleware.GetUserIdFromCtx(l.ctx)
 	if userId == 0 {
 		l.Errorf("userId is empty")

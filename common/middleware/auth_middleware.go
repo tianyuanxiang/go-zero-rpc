@@ -76,7 +76,7 @@ func (m *AuthMiddleware) Handle(accessSecret string) func(handlerFunc http.Handl
 			}
 
 			blacklistKey := fmt.Sprintf("%s%s", RedisTokenBlacklistPrefix, tokenStr)
-			isBlack, err := m.permRpc.IsTokenRevoked(r.Context(), &sys.IsBlackListReq{BlacklistKey: blacklistKey})
+			isBlack, err := m.permRpc.IsTokenRevoked(r.Context(), &pb.IsBlackListReq{BlacklistKey: blacklistKey})
 			if err != nil {
 				logx.WithContext(r.Context()).Errorf("Token list check fail., key=%s, err=%v", blacklistKey, err)
 				response.Fail(w, r, response.CodeInternalError, "Token 校验失败，请稍后重试")

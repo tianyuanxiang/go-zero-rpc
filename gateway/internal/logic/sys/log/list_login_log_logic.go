@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package log
@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,7 +36,7 @@ func (l *ListLoginLogLogic) ListLoginLog(req *types.ListLoginLogReq) (resp *type
 		EndTime:   req.EndTime,
 	}
 
-	// HTTP 层 Status 是 int 非指针，无法区分零值。这里约定 Status>0 才作为查询条件。
+	// Only send status filter when requested.
 	if req.Status > 0 {
 		rpcReq.HasStatus = true
 		rpcReq.Status = int64(req.Status)
@@ -44,7 +44,7 @@ func (l *ListLoginLogLogic) ListLoginLog(req *types.ListLoginLogReq) (resp *type
 
 	rpcResp, err := l.svcCtx.SysRpc.ListLoginLog(l.ctx, rpcReq)
 	if err != nil {
-		l.Logger.Errorf("调用ListLoginLog RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the ListLoginLog failed, err=%v", err)
 		return nil, err
 	}
 

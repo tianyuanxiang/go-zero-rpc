@@ -9,7 +9,7 @@ import (
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -40,7 +40,7 @@ func (l *CreateApiLogic) CreateApi(req *types.CreateApiReq) error {
 		OperatorId: operatorId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用CreateApi RPC失败, operatorId=%d, err=%v", operatorId, err)
+		l.Logger.Errorf("Call the CreateApi failed, operatorId=%d, err=%v", operatorId, err)
 		return err
 	}
 

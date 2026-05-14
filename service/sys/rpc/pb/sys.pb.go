@@ -3490,7 +3490,8 @@ type ApiOption struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	ApiName       string                 `protobuf:"bytes,2,opt,name=api_name,json=apiName,proto3" json:"api_name,omitempty"`
 	ApiPath       string                 `protobuf:"bytes,3,opt,name=api_path,json=apiPath,proto3" json:"api_path,omitempty"`
-	Remark        string                 `protobuf:"bytes,4,opt,name=remark,proto3" json:"remark,omitempty"`
+	Method        string                 `protobuf:"bytes,4,opt,name=method,proto3" json:"method,omitempty"`
+	Remark        string                 `protobuf:"bytes,5,opt,name=remark,proto3" json:"remark,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3546,11 +3547,70 @@ func (x *ApiOption) GetApiPath() string {
 	return ""
 }
 
+func (x *ApiOption) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
 func (x *ApiOption) GetRemark() string {
 	if x != nil {
 		return x.Remark
 	}
 	return ""
+}
+
+type ApiGroupOption struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Group         string                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
+	Apis          []*ApiOption           `protobuf:"bytes,2,rep,name=apis,proto3" json:"apis,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApiGroupOption) Reset() {
+	*x = ApiGroupOption{}
+	mi := &file_pb_sys_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApiGroupOption) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApiGroupOption) ProtoMessage() {}
+
+func (x *ApiGroupOption) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_sys_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApiGroupOption.ProtoReflect.Descriptor instead.
+func (*ApiGroupOption) Descriptor() ([]byte, []int) {
+	return file_pb_sys_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *ApiGroupOption) GetGroup() string {
+	if x != nil {
+		return x.Group
+	}
+	return ""
+}
+
+func (x *ApiGroupOption) GetApis() []*ApiOption {
+	if x != nil {
+		return x.Apis
+	}
+	return nil
 }
 
 type ListApiResp struct {
@@ -3563,7 +3623,7 @@ type ListApiResp struct {
 
 func (x *ListApiResp) Reset() {
 	*x = ListApiResp{}
-	mi := &file_pb_sys_proto_msgTypes[49]
+	mi := &file_pb_sys_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3575,7 +3635,7 @@ func (x *ListApiResp) String() string {
 func (*ListApiResp) ProtoMessage() {}
 
 func (x *ListApiResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[49]
+	mi := &file_pb_sys_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3588,7 +3648,7 @@ func (x *ListApiResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListApiResp.ProtoReflect.Descriptor instead.
 func (*ListApiResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{49}
+	return file_pb_sys_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *ListApiResp) GetTotal() int64 {
@@ -3607,14 +3667,14 @@ func (x *ListApiResp) GetList() []*ApiItem {
 
 type ListAllApiResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ListAll       []*ApiOption           `protobuf:"bytes,1,rep,name=list_all,json=listAll,proto3" json:"list_all,omitempty"`
+	Groups        []*ApiGroupOption      `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListAllApiResp) Reset() {
 	*x = ListAllApiResp{}
-	mi := &file_pb_sys_proto_msgTypes[50]
+	mi := &file_pb_sys_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3626,7 +3686,7 @@ func (x *ListAllApiResp) String() string {
 func (*ListAllApiResp) ProtoMessage() {}
 
 func (x *ListAllApiResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[50]
+	mi := &file_pb_sys_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3639,12 +3699,216 @@ func (x *ListAllApiResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAllApiResp.ProtoReflect.Descriptor instead.
 func (*ListAllApiResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{50}
+	return file_pb_sys_proto_rawDescGZIP(), []int{51}
 }
 
-func (x *ListAllApiResp) GetListAll() []*ApiOption {
+func (x *ListAllApiResp) GetGroups() []*ApiGroupOption {
 	if x != nil {
-		return x.ListAll
+		return x.Groups
+	}
+	return nil
+}
+
+type ListCasbinRuleReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	RoleCode      string                 `protobuf:"bytes,3,opt,name=role_code,json=roleCode,proto3" json:"role_code,omitempty"`
+	Path          string                 `protobuf:"bytes,4,opt,name=path,proto3" json:"path,omitempty"`
+	Method        string                 `protobuf:"bytes,5,opt,name=method,proto3" json:"method,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCasbinRuleReq) Reset() {
+	*x = ListCasbinRuleReq{}
+	mi := &file_pb_sys_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCasbinRuleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCasbinRuleReq) ProtoMessage() {}
+
+func (x *ListCasbinRuleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_sys_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCasbinRuleReq.ProtoReflect.Descriptor instead.
+func (*ListCasbinRuleReq) Descriptor() ([]byte, []int) {
+	return file_pb_sys_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *ListCasbinRuleReq) GetPage() int64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCasbinRuleReq) GetPageSize() int64 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListCasbinRuleReq) GetRoleCode() string {
+	if x != nil {
+		return x.RoleCode
+	}
+	return ""
+}
+
+func (x *ListCasbinRuleReq) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+func (x *ListCasbinRuleReq) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
+type CasbinRuleItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Ptype         string                 `protobuf:"bytes,2,opt,name=ptype,proto3" json:"ptype,omitempty"`
+	RoleCode      string                 `protobuf:"bytes,3,opt,name=role_code,json=roleCode,proto3" json:"role_code,omitempty"`
+	ApiPath       string                 `protobuf:"bytes,4,opt,name=api_path,json=apiPath,proto3" json:"api_path,omitempty"`
+	Method        string                 `protobuf:"bytes,5,opt,name=method,proto3" json:"method,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CasbinRuleItem) Reset() {
+	*x = CasbinRuleItem{}
+	mi := &file_pb_sys_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CasbinRuleItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CasbinRuleItem) ProtoMessage() {}
+
+func (x *CasbinRuleItem) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_sys_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CasbinRuleItem.ProtoReflect.Descriptor instead.
+func (*CasbinRuleItem) Descriptor() ([]byte, []int) {
+	return file_pb_sys_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *CasbinRuleItem) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *CasbinRuleItem) GetPtype() string {
+	if x != nil {
+		return x.Ptype
+	}
+	return ""
+}
+
+func (x *CasbinRuleItem) GetRoleCode() string {
+	if x != nil {
+		return x.RoleCode
+	}
+	return ""
+}
+
+func (x *CasbinRuleItem) GetApiPath() string {
+	if x != nil {
+		return x.ApiPath
+	}
+	return ""
+}
+
+func (x *CasbinRuleItem) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
+type ListCasbinRuleResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int64                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	List          []*CasbinRuleItem      `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCasbinRuleResp) Reset() {
+	*x = ListCasbinRuleResp{}
+	mi := &file_pb_sys_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCasbinRuleResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCasbinRuleResp) ProtoMessage() {}
+
+func (x *ListCasbinRuleResp) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_sys_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCasbinRuleResp.ProtoReflect.Descriptor instead.
+func (*ListCasbinRuleResp) Descriptor() ([]byte, []int) {
+	return file_pb_sys_proto_rawDescGZIP(), []int{54}
+}
+
+func (x *ListCasbinRuleResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListCasbinRuleResp) GetList() []*CasbinRuleItem {
+	if x != nil {
+		return x.List
 	}
 	return nil
 }
@@ -3662,7 +3926,7 @@ type CreateDictTypeReq struct {
 
 func (x *CreateDictTypeReq) Reset() {
 	*x = CreateDictTypeReq{}
-	mi := &file_pb_sys_proto_msgTypes[51]
+	mi := &file_pb_sys_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3674,7 +3938,7 @@ func (x *CreateDictTypeReq) String() string {
 func (*CreateDictTypeReq) ProtoMessage() {}
 
 func (x *CreateDictTypeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[51]
+	mi := &file_pb_sys_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3687,7 +3951,7 @@ func (x *CreateDictTypeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDictTypeReq.ProtoReflect.Descriptor instead.
 func (*CreateDictTypeReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{51}
+	return file_pb_sys_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *CreateDictTypeReq) GetDictName() string {
@@ -3734,7 +3998,7 @@ type CreateDictTypeResp struct {
 
 func (x *CreateDictTypeResp) Reset() {
 	*x = CreateDictTypeResp{}
-	mi := &file_pb_sys_proto_msgTypes[52]
+	mi := &file_pb_sys_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3746,7 +4010,7 @@ func (x *CreateDictTypeResp) String() string {
 func (*CreateDictTypeResp) ProtoMessage() {}
 
 func (x *CreateDictTypeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[52]
+	mi := &file_pb_sys_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3759,7 +4023,7 @@ func (x *CreateDictTypeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDictTypeResp.ProtoReflect.Descriptor instead.
 func (*CreateDictTypeResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{52}
+	return file_pb_sys_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *CreateDictTypeResp) GetDictTypeId() int64 {
@@ -3787,7 +4051,7 @@ type UpdateDictTypeReq struct {
 
 func (x *UpdateDictTypeReq) Reset() {
 	*x = UpdateDictTypeReq{}
-	mi := &file_pb_sys_proto_msgTypes[53]
+	mi := &file_pb_sys_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3799,7 +4063,7 @@ func (x *UpdateDictTypeReq) String() string {
 func (*UpdateDictTypeReq) ProtoMessage() {}
 
 func (x *UpdateDictTypeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[53]
+	mi := &file_pb_sys_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3812,7 +4076,7 @@ func (x *UpdateDictTypeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDictTypeReq.ProtoReflect.Descriptor instead.
 func (*UpdateDictTypeReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{53}
+	return file_pb_sys_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *UpdateDictTypeReq) GetId() int64 {
@@ -3895,7 +4159,7 @@ type DeleteDictTypeReq struct {
 
 func (x *DeleteDictTypeReq) Reset() {
 	*x = DeleteDictTypeReq{}
-	mi := &file_pb_sys_proto_msgTypes[54]
+	mi := &file_pb_sys_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3907,7 +4171,7 @@ func (x *DeleteDictTypeReq) String() string {
 func (*DeleteDictTypeReq) ProtoMessage() {}
 
 func (x *DeleteDictTypeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[54]
+	mi := &file_pb_sys_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3920,7 +4184,7 @@ func (x *DeleteDictTypeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteDictTypeReq.ProtoReflect.Descriptor instead.
 func (*DeleteDictTypeReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{54}
+	return file_pb_sys_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *DeleteDictTypeReq) GetDictTypeId() int64 {
@@ -3948,7 +4212,7 @@ type ListDictTypeReq struct {
 
 func (x *ListDictTypeReq) Reset() {
 	*x = ListDictTypeReq{}
-	mi := &file_pb_sys_proto_msgTypes[55]
+	mi := &file_pb_sys_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3960,7 +4224,7 @@ func (x *ListDictTypeReq) String() string {
 func (*ListDictTypeReq) ProtoMessage() {}
 
 func (x *ListDictTypeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[55]
+	mi := &file_pb_sys_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3973,7 +4237,7 @@ func (x *ListDictTypeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDictTypeReq.ProtoReflect.Descriptor instead.
 func (*ListDictTypeReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{55}
+	return file_pb_sys_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *ListDictTypeReq) GetPage() int64 {
@@ -4011,7 +4275,7 @@ type DictTypeItem struct {
 
 func (x *DictTypeItem) Reset() {
 	*x = DictTypeItem{}
-	mi := &file_pb_sys_proto_msgTypes[56]
+	mi := &file_pb_sys_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4023,7 +4287,7 @@ func (x *DictTypeItem) String() string {
 func (*DictTypeItem) ProtoMessage() {}
 
 func (x *DictTypeItem) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[56]
+	mi := &file_pb_sys_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4036,7 +4300,7 @@ func (x *DictTypeItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DictTypeItem.ProtoReflect.Descriptor instead.
 func (*DictTypeItem) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{56}
+	return file_pb_sys_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *DictTypeItem) GetId() int64 {
@@ -4091,7 +4355,7 @@ type ListDictTypeResp struct {
 
 func (x *ListDictTypeResp) Reset() {
 	*x = ListDictTypeResp{}
-	mi := &file_pb_sys_proto_msgTypes[57]
+	mi := &file_pb_sys_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4103,7 +4367,7 @@ func (x *ListDictTypeResp) String() string {
 func (*ListDictTypeResp) ProtoMessage() {}
 
 func (x *ListDictTypeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[57]
+	mi := &file_pb_sys_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4116,7 +4380,7 @@ func (x *ListDictTypeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDictTypeResp.ProtoReflect.Descriptor instead.
 func (*ListDictTypeResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{57}
+	return file_pb_sys_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *ListDictTypeResp) GetTotal() int64 {
@@ -4148,7 +4412,7 @@ type CreateDictDataReq struct {
 
 func (x *CreateDictDataReq) Reset() {
 	*x = CreateDictDataReq{}
-	mi := &file_pb_sys_proto_msgTypes[58]
+	mi := &file_pb_sys_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4160,7 +4424,7 @@ func (x *CreateDictDataReq) String() string {
 func (*CreateDictDataReq) ProtoMessage() {}
 
 func (x *CreateDictDataReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[58]
+	mi := &file_pb_sys_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4173,7 +4437,7 @@ func (x *CreateDictDataReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDictDataReq.ProtoReflect.Descriptor instead.
 func (*CreateDictDataReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{58}
+	return file_pb_sys_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *CreateDictDataReq) GetDictTypeId() int64 {
@@ -4234,7 +4498,7 @@ type CreateDictDataResp struct {
 
 func (x *CreateDictDataResp) Reset() {
 	*x = CreateDictDataResp{}
-	mi := &file_pb_sys_proto_msgTypes[59]
+	mi := &file_pb_sys_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4246,7 +4510,7 @@ func (x *CreateDictDataResp) String() string {
 func (*CreateDictDataResp) ProtoMessage() {}
 
 func (x *CreateDictDataResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[59]
+	mi := &file_pb_sys_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4259,7 +4523,7 @@ func (x *CreateDictDataResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDictDataResp.ProtoReflect.Descriptor instead.
 func (*CreateDictDataResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{59}
+	return file_pb_sys_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *CreateDictDataResp) GetDictDataId() int64 {
@@ -4288,7 +4552,7 @@ type UpdateDictDataReq struct {
 
 func (x *UpdateDictDataReq) Reset() {
 	*x = UpdateDictDataReq{}
-	mi := &file_pb_sys_proto_msgTypes[60]
+	mi := &file_pb_sys_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4300,7 +4564,7 @@ func (x *UpdateDictDataReq) String() string {
 func (*UpdateDictDataReq) ProtoMessage() {}
 
 func (x *UpdateDictDataReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[60]
+	mi := &file_pb_sys_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4313,7 +4577,7 @@ func (x *UpdateDictDataReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDictDataReq.ProtoReflect.Descriptor instead.
 func (*UpdateDictDataReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{60}
+	return file_pb_sys_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *UpdateDictDataReq) GetId() int64 {
@@ -4403,7 +4667,7 @@ type DeleteDictDataReq struct {
 
 func (x *DeleteDictDataReq) Reset() {
 	*x = DeleteDictDataReq{}
-	mi := &file_pb_sys_proto_msgTypes[61]
+	mi := &file_pb_sys_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4415,7 +4679,7 @@ func (x *DeleteDictDataReq) String() string {
 func (*DeleteDictDataReq) ProtoMessage() {}
 
 func (x *DeleteDictDataReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[61]
+	mi := &file_pb_sys_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4428,7 +4692,7 @@ func (x *DeleteDictDataReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteDictDataReq.ProtoReflect.Descriptor instead.
 func (*DeleteDictDataReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{61}
+	return file_pb_sys_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *DeleteDictDataReq) GetDictDataId() int64 {
@@ -4454,7 +4718,7 @@ type GetDictDataByTypeReq struct {
 
 func (x *GetDictDataByTypeReq) Reset() {
 	*x = GetDictDataByTypeReq{}
-	mi := &file_pb_sys_proto_msgTypes[62]
+	mi := &file_pb_sys_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4466,7 +4730,7 @@ func (x *GetDictDataByTypeReq) String() string {
 func (*GetDictDataByTypeReq) ProtoMessage() {}
 
 func (x *GetDictDataByTypeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[62]
+	mi := &file_pb_sys_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4479,7 +4743,7 @@ func (x *GetDictDataByTypeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDictDataByTypeReq.ProtoReflect.Descriptor instead.
 func (*GetDictDataByTypeReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{62}
+	return file_pb_sys_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *GetDictDataByTypeReq) GetDictTypeId() int64 {
@@ -4504,7 +4768,7 @@ type DictDataItem struct {
 
 func (x *DictDataItem) Reset() {
 	*x = DictDataItem{}
-	mi := &file_pb_sys_proto_msgTypes[63]
+	mi := &file_pb_sys_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4516,7 +4780,7 @@ func (x *DictDataItem) String() string {
 func (*DictDataItem) ProtoMessage() {}
 
 func (x *DictDataItem) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[63]
+	mi := &file_pb_sys_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4529,7 +4793,7 @@ func (x *DictDataItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DictDataItem.ProtoReflect.Descriptor instead.
 func (*DictDataItem) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{63}
+	return file_pb_sys_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *DictDataItem) GetId() int64 {
@@ -4591,7 +4855,7 @@ type ListDictDataResp struct {
 
 func (x *ListDictDataResp) Reset() {
 	*x = ListDictDataResp{}
-	mi := &file_pb_sys_proto_msgTypes[64]
+	mi := &file_pb_sys_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4603,7 +4867,7 @@ func (x *ListDictDataResp) String() string {
 func (*ListDictDataResp) ProtoMessage() {}
 
 func (x *ListDictDataResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[64]
+	mi := &file_pb_sys_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4616,7 +4880,7 @@ func (x *ListDictDataResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDictDataResp.ProtoReflect.Descriptor instead.
 func (*ListDictDataResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{64}
+	return file_pb_sys_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *ListDictDataResp) GetTotal() int64 {
@@ -4648,7 +4912,7 @@ type ListLoginLogReq struct {
 
 func (x *ListLoginLogReq) Reset() {
 	*x = ListLoginLogReq{}
-	mi := &file_pb_sys_proto_msgTypes[65]
+	mi := &file_pb_sys_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4660,7 +4924,7 @@ func (x *ListLoginLogReq) String() string {
 func (*ListLoginLogReq) ProtoMessage() {}
 
 func (x *ListLoginLogReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[65]
+	mi := &file_pb_sys_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4673,7 +4937,7 @@ func (x *ListLoginLogReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLoginLogReq.ProtoReflect.Descriptor instead.
 func (*ListLoginLogReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{65}
+	return file_pb_sys_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *ListLoginLogReq) GetPage() int64 {
@@ -4743,7 +5007,7 @@ type LoginLogItem struct {
 
 func (x *LoginLogItem) Reset() {
 	*x = LoginLogItem{}
-	mi := &file_pb_sys_proto_msgTypes[66]
+	mi := &file_pb_sys_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4755,7 +5019,7 @@ func (x *LoginLogItem) String() string {
 func (*LoginLogItem) ProtoMessage() {}
 
 func (x *LoginLogItem) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[66]
+	mi := &file_pb_sys_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4768,7 +5032,7 @@ func (x *LoginLogItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginLogItem.ProtoReflect.Descriptor instead.
 func (*LoginLogItem) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{66}
+	return file_pb_sys_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *LoginLogItem) GetId() int64 {
@@ -4851,7 +5115,7 @@ type ListLoginLogResp struct {
 
 func (x *ListLoginLogResp) Reset() {
 	*x = ListLoginLogResp{}
-	mi := &file_pb_sys_proto_msgTypes[67]
+	mi := &file_pb_sys_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4863,7 +5127,7 @@ func (x *ListLoginLogResp) String() string {
 func (*ListLoginLogResp) ProtoMessage() {}
 
 func (x *ListLoginLogResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[67]
+	mi := &file_pb_sys_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4876,7 +5140,7 @@ func (x *ListLoginLogResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLoginLogResp.ProtoReflect.Descriptor instead.
 func (*ListLoginLogResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{67}
+	return file_pb_sys_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *ListLoginLogResp) GetTotal() int64 {
@@ -4901,7 +5165,7 @@ type ClearLoginLogReq struct {
 
 func (x *ClearLoginLogReq) Reset() {
 	*x = ClearLoginLogReq{}
-	mi := &file_pb_sys_proto_msgTypes[68]
+	mi := &file_pb_sys_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4913,7 +5177,7 @@ func (x *ClearLoginLogReq) String() string {
 func (*ClearLoginLogReq) ProtoMessage() {}
 
 func (x *ClearLoginLogReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[68]
+	mi := &file_pb_sys_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4926,7 +5190,7 @@ func (x *ClearLoginLogReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClearLoginLogReq.ProtoReflect.Descriptor instead.
 func (*ClearLoginLogReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{68}
+	return file_pb_sys_proto_rawDescGZIP(), []int{72}
 }
 
 type ListOperLogReq struct {
@@ -4945,7 +5209,7 @@ type ListOperLogReq struct {
 
 func (x *ListOperLogReq) Reset() {
 	*x = ListOperLogReq{}
-	mi := &file_pb_sys_proto_msgTypes[69]
+	mi := &file_pb_sys_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4957,7 +5221,7 @@ func (x *ListOperLogReq) String() string {
 func (*ListOperLogReq) ProtoMessage() {}
 
 func (x *ListOperLogReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[69]
+	mi := &file_pb_sys_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4970,7 +5234,7 @@ func (x *ListOperLogReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOperLogReq.ProtoReflect.Descriptor instead.
 func (*ListOperLogReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{69}
+	return file_pb_sys_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *ListOperLogReq) GetPage() int64 {
@@ -5050,7 +5314,7 @@ type OperLogItem struct {
 
 func (x *OperLogItem) Reset() {
 	*x = OperLogItem{}
-	mi := &file_pb_sys_proto_msgTypes[70]
+	mi := &file_pb_sys_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5062,7 +5326,7 @@ func (x *OperLogItem) String() string {
 func (*OperLogItem) ProtoMessage() {}
 
 func (x *OperLogItem) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[70]
+	mi := &file_pb_sys_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5075,7 +5339,7 @@ func (x *OperLogItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OperLogItem.ProtoReflect.Descriptor instead.
 func (*OperLogItem) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{70}
+	return file_pb_sys_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *OperLogItem) GetId() int64 {
@@ -5179,7 +5443,7 @@ type ListOperLogResp struct {
 
 func (x *ListOperLogResp) Reset() {
 	*x = ListOperLogResp{}
-	mi := &file_pb_sys_proto_msgTypes[71]
+	mi := &file_pb_sys_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5191,7 +5455,7 @@ func (x *ListOperLogResp) String() string {
 func (*ListOperLogResp) ProtoMessage() {}
 
 func (x *ListOperLogResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[71]
+	mi := &file_pb_sys_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5204,7 +5468,7 @@ func (x *ListOperLogResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOperLogResp.ProtoReflect.Descriptor instead.
 func (*ListOperLogResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{71}
+	return file_pb_sys_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *ListOperLogResp) GetTotal() int64 {
@@ -5229,7 +5493,7 @@ type ClearOperLogReq struct {
 
 func (x *ClearOperLogReq) Reset() {
 	*x = ClearOperLogReq{}
-	mi := &file_pb_sys_proto_msgTypes[72]
+	mi := &file_pb_sys_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5241,7 +5505,7 @@ func (x *ClearOperLogReq) String() string {
 func (*ClearOperLogReq) ProtoMessage() {}
 
 func (x *ClearOperLogReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[72]
+	mi := &file_pb_sys_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5254,7 +5518,7 @@ func (x *ClearOperLogReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClearOperLogReq.ProtoReflect.Descriptor instead.
 func (*ClearOperLogReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{72}
+	return file_pb_sys_proto_rawDescGZIP(), []int{76}
 }
 
 type WriteOperLogReq struct {
@@ -5279,7 +5543,7 @@ type WriteOperLogReq struct {
 
 func (x *WriteOperLogReq) Reset() {
 	*x = WriteOperLogReq{}
-	mi := &file_pb_sys_proto_msgTypes[73]
+	mi := &file_pb_sys_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5291,7 +5555,7 @@ func (x *WriteOperLogReq) String() string {
 func (*WriteOperLogReq) ProtoMessage() {}
 
 func (x *WriteOperLogReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[73]
+	mi := &file_pb_sys_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5304,7 +5568,7 @@ func (x *WriteOperLogReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WriteOperLogReq.ProtoReflect.Descriptor instead.
 func (*WriteOperLogReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{73}
+	return file_pb_sys_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *WriteOperLogReq) GetTitle() string {
@@ -5414,7 +5678,7 @@ type WriteOperLogResp struct {
 
 func (x *WriteOperLogResp) Reset() {
 	*x = WriteOperLogResp{}
-	mi := &file_pb_sys_proto_msgTypes[74]
+	mi := &file_pb_sys_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5426,7 +5690,7 @@ func (x *WriteOperLogResp) String() string {
 func (*WriteOperLogResp) ProtoMessage() {}
 
 func (x *WriteOperLogResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[74]
+	mi := &file_pb_sys_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5439,7 +5703,7 @@ func (x *WriteOperLogResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WriteOperLogResp.ProtoReflect.Descriptor instead.
 func (*WriteOperLogResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{74}
+	return file_pb_sys_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *WriteOperLogResp) GetId() int64 {
@@ -5462,7 +5726,7 @@ type RegisterFileReq struct {
 
 func (x *RegisterFileReq) Reset() {
 	*x = RegisterFileReq{}
-	mi := &file_pb_sys_proto_msgTypes[75]
+	mi := &file_pb_sys_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5474,7 +5738,7 @@ func (x *RegisterFileReq) String() string {
 func (*RegisterFileReq) ProtoMessage() {}
 
 func (x *RegisterFileReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[75]
+	mi := &file_pb_sys_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5487,7 +5751,7 @@ func (x *RegisterFileReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterFileReq.ProtoReflect.Descriptor instead.
 func (*RegisterFileReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{75}
+	return file_pb_sys_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *RegisterFileReq) GetFileName() string {
@@ -5538,7 +5802,7 @@ type FileInfo struct {
 
 func (x *FileInfo) Reset() {
 	*x = FileInfo{}
-	mi := &file_pb_sys_proto_msgTypes[76]
+	mi := &file_pb_sys_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5550,7 +5814,7 @@ func (x *FileInfo) String() string {
 func (*FileInfo) ProtoMessage() {}
 
 func (x *FileInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[76]
+	mi := &file_pb_sys_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5563,7 +5827,7 @@ func (x *FileInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileInfo.ProtoReflect.Descriptor instead.
 func (*FileInfo) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{76}
+	return file_pb_sys_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *FileInfo) GetFileId() int64 {
@@ -5610,7 +5874,7 @@ type RegisterFileResp struct {
 
 func (x *RegisterFileResp) Reset() {
 	*x = RegisterFileResp{}
-	mi := &file_pb_sys_proto_msgTypes[77]
+	mi := &file_pb_sys_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5622,7 +5886,7 @@ func (x *RegisterFileResp) String() string {
 func (*RegisterFileResp) ProtoMessage() {}
 
 func (x *RegisterFileResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[77]
+	mi := &file_pb_sys_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5635,7 +5899,7 @@ func (x *RegisterFileResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterFileResp.ProtoReflect.Descriptor instead.
 func (*RegisterFileResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{77}
+	return file_pb_sys_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *RegisterFileResp) GetFile() *FileInfo {
@@ -5655,7 +5919,7 @@ type DeleteFileReq struct {
 
 func (x *DeleteFileReq) Reset() {
 	*x = DeleteFileReq{}
-	mi := &file_pb_sys_proto_msgTypes[78]
+	mi := &file_pb_sys_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5667,7 +5931,7 @@ func (x *DeleteFileReq) String() string {
 func (*DeleteFileReq) ProtoMessage() {}
 
 func (x *DeleteFileReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[78]
+	mi := &file_pb_sys_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5680,7 +5944,7 @@ func (x *DeleteFileReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFileReq.ProtoReflect.Descriptor instead.
 func (*DeleteFileReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{78}
+	return file_pb_sys_proto_rawDescGZIP(), []int{82}
 }
 
 func (x *DeleteFileReq) GetFileId() int64 {
@@ -5708,7 +5972,7 @@ type ListFileReq struct {
 
 func (x *ListFileReq) Reset() {
 	*x = ListFileReq{}
-	mi := &file_pb_sys_proto_msgTypes[79]
+	mi := &file_pb_sys_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5720,7 +5984,7 @@ func (x *ListFileReq) String() string {
 func (*ListFileReq) ProtoMessage() {}
 
 func (x *ListFileReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[79]
+	mi := &file_pb_sys_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5733,7 +5997,7 @@ func (x *ListFileReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFileReq.ProtoReflect.Descriptor instead.
 func (*ListFileReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{79}
+	return file_pb_sys_proto_rawDescGZIP(), []int{83}
 }
 
 func (x *ListFileReq) GetPage() int64 {
@@ -5767,7 +6031,7 @@ type ListFileResp struct {
 
 func (x *ListFileResp) Reset() {
 	*x = ListFileResp{}
-	mi := &file_pb_sys_proto_msgTypes[80]
+	mi := &file_pb_sys_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5779,7 +6043,7 @@ func (x *ListFileResp) String() string {
 func (*ListFileResp) ProtoMessage() {}
 
 func (x *ListFileResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[80]
+	mi := &file_pb_sys_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5792,7 +6056,7 @@ func (x *ListFileResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFileResp.ProtoReflect.Descriptor instead.
 func (*ListFileResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{80}
+	return file_pb_sys_proto_rawDescGZIP(), []int{84}
 }
 
 func (x *ListFileResp) GetTotal() int64 {
@@ -5820,7 +6084,7 @@ type CheckPermissionReq struct {
 
 func (x *CheckPermissionReq) Reset() {
 	*x = CheckPermissionReq{}
-	mi := &file_pb_sys_proto_msgTypes[81]
+	mi := &file_pb_sys_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5832,7 +6096,7 @@ func (x *CheckPermissionReq) String() string {
 func (*CheckPermissionReq) ProtoMessage() {}
 
 func (x *CheckPermissionReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[81]
+	mi := &file_pb_sys_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5845,7 +6109,7 @@ func (x *CheckPermissionReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckPermissionReq.ProtoReflect.Descriptor instead.
 func (*CheckPermissionReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{81}
+	return file_pb_sys_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *CheckPermissionReq) GetUserId() int64 {
@@ -5879,7 +6143,7 @@ type CheckPermissionResp struct {
 
 func (x *CheckPermissionResp) Reset() {
 	*x = CheckPermissionResp{}
-	mi := &file_pb_sys_proto_msgTypes[82]
+	mi := &file_pb_sys_proto_msgTypes[86]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5891,7 +6155,7 @@ func (x *CheckPermissionResp) String() string {
 func (*CheckPermissionResp) ProtoMessage() {}
 
 func (x *CheckPermissionResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[82]
+	mi := &file_pb_sys_proto_msgTypes[86]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5904,7 +6168,7 @@ func (x *CheckPermissionResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckPermissionResp.ProtoReflect.Descriptor instead.
 func (*CheckPermissionResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{82}
+	return file_pb_sys_proto_rawDescGZIP(), []int{86}
 }
 
 func (x *CheckPermissionResp) GetAllowed() bool {
@@ -5930,7 +6194,7 @@ type GetUserByIdReq struct {
 
 func (x *GetUserByIdReq) Reset() {
 	*x = GetUserByIdReq{}
-	mi := &file_pb_sys_proto_msgTypes[83]
+	mi := &file_pb_sys_proto_msgTypes[87]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5942,7 +6206,7 @@ func (x *GetUserByIdReq) String() string {
 func (*GetUserByIdReq) ProtoMessage() {}
 
 func (x *GetUserByIdReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[83]
+	mi := &file_pb_sys_proto_msgTypes[87]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5955,7 +6219,7 @@ func (x *GetUserByIdReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserByIdReq.ProtoReflect.Descriptor instead.
 func (*GetUserByIdReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{83}
+	return file_pb_sys_proto_rawDescGZIP(), []int{87}
 }
 
 func (x *GetUserByIdReq) GetUserId() int64 {
@@ -5979,7 +6243,7 @@ type GetUserByIdResp struct {
 
 func (x *GetUserByIdResp) Reset() {
 	*x = GetUserByIdResp{}
-	mi := &file_pb_sys_proto_msgTypes[84]
+	mi := &file_pb_sys_proto_msgTypes[88]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5991,7 +6255,7 @@ func (x *GetUserByIdResp) String() string {
 func (*GetUserByIdResp) ProtoMessage() {}
 
 func (x *GetUserByIdResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[84]
+	mi := &file_pb_sys_proto_msgTypes[88]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6004,7 +6268,7 @@ func (x *GetUserByIdResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserByIdResp.ProtoReflect.Descriptor instead.
 func (*GetUserByIdResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{84}
+	return file_pb_sys_proto_rawDescGZIP(), []int{88}
 }
 
 func (x *GetUserByIdResp) GetUserId() int64 {
@@ -6058,7 +6322,7 @@ type GetRolesByUserIdReq struct {
 
 func (x *GetRolesByUserIdReq) Reset() {
 	*x = GetRolesByUserIdReq{}
-	mi := &file_pb_sys_proto_msgTypes[85]
+	mi := &file_pb_sys_proto_msgTypes[89]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6070,7 +6334,7 @@ func (x *GetRolesByUserIdReq) String() string {
 func (*GetRolesByUserIdReq) ProtoMessage() {}
 
 func (x *GetRolesByUserIdReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[85]
+	mi := &file_pb_sys_proto_msgTypes[89]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6083,7 +6347,7 @@ func (x *GetRolesByUserIdReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRolesByUserIdReq.ProtoReflect.Descriptor instead.
 func (*GetRolesByUserIdReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{85}
+	return file_pb_sys_proto_rawDescGZIP(), []int{89}
 }
 
 func (x *GetRolesByUserIdReq) GetUserId() int64 {
@@ -6102,7 +6366,7 @@ type GetRolesByUserIdResp struct {
 
 func (x *GetRolesByUserIdResp) Reset() {
 	*x = GetRolesByUserIdResp{}
-	mi := &file_pb_sys_proto_msgTypes[86]
+	mi := &file_pb_sys_proto_msgTypes[90]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6114,7 +6378,7 @@ func (x *GetRolesByUserIdResp) String() string {
 func (*GetRolesByUserIdResp) ProtoMessage() {}
 
 func (x *GetRolesByUserIdResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[86]
+	mi := &file_pb_sys_proto_msgTypes[90]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6127,7 +6391,7 @@ func (x *GetRolesByUserIdResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRolesByUserIdResp.ProtoReflect.Descriptor instead.
 func (*GetRolesByUserIdResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{86}
+	return file_pb_sys_proto_rawDescGZIP(), []int{90}
 }
 
 func (x *GetRolesByUserIdResp) GetRoleCodes() []string {
@@ -6147,7 +6411,7 @@ type IsBlackListReq struct {
 
 func (x *IsBlackListReq) Reset() {
 	*x = IsBlackListReq{}
-	mi := &file_pb_sys_proto_msgTypes[87]
+	mi := &file_pb_sys_proto_msgTypes[91]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6159,7 +6423,7 @@ func (x *IsBlackListReq) String() string {
 func (*IsBlackListReq) ProtoMessage() {}
 
 func (x *IsBlackListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[87]
+	mi := &file_pb_sys_proto_msgTypes[91]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6172,7 +6436,7 @@ func (x *IsBlackListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsBlackListReq.ProtoReflect.Descriptor instead.
 func (*IsBlackListReq) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{87}
+	return file_pb_sys_proto_rawDescGZIP(), []int{91}
 }
 
 func (x *IsBlackListReq) GetBlacklistKey() string {
@@ -6191,7 +6455,7 @@ type IsBlackListResp struct {
 
 func (x *IsBlackListResp) Reset() {
 	*x = IsBlackListResp{}
-	mi := &file_pb_sys_proto_msgTypes[88]
+	mi := &file_pb_sys_proto_msgTypes[92]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6203,7 +6467,7 @@ func (x *IsBlackListResp) String() string {
 func (*IsBlackListResp) ProtoMessage() {}
 
 func (x *IsBlackListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_sys_proto_msgTypes[88]
+	mi := &file_pb_sys_proto_msgTypes[92]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6216,7 +6480,7 @@ func (x *IsBlackListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsBlackListResp.ProtoReflect.Descriptor instead.
 func (*IsBlackListResp) Descriptor() ([]byte, []int) {
-	return file_pb_sys_proto_rawDescGZIP(), []int{88}
+	return file_pb_sys_proto_rawDescGZIP(), []int{92}
 }
 
 func (x *IsBlackListResp) GetIsBlack() bool {
@@ -6538,17 +6802,36 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\x05group\x18\x05 \x01(\tR\x05group\x12\x16\n" +
 	"\x06remark\x18\x06 \x01(\tR\x06remark\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\a \x01(\tR\tcreatedAt\"i\n" +
+	"created_at\x18\a \x01(\tR\tcreatedAt\"\x81\x01\n" +
 	"\tApiOption\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\bapi_name\x18\x02 \x01(\tR\aapiName\x12\x19\n" +
 	"\bapi_path\x18\x03 \x01(\tR\aapiPath\x12\x16\n" +
-	"\x06remark\x18\x04 \x01(\tR\x06remark\"E\n" +
+	"\x06method\x18\x04 \x01(\tR\x06method\x12\x16\n" +
+	"\x06remark\x18\x05 \x01(\tR\x06remark\"J\n" +
+	"\x0eApiGroupOption\x12\x14\n" +
+	"\x05group\x18\x01 \x01(\tR\x05group\x12\"\n" +
+	"\x04apis\x18\x02 \x03(\v2\x0e.sys.ApiOptionR\x04apis\"E\n" +
 	"\vListApiResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12 \n" +
-	"\x04list\x18\x02 \x03(\v2\f.sys.ApiItemR\x04list\";\n" +
-	"\x0eListAllApiResp\x12)\n" +
-	"\blist_all\x18\x01 \x03(\v2\x0e.sys.ApiOptionR\alistAll\"\x9e\x01\n" +
+	"\x04list\x18\x02 \x03(\v2\f.sys.ApiItemR\x04list\"=\n" +
+	"\x0eListAllApiResp\x12+\n" +
+	"\x06groups\x18\x01 \x03(\v2\x13.sys.ApiGroupOptionR\x06groups\"\x8d\x01\n" +
+	"\x11ListCasbinRuleReq\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x1b\n" +
+	"\trole_code\x18\x03 \x01(\tR\broleCode\x12\x12\n" +
+	"\x04path\x18\x04 \x01(\tR\x04path\x12\x16\n" +
+	"\x06method\x18\x05 \x01(\tR\x06method\"\x86\x01\n" +
+	"\x0eCasbinRuleItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
+	"\x05ptype\x18\x02 \x01(\tR\x05ptype\x12\x1b\n" +
+	"\trole_code\x18\x03 \x01(\tR\broleCode\x12\x19\n" +
+	"\bapi_path\x18\x04 \x01(\tR\aapiPath\x12\x16\n" +
+	"\x06method\x18\x05 \x01(\tR\x06method\"S\n" +
+	"\x12ListCasbinRuleResp\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x03R\x05total\x12'\n" +
+	"\x04list\x18\x02 \x03(\v2\x13.sys.CasbinRuleItemR\x04list\"\x9e\x01\n" +
 	"\x11CreateDictTypeReq\x12\x1b\n" +
 	"\tdict_name\x18\x01 \x01(\tR\bdictName\x12\x1b\n" +
 	"\tdict_code\x18\x02 \x01(\tR\bdictCode\x12\x16\n" +
@@ -6787,7 +7070,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\fRefreshToken\x12\x14.sys.RefreshTokenReq\x1a\x15.sys.RefreshTokenResp\x12)\n" +
 	"\x06Logout\x12\x0e.sys.LogoutReq\x1a\x0f.sys.CommonResp\x129\n" +
 	"\x0eChangePassword\x12\x16.sys.ChangePasswordReq\x1a\x0f.sys.CommonResp\x12A\n" +
-	"\x0eGetCurrentUser\x12\x16.sys.GetCurrentUserReq\x1a\x17.sys.GetCurrentUserResp2\xa8\x10\n" +
+	"\x0eGetCurrentUser\x12\x16.sys.GetCurrentUserReq\x1a\x17.sys.GetCurrentUserResp2\xeb\x10\n" +
 	"\rSystemService\x125\n" +
 	"\n" +
 	"CreateUser\x12\x12.sys.CreateUserReq\x1a\x13.sys.CreateUserResp\x12,\n" +
@@ -6834,6 +7117,7 @@ const file_pb_sys_proto_rawDesc = "" +
 	"\n" +
 	"ListAllApi\x12\n" +
 	".sys.Empty\x1a\x13.sys.ListAllApiResp\x12A\n" +
+	"\x0eListCasbinRule\x12\x16.sys.ListCasbinRuleReq\x1a\x17.sys.ListCasbinRuleResp\x12A\n" +
 	"\x0eCreateDictType\x12\x16.sys.CreateDictTypeReq\x1a\x17.sys.CreateDictTypeResp\x124\n" +
 	"\x0eUpdateDictType\x12\x16.sys.UpdateDictTypeReq\x1a\n" +
 	".sys.Empty\x124\n" +
@@ -6876,7 +7160,7 @@ func file_pb_sys_proto_rawDescGZIP() []byte {
 	return file_pb_sys_proto_rawDescData
 }
 
-var file_pb_sys_proto_msgTypes = make([]protoimpl.MessageInfo, 89)
+var file_pb_sys_proto_msgTypes = make([]protoimpl.MessageInfo, 93)
 var file_pb_sys_proto_goTypes = []any{
 	(*Empty)(nil),                    // 0: sys.Empty
 	(*CommonResp)(nil),               // 1: sys.CommonResp
@@ -6927,46 +7211,50 @@ var file_pb_sys_proto_goTypes = []any{
 	(*ListApiReq)(nil),               // 46: sys.ListApiReq
 	(*ApiItem)(nil),                  // 47: sys.ApiItem
 	(*ApiOption)(nil),                // 48: sys.ApiOption
-	(*ListApiResp)(nil),              // 49: sys.ListApiResp
-	(*ListAllApiResp)(nil),           // 50: sys.ListAllApiResp
-	(*CreateDictTypeReq)(nil),        // 51: sys.CreateDictTypeReq
-	(*CreateDictTypeResp)(nil),       // 52: sys.CreateDictTypeResp
-	(*UpdateDictTypeReq)(nil),        // 53: sys.UpdateDictTypeReq
-	(*DeleteDictTypeReq)(nil),        // 54: sys.DeleteDictTypeReq
-	(*ListDictTypeReq)(nil),          // 55: sys.ListDictTypeReq
-	(*DictTypeItem)(nil),             // 56: sys.DictTypeItem
-	(*ListDictTypeResp)(nil),         // 57: sys.ListDictTypeResp
-	(*CreateDictDataReq)(nil),        // 58: sys.CreateDictDataReq
-	(*CreateDictDataResp)(nil),       // 59: sys.CreateDictDataResp
-	(*UpdateDictDataReq)(nil),        // 60: sys.UpdateDictDataReq
-	(*DeleteDictDataReq)(nil),        // 61: sys.DeleteDictDataReq
-	(*GetDictDataByTypeReq)(nil),     // 62: sys.GetDictDataByTypeReq
-	(*DictDataItem)(nil),             // 63: sys.DictDataItem
-	(*ListDictDataResp)(nil),         // 64: sys.ListDictDataResp
-	(*ListLoginLogReq)(nil),          // 65: sys.ListLoginLogReq
-	(*LoginLogItem)(nil),             // 66: sys.LoginLogItem
-	(*ListLoginLogResp)(nil),         // 67: sys.ListLoginLogResp
-	(*ClearLoginLogReq)(nil),         // 68: sys.ClearLoginLogReq
-	(*ListOperLogReq)(nil),           // 69: sys.ListOperLogReq
-	(*OperLogItem)(nil),              // 70: sys.OperLogItem
-	(*ListOperLogResp)(nil),          // 71: sys.ListOperLogResp
-	(*ClearOperLogReq)(nil),          // 72: sys.ClearOperLogReq
-	(*WriteOperLogReq)(nil),          // 73: sys.WriteOperLogReq
-	(*WriteOperLogResp)(nil),         // 74: sys.WriteOperLogResp
-	(*RegisterFileReq)(nil),          // 75: sys.RegisterFileReq
-	(*FileInfo)(nil),                 // 76: sys.FileInfo
-	(*RegisterFileResp)(nil),         // 77: sys.RegisterFileResp
-	(*DeleteFileReq)(nil),            // 78: sys.DeleteFileReq
-	(*ListFileReq)(nil),              // 79: sys.ListFileReq
-	(*ListFileResp)(nil),             // 80: sys.ListFileResp
-	(*CheckPermissionReq)(nil),       // 81: sys.CheckPermissionReq
-	(*CheckPermissionResp)(nil),      // 82: sys.CheckPermissionResp
-	(*GetUserByIdReq)(nil),           // 83: sys.GetUserByIdReq
-	(*GetUserByIdResp)(nil),          // 84: sys.GetUserByIdResp
-	(*GetRolesByUserIdReq)(nil),      // 85: sys.GetRolesByUserIdReq
-	(*GetRolesByUserIdResp)(nil),     // 86: sys.GetRolesByUserIdResp
-	(*IsBlackListReq)(nil),           // 87: sys.IsBlackListReq
-	(*IsBlackListResp)(nil),          // 88: sys.IsBlackListResp
+	(*ApiGroupOption)(nil),           // 49: sys.ApiGroupOption
+	(*ListApiResp)(nil),              // 50: sys.ListApiResp
+	(*ListAllApiResp)(nil),           // 51: sys.ListAllApiResp
+	(*ListCasbinRuleReq)(nil),        // 52: sys.ListCasbinRuleReq
+	(*CasbinRuleItem)(nil),           // 53: sys.CasbinRuleItem
+	(*ListCasbinRuleResp)(nil),       // 54: sys.ListCasbinRuleResp
+	(*CreateDictTypeReq)(nil),        // 55: sys.CreateDictTypeReq
+	(*CreateDictTypeResp)(nil),       // 56: sys.CreateDictTypeResp
+	(*UpdateDictTypeReq)(nil),        // 57: sys.UpdateDictTypeReq
+	(*DeleteDictTypeReq)(nil),        // 58: sys.DeleteDictTypeReq
+	(*ListDictTypeReq)(nil),          // 59: sys.ListDictTypeReq
+	(*DictTypeItem)(nil),             // 60: sys.DictTypeItem
+	(*ListDictTypeResp)(nil),         // 61: sys.ListDictTypeResp
+	(*CreateDictDataReq)(nil),        // 62: sys.CreateDictDataReq
+	(*CreateDictDataResp)(nil),       // 63: sys.CreateDictDataResp
+	(*UpdateDictDataReq)(nil),        // 64: sys.UpdateDictDataReq
+	(*DeleteDictDataReq)(nil),        // 65: sys.DeleteDictDataReq
+	(*GetDictDataByTypeReq)(nil),     // 66: sys.GetDictDataByTypeReq
+	(*DictDataItem)(nil),             // 67: sys.DictDataItem
+	(*ListDictDataResp)(nil),         // 68: sys.ListDictDataResp
+	(*ListLoginLogReq)(nil),          // 69: sys.ListLoginLogReq
+	(*LoginLogItem)(nil),             // 70: sys.LoginLogItem
+	(*ListLoginLogResp)(nil),         // 71: sys.ListLoginLogResp
+	(*ClearLoginLogReq)(nil),         // 72: sys.ClearLoginLogReq
+	(*ListOperLogReq)(nil),           // 73: sys.ListOperLogReq
+	(*OperLogItem)(nil),              // 74: sys.OperLogItem
+	(*ListOperLogResp)(nil),          // 75: sys.ListOperLogResp
+	(*ClearOperLogReq)(nil),          // 76: sys.ClearOperLogReq
+	(*WriteOperLogReq)(nil),          // 77: sys.WriteOperLogReq
+	(*WriteOperLogResp)(nil),         // 78: sys.WriteOperLogResp
+	(*RegisterFileReq)(nil),          // 79: sys.RegisterFileReq
+	(*FileInfo)(nil),                 // 80: sys.FileInfo
+	(*RegisterFileResp)(nil),         // 81: sys.RegisterFileResp
+	(*DeleteFileReq)(nil),            // 82: sys.DeleteFileReq
+	(*ListFileReq)(nil),              // 83: sys.ListFileReq
+	(*ListFileResp)(nil),             // 84: sys.ListFileResp
+	(*CheckPermissionReq)(nil),       // 85: sys.CheckPermissionReq
+	(*CheckPermissionResp)(nil),      // 86: sys.CheckPermissionResp
+	(*GetUserByIdReq)(nil),           // 87: sys.GetUserByIdReq
+	(*GetUserByIdResp)(nil),          // 88: sys.GetUserByIdResp
+	(*GetRolesByUserIdReq)(nil),      // 89: sys.GetRolesByUserIdReq
+	(*GetRolesByUserIdResp)(nil),     // 90: sys.GetRolesByUserIdResp
+	(*IsBlackListReq)(nil),           // 91: sys.IsBlackListReq
+	(*IsBlackListResp)(nil),          // 92: sys.IsBlackListResp
 }
 var file_pb_sys_proto_depIdxs = []int32{
 	6,  // 0: sys.UserInfo.menus:type_name -> sys.MenuItem
@@ -6977,115 +7265,119 @@ var file_pb_sys_proto_depIdxs = []int32{
 	31, // 5: sys.ListRoleResp.list:type_name -> sys.RoleItem
 	32, // 6: sys.ListAllRoleResp.list_all:type_name -> sys.RoleOption
 	6,  // 7: sys.MenuTreeResp.list:type_name -> sys.MenuItem
-	47, // 8: sys.ListApiResp.list:type_name -> sys.ApiItem
-	48, // 9: sys.ListAllApiResp.list_all:type_name -> sys.ApiOption
-	56, // 10: sys.ListDictTypeResp.list:type_name -> sys.DictTypeItem
-	63, // 11: sys.ListDictDataResp.list:type_name -> sys.DictDataItem
-	66, // 12: sys.ListLoginLogResp.list:type_name -> sys.LoginLogItem
-	70, // 13: sys.ListOperLogResp.list:type_name -> sys.OperLogItem
-	76, // 14: sys.RegisterFileResp.file:type_name -> sys.FileInfo
-	76, // 15: sys.ListFileResp.list:type_name -> sys.FileInfo
-	7,  // 16: sys.AuthService.Login:input_type -> sys.LoginReq
-	9,  // 17: sys.AuthService.RefreshToken:input_type -> sys.RefreshTokenReq
-	11, // 18: sys.AuthService.Logout:input_type -> sys.LogoutReq
-	12, // 19: sys.AuthService.ChangePassword:input_type -> sys.ChangePasswordReq
-	13, // 20: sys.AuthService.GetCurrentUser:input_type -> sys.GetCurrentUserReq
-	15, // 21: sys.SystemService.CreateUser:input_type -> sys.CreateUserReq
-	17, // 22: sys.SystemService.UpdateUser:input_type -> sys.UpdateUserReq
-	18, // 23: sys.SystemService.DeleteUser:input_type -> sys.DeleteUserReq
-	19, // 24: sys.SystemService.GetUser:input_type -> sys.GetUserReq
-	21, // 25: sys.SystemService.ListUser:input_type -> sys.ListUserReq
-	20, // 26: sys.SystemService.ResetPassword:input_type -> sys.ResetPasswordReq
-	24, // 27: sys.SystemService.CreateRole:input_type -> sys.CreateRoleReq
-	26, // 28: sys.SystemService.UpdateRole:input_type -> sys.UpdateRoleReq
-	27, // 29: sys.SystemService.UpdateRolePermissions:input_type -> sys.UpdateRolePermissionsReq
-	28, // 30: sys.SystemService.DeleteRole:input_type -> sys.DeleteRoleReq
-	29, // 31: sys.SystemService.GetRole:input_type -> sys.GetRoleReq
-	30, // 32: sys.SystemService.ListRole:input_type -> sys.ListRoleReq
-	0,  // 33: sys.SystemService.ListAllRole:input_type -> sys.Empty
-	35, // 34: sys.SystemService.CreateMenu:input_type -> sys.CreateMenuReq
-	37, // 35: sys.SystemService.UpdateMenu:input_type -> sys.UpdateMenuReq
-	38, // 36: sys.SystemService.DeleteMenu:input_type -> sys.DeleteMenuReq
-	39, // 37: sys.SystemService.GetMenuTree:input_type -> sys.GetMenuTreeReq
-	40, // 38: sys.SystemService.GetCurrentUserMenus:input_type -> sys.GetCurrentUserMenusReq
-	42, // 39: sys.SystemService.CreateApi:input_type -> sys.CreateApiReq
-	44, // 40: sys.SystemService.UpdateApi:input_type -> sys.UpdateApiReq
-	45, // 41: sys.SystemService.DeleteApi:input_type -> sys.DeleteApiReq
-	46, // 42: sys.SystemService.ListApi:input_type -> sys.ListApiReq
-	0,  // 43: sys.SystemService.ListAllApi:input_type -> sys.Empty
-	51, // 44: sys.SystemService.CreateDictType:input_type -> sys.CreateDictTypeReq
-	53, // 45: sys.SystemService.UpdateDictType:input_type -> sys.UpdateDictTypeReq
-	54, // 46: sys.SystemService.DeleteDictType:input_type -> sys.DeleteDictTypeReq
-	55, // 47: sys.SystemService.ListDictType:input_type -> sys.ListDictTypeReq
-	58, // 48: sys.SystemService.CreateDictData:input_type -> sys.CreateDictDataReq
-	60, // 49: sys.SystemService.UpdateDictData:input_type -> sys.UpdateDictDataReq
-	61, // 50: sys.SystemService.DeleteDictData:input_type -> sys.DeleteDictDataReq
-	62, // 51: sys.SystemService.GetDictDataByType:input_type -> sys.GetDictDataByTypeReq
-	65, // 52: sys.SystemService.ListLoginLog:input_type -> sys.ListLoginLogReq
-	68, // 53: sys.SystemService.ClearLoginLog:input_type -> sys.ClearLoginLogReq
-	69, // 54: sys.SystemService.ListOperLog:input_type -> sys.ListOperLogReq
-	72, // 55: sys.SystemService.ClearOperLog:input_type -> sys.ClearOperLogReq
-	73, // 56: sys.SystemService.WriteOperLog:input_type -> sys.WriteOperLogReq
-	75, // 57: sys.SystemService.RegisterFile:input_type -> sys.RegisterFileReq
-	78, // 58: sys.SystemService.DeleteFile:input_type -> sys.DeleteFileReq
-	79, // 59: sys.SystemService.ListFile:input_type -> sys.ListFileReq
-	81, // 60: sys.PermissionService.CheckPermission:input_type -> sys.CheckPermissionReq
-	83, // 61: sys.PermissionService.GetUserById:input_type -> sys.GetUserByIdReq
-	85, // 62: sys.PermissionService.GetRolesByUserId:input_type -> sys.GetRolesByUserIdReq
-	87, // 63: sys.PermissionService.IsTokenRevoked:input_type -> sys.IsBlackListReq
-	8,  // 64: sys.AuthService.Login:output_type -> sys.LoginResp
-	10, // 65: sys.AuthService.RefreshToken:output_type -> sys.RefreshTokenResp
-	1,  // 66: sys.AuthService.Logout:output_type -> sys.CommonResp
-	1,  // 67: sys.AuthService.ChangePassword:output_type -> sys.CommonResp
-	14, // 68: sys.AuthService.GetCurrentUser:output_type -> sys.GetCurrentUserResp
-	16, // 69: sys.SystemService.CreateUser:output_type -> sys.CreateUserResp
-	0,  // 70: sys.SystemService.UpdateUser:output_type -> sys.Empty
-	0,  // 71: sys.SystemService.DeleteUser:output_type -> sys.Empty
-	22, // 72: sys.SystemService.GetUser:output_type -> sys.UserItem
-	23, // 73: sys.SystemService.ListUser:output_type -> sys.ListUserResp
-	0,  // 74: sys.SystemService.ResetPassword:output_type -> sys.Empty
-	25, // 75: sys.SystemService.CreateRole:output_type -> sys.CreateRoleResp
-	0,  // 76: sys.SystemService.UpdateRole:output_type -> sys.Empty
-	0,  // 77: sys.SystemService.UpdateRolePermissions:output_type -> sys.Empty
-	0,  // 78: sys.SystemService.DeleteRole:output_type -> sys.Empty
-	31, // 79: sys.SystemService.GetRole:output_type -> sys.RoleItem
-	33, // 80: sys.SystemService.ListRole:output_type -> sys.ListRoleResp
-	34, // 81: sys.SystemService.ListAllRole:output_type -> sys.ListAllRoleResp
-	36, // 82: sys.SystemService.CreateMenu:output_type -> sys.CreateMenuResp
-	0,  // 83: sys.SystemService.UpdateMenu:output_type -> sys.Empty
-	0,  // 84: sys.SystemService.DeleteMenu:output_type -> sys.Empty
-	41, // 85: sys.SystemService.GetMenuTree:output_type -> sys.MenuTreeResp
-	41, // 86: sys.SystemService.GetCurrentUserMenus:output_type -> sys.MenuTreeResp
-	43, // 87: sys.SystemService.CreateApi:output_type -> sys.CreateApiResp
-	0,  // 88: sys.SystemService.UpdateApi:output_type -> sys.Empty
-	0,  // 89: sys.SystemService.DeleteApi:output_type -> sys.Empty
-	49, // 90: sys.SystemService.ListApi:output_type -> sys.ListApiResp
-	50, // 91: sys.SystemService.ListAllApi:output_type -> sys.ListAllApiResp
-	52, // 92: sys.SystemService.CreateDictType:output_type -> sys.CreateDictTypeResp
-	0,  // 93: sys.SystemService.UpdateDictType:output_type -> sys.Empty
-	0,  // 94: sys.SystemService.DeleteDictType:output_type -> sys.Empty
-	57, // 95: sys.SystemService.ListDictType:output_type -> sys.ListDictTypeResp
-	59, // 96: sys.SystemService.CreateDictData:output_type -> sys.CreateDictDataResp
-	0,  // 97: sys.SystemService.UpdateDictData:output_type -> sys.Empty
-	0,  // 98: sys.SystemService.DeleteDictData:output_type -> sys.Empty
-	64, // 99: sys.SystemService.GetDictDataByType:output_type -> sys.ListDictDataResp
-	67, // 100: sys.SystemService.ListLoginLog:output_type -> sys.ListLoginLogResp
-	0,  // 101: sys.SystemService.ClearLoginLog:output_type -> sys.Empty
-	71, // 102: sys.SystemService.ListOperLog:output_type -> sys.ListOperLogResp
-	0,  // 103: sys.SystemService.ClearOperLog:output_type -> sys.Empty
-	74, // 104: sys.SystemService.WriteOperLog:output_type -> sys.WriteOperLogResp
-	77, // 105: sys.SystemService.RegisterFile:output_type -> sys.RegisterFileResp
-	0,  // 106: sys.SystemService.DeleteFile:output_type -> sys.Empty
-	80, // 107: sys.SystemService.ListFile:output_type -> sys.ListFileResp
-	82, // 108: sys.PermissionService.CheckPermission:output_type -> sys.CheckPermissionResp
-	84, // 109: sys.PermissionService.GetUserById:output_type -> sys.GetUserByIdResp
-	86, // 110: sys.PermissionService.GetRolesByUserId:output_type -> sys.GetRolesByUserIdResp
-	88, // 111: sys.PermissionService.IsTokenRevoked:output_type -> sys.IsBlackListResp
-	64, // [64:112] is the sub-list for method output_type
-	16, // [16:64] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	48, // 8: sys.ApiGroupOption.apis:type_name -> sys.ApiOption
+	47, // 9: sys.ListApiResp.list:type_name -> sys.ApiItem
+	49, // 10: sys.ListAllApiResp.groups:type_name -> sys.ApiGroupOption
+	53, // 11: sys.ListCasbinRuleResp.list:type_name -> sys.CasbinRuleItem
+	60, // 12: sys.ListDictTypeResp.list:type_name -> sys.DictTypeItem
+	67, // 13: sys.ListDictDataResp.list:type_name -> sys.DictDataItem
+	70, // 14: sys.ListLoginLogResp.list:type_name -> sys.LoginLogItem
+	74, // 15: sys.ListOperLogResp.list:type_name -> sys.OperLogItem
+	80, // 16: sys.RegisterFileResp.file:type_name -> sys.FileInfo
+	80, // 17: sys.ListFileResp.list:type_name -> sys.FileInfo
+	7,  // 18: sys.AuthService.Login:input_type -> sys.LoginReq
+	9,  // 19: sys.AuthService.RefreshToken:input_type -> sys.RefreshTokenReq
+	11, // 20: sys.AuthService.Logout:input_type -> sys.LogoutReq
+	12, // 21: sys.AuthService.ChangePassword:input_type -> sys.ChangePasswordReq
+	13, // 22: sys.AuthService.GetCurrentUser:input_type -> sys.GetCurrentUserReq
+	15, // 23: sys.SystemService.CreateUser:input_type -> sys.CreateUserReq
+	17, // 24: sys.SystemService.UpdateUser:input_type -> sys.UpdateUserReq
+	18, // 25: sys.SystemService.DeleteUser:input_type -> sys.DeleteUserReq
+	19, // 26: sys.SystemService.GetUser:input_type -> sys.GetUserReq
+	21, // 27: sys.SystemService.ListUser:input_type -> sys.ListUserReq
+	20, // 28: sys.SystemService.ResetPassword:input_type -> sys.ResetPasswordReq
+	24, // 29: sys.SystemService.CreateRole:input_type -> sys.CreateRoleReq
+	26, // 30: sys.SystemService.UpdateRole:input_type -> sys.UpdateRoleReq
+	27, // 31: sys.SystemService.UpdateRolePermissions:input_type -> sys.UpdateRolePermissionsReq
+	28, // 32: sys.SystemService.DeleteRole:input_type -> sys.DeleteRoleReq
+	29, // 33: sys.SystemService.GetRole:input_type -> sys.GetRoleReq
+	30, // 34: sys.SystemService.ListRole:input_type -> sys.ListRoleReq
+	0,  // 35: sys.SystemService.ListAllRole:input_type -> sys.Empty
+	35, // 36: sys.SystemService.CreateMenu:input_type -> sys.CreateMenuReq
+	37, // 37: sys.SystemService.UpdateMenu:input_type -> sys.UpdateMenuReq
+	38, // 38: sys.SystemService.DeleteMenu:input_type -> sys.DeleteMenuReq
+	39, // 39: sys.SystemService.GetMenuTree:input_type -> sys.GetMenuTreeReq
+	40, // 40: sys.SystemService.GetCurrentUserMenus:input_type -> sys.GetCurrentUserMenusReq
+	42, // 41: sys.SystemService.CreateApi:input_type -> sys.CreateApiReq
+	44, // 42: sys.SystemService.UpdateApi:input_type -> sys.UpdateApiReq
+	45, // 43: sys.SystemService.DeleteApi:input_type -> sys.DeleteApiReq
+	46, // 44: sys.SystemService.ListApi:input_type -> sys.ListApiReq
+	0,  // 45: sys.SystemService.ListAllApi:input_type -> sys.Empty
+	52, // 46: sys.SystemService.ListCasbinRule:input_type -> sys.ListCasbinRuleReq
+	55, // 47: sys.SystemService.CreateDictType:input_type -> sys.CreateDictTypeReq
+	57, // 48: sys.SystemService.UpdateDictType:input_type -> sys.UpdateDictTypeReq
+	58, // 49: sys.SystemService.DeleteDictType:input_type -> sys.DeleteDictTypeReq
+	59, // 50: sys.SystemService.ListDictType:input_type -> sys.ListDictTypeReq
+	62, // 51: sys.SystemService.CreateDictData:input_type -> sys.CreateDictDataReq
+	64, // 52: sys.SystemService.UpdateDictData:input_type -> sys.UpdateDictDataReq
+	65, // 53: sys.SystemService.DeleteDictData:input_type -> sys.DeleteDictDataReq
+	66, // 54: sys.SystemService.GetDictDataByType:input_type -> sys.GetDictDataByTypeReq
+	69, // 55: sys.SystemService.ListLoginLog:input_type -> sys.ListLoginLogReq
+	72, // 56: sys.SystemService.ClearLoginLog:input_type -> sys.ClearLoginLogReq
+	73, // 57: sys.SystemService.ListOperLog:input_type -> sys.ListOperLogReq
+	76, // 58: sys.SystemService.ClearOperLog:input_type -> sys.ClearOperLogReq
+	77, // 59: sys.SystemService.WriteOperLog:input_type -> sys.WriteOperLogReq
+	79, // 60: sys.SystemService.RegisterFile:input_type -> sys.RegisterFileReq
+	82, // 61: sys.SystemService.DeleteFile:input_type -> sys.DeleteFileReq
+	83, // 62: sys.SystemService.ListFile:input_type -> sys.ListFileReq
+	85, // 63: sys.PermissionService.CheckPermission:input_type -> sys.CheckPermissionReq
+	87, // 64: sys.PermissionService.GetUserById:input_type -> sys.GetUserByIdReq
+	89, // 65: sys.PermissionService.GetRolesByUserId:input_type -> sys.GetRolesByUserIdReq
+	91, // 66: sys.PermissionService.IsTokenRevoked:input_type -> sys.IsBlackListReq
+	8,  // 67: sys.AuthService.Login:output_type -> sys.LoginResp
+	10, // 68: sys.AuthService.RefreshToken:output_type -> sys.RefreshTokenResp
+	1,  // 69: sys.AuthService.Logout:output_type -> sys.CommonResp
+	1,  // 70: sys.AuthService.ChangePassword:output_type -> sys.CommonResp
+	14, // 71: sys.AuthService.GetCurrentUser:output_type -> sys.GetCurrentUserResp
+	16, // 72: sys.SystemService.CreateUser:output_type -> sys.CreateUserResp
+	0,  // 73: sys.SystemService.UpdateUser:output_type -> sys.Empty
+	0,  // 74: sys.SystemService.DeleteUser:output_type -> sys.Empty
+	22, // 75: sys.SystemService.GetUser:output_type -> sys.UserItem
+	23, // 76: sys.SystemService.ListUser:output_type -> sys.ListUserResp
+	0,  // 77: sys.SystemService.ResetPassword:output_type -> sys.Empty
+	25, // 78: sys.SystemService.CreateRole:output_type -> sys.CreateRoleResp
+	0,  // 79: sys.SystemService.UpdateRole:output_type -> sys.Empty
+	0,  // 80: sys.SystemService.UpdateRolePermissions:output_type -> sys.Empty
+	0,  // 81: sys.SystemService.DeleteRole:output_type -> sys.Empty
+	31, // 82: sys.SystemService.GetRole:output_type -> sys.RoleItem
+	33, // 83: sys.SystemService.ListRole:output_type -> sys.ListRoleResp
+	34, // 84: sys.SystemService.ListAllRole:output_type -> sys.ListAllRoleResp
+	36, // 85: sys.SystemService.CreateMenu:output_type -> sys.CreateMenuResp
+	0,  // 86: sys.SystemService.UpdateMenu:output_type -> sys.Empty
+	0,  // 87: sys.SystemService.DeleteMenu:output_type -> sys.Empty
+	41, // 88: sys.SystemService.GetMenuTree:output_type -> sys.MenuTreeResp
+	41, // 89: sys.SystemService.GetCurrentUserMenus:output_type -> sys.MenuTreeResp
+	43, // 90: sys.SystemService.CreateApi:output_type -> sys.CreateApiResp
+	0,  // 91: sys.SystemService.UpdateApi:output_type -> sys.Empty
+	0,  // 92: sys.SystemService.DeleteApi:output_type -> sys.Empty
+	50, // 93: sys.SystemService.ListApi:output_type -> sys.ListApiResp
+	51, // 94: sys.SystemService.ListAllApi:output_type -> sys.ListAllApiResp
+	54, // 95: sys.SystemService.ListCasbinRule:output_type -> sys.ListCasbinRuleResp
+	56, // 96: sys.SystemService.CreateDictType:output_type -> sys.CreateDictTypeResp
+	0,  // 97: sys.SystemService.UpdateDictType:output_type -> sys.Empty
+	0,  // 98: sys.SystemService.DeleteDictType:output_type -> sys.Empty
+	61, // 99: sys.SystemService.ListDictType:output_type -> sys.ListDictTypeResp
+	63, // 100: sys.SystemService.CreateDictData:output_type -> sys.CreateDictDataResp
+	0,  // 101: sys.SystemService.UpdateDictData:output_type -> sys.Empty
+	0,  // 102: sys.SystemService.DeleteDictData:output_type -> sys.Empty
+	68, // 103: sys.SystemService.GetDictDataByType:output_type -> sys.ListDictDataResp
+	71, // 104: sys.SystemService.ListLoginLog:output_type -> sys.ListLoginLogResp
+	0,  // 105: sys.SystemService.ClearLoginLog:output_type -> sys.Empty
+	75, // 106: sys.SystemService.ListOperLog:output_type -> sys.ListOperLogResp
+	0,  // 107: sys.SystemService.ClearOperLog:output_type -> sys.Empty
+	78, // 108: sys.SystemService.WriteOperLog:output_type -> sys.WriteOperLogResp
+	81, // 109: sys.SystemService.RegisterFile:output_type -> sys.RegisterFileResp
+	0,  // 110: sys.SystemService.DeleteFile:output_type -> sys.Empty
+	84, // 111: sys.SystemService.ListFile:output_type -> sys.ListFileResp
+	86, // 112: sys.PermissionService.CheckPermission:output_type -> sys.CheckPermissionResp
+	88, // 113: sys.PermissionService.GetUserById:output_type -> sys.GetUserByIdResp
+	90, // 114: sys.PermissionService.GetRolesByUserId:output_type -> sys.GetRolesByUserIdResp
+	92, // 115: sys.PermissionService.IsTokenRevoked:output_type -> sys.IsBlackListResp
+	67, // [67:116] is the sub-list for method output_type
+	18, // [18:67] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_pb_sys_proto_init() }
@@ -7099,7 +7391,7 @@ func file_pb_sys_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pb_sys_proto_rawDesc), len(file_pb_sys_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   89,
+			NumMessages:   93,
 			NumExtensions: 0,
 			NumServices:   3,
 		},

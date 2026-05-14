@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/common/middleware"
 	"go-zero-rpc/gateway/internal/svc"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *DeleteApiLogic) DeleteApi(apiId int64) error {
 		OperatorId: userId,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用DeleteApi RPC失败, operatorId=%d, apiId=%d, err=%v", userId, apiId, err)
+		l.Logger.Errorf("Call the DeleteApi failed, operatorId=%d, apiId=%d, err=%v", userId, apiId, err)
 		return err
 	}
 

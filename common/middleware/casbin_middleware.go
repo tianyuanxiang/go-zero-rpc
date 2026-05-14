@@ -28,7 +28,7 @@ func (m *CasbinMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			response.FailUnauthorized(w, r)
 			return
 		}
-		resp, err := m.permRpc.CheckPermission(r.Context(), &sys.CheckPermissionReq{
+		resp, err := m.permRpc.CheckPermission(r.Context(), &pb.CheckPermissionReq{
 			UserId: userId,
 			Path:   r.URL.Path,
 			Method: r.Method,

@@ -1,20 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 云服务器-8.140.204.47
- Source Server Type    : PostgreSQL
- Source Server Version : 140017
- Source Host           : 8.140.204.47:5432
- Source Catalog        : system
- Source Schema         : public
-
- Target Server Type    : PostgreSQL
- Target Server Version : 140017
- File Encoding         : 65001
-
- Date: 09/05/2026 09:49:15
-*/
-
 
 -- ----------------------------
 -- Sequence structure for casbin_rule_id_seq
@@ -259,6 +242,7 @@ INSERT INTO "public"."sys_api" VALUES (44, '/api/nothing', 'GET', 'none', '只�
 INSERT INTO "public"."sys_api" VALUES (45, '/api/test/create', 'POST', 'test', '', '2026-04-30 17:45:06', '2026-05-03 10:41:42', '2026-05-03 10:41:43', '测试接口-创建');
 INSERT INTO "public"."sys_api" VALUES (46, '/api/test/:id', 'GET', 'test', '根据ID获取详情', '2026-04-30 17:45:34', '2026-04-30 17:45:34', NULL, '测试接口-详情');
 INSERT INTO "public"."sys_api" VALUES (47, '/api/test/:id', 'PUT', 'test', '', '2026-04-30 17:45:54', '2026-04-30 17:45:54', NULL, '测试接口-更新');
+INSERT INTO "public"."sys_api" VALUES (48, '/api/system/casbin/rules', 'GET', '权限管理', '只读查询Casbin策略列表', '2026-05-13 00:00:00', '2026-05-13 00:00:00', NULL, 'Casbin策略列表');
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -739,7 +723,7 @@ SELECT setval('"public"."casbin_rule_id_seq"', 57, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."sys_api_id_seq"
 OWNED BY "public"."sys_api"."id";
-SELECT setval('"public"."sys_api_id_seq"', 48, false);
+SELECT setval('"public"."sys_api_id_seq"', 49, false);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -817,19 +801,6 @@ SELECT setval('"public"."sys_user_id_seq"', 10, false);
 ALTER SEQUENCE "public"."sys_user_role_id_seq"
 OWNED BY "public"."sys_user_role"."id";
 SELECT setval('"public"."sys_user_role_id_seq"', 13, false);
-
--- ----------------------------
--- Indexes structure for table casbin_rule
--- ----------------------------
-CREATE UNIQUE INDEX "casbin_rule_uk_casbin_rule" ON "public"."casbin_rule" USING btree (
-  "ptype" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
-  "v0" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
-  "v1" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
-  "v2" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
-  "v3" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
-  "v4" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
-  "v5" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
-);
 
 -- ----------------------------
 -- Primary Key structure for table casbin_rule

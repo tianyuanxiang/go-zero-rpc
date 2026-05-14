@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package auth
@@ -6,7 +6,7 @@ package auth
 import (
 	"context"
 	"go-zero-rpc/common/middleware"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 	"net/http"
 	"strings"
 
@@ -30,14 +30,14 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 func (l *LogoutLogic) Logout(r *http.Request) error {
-	// 从JWT认证中间件注入的Context中获取当前登录用户ID
+	// 浠嶫WT璁よ瘉涓棿浠舵敞鍏ョ殑Context涓幏鍙栧綋鍓嶇櫥褰曠敤鎴稩D
 	userId := middleware.GetUserIdFromCtx(l.ctx)
 	if userId == 0 {
 		l.Errorf("userId is empty")
 		return nil
 	}
 
-	// 从 Authorization header 提取 token
+	// 浠?Authorization header 鎻愬彇 token
 	authHeader := r.Header.Get("Authorization")
 	tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 
@@ -47,7 +47,7 @@ func (l *LogoutLogic) Logout(r *http.Request) error {
 		RedisTokenBlacklistPrefix: middleware.RedisTokenBlacklistPrefix,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用Logout RPC失败, userId=%d, err=%v", userId, err)
+		l.Logger.Errorf("Call the Logout failed, userId=%d, err=%v", userId, err)
 		return err
 	}
 

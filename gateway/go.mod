@@ -7,6 +7,8 @@ require (
 	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674
 	github.com/redis/go-redis/v9 v9.18.0
 	github.com/zeromicro/go-zero v1.10.1
+	go-zero-rpc/common v1.0.0
+	go-zero-rpc/sys-rpc v1.0.0
 )
 
 require (
@@ -101,4 +103,9 @@ require (
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.0 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
+)
+
+replace (
+	go-zero-rpc/common => ../common
+	go-zero-rpc/sys-rpc => ../service/sys/rpc
 )

@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package dict
@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -34,7 +34,7 @@ func (l *ListDictTypeLogic) ListDictType(req *types.ListDictTypeReq) (resp *type
 		Keyword:  req.Keyword,
 	})
 	if err != nil {
-		l.Logger.Errorf("调用ListDictType RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the ListDictType failed, err=%v", err)
 		return nil, err
 	}
 

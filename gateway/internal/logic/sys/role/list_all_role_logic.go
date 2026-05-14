@@ -1,4 +1,4 @@
-// Code scaffolded by goctl. Safe to edit.
+﻿// Code scaffolded by goctl. Safe to edit.
 // goctl 1.10.1
 
 package role
@@ -8,7 +8,7 @@ import (
 
 	"go-zero-rpc/gateway/internal/svc"
 	"go-zero-rpc/gateway/internal/types"
-	"go-zero-rpc/sys-rpc/pb"
+	sys "go-zero-rpc/sys-rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,7 +30,7 @@ func NewListAllRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListA
 func (l *ListAllRoleLogic) ListAllRole() (resp *types.ListAllResp, err error) {
 	rpcResp, err := l.svcCtx.SysRpc.ListAllRole(l.ctx, &sys.Empty{})
 	if err != nil {
-		l.Logger.Errorf("调用ListAllRole RPC失败, err=%v", err)
+		l.Logger.Errorf("Call the ListAllRole failed, err=%v", err)
 		return nil, err
 	}
 
