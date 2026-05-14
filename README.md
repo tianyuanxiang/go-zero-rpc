@@ -370,8 +370,7 @@ HTTP Request
 ### 复用步骤
 
 参考
-
-[Project Introduction.md]: https://github.com/tianyuanxiang/go-zero-rpc/blob/dev/Project%20Introduction.md 
+**[Project Introduction.md](https://github.com/tianyuanxiang/go-zero-rpc/blob/dev/Project%20Introduction.md)**
 
 
 
